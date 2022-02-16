@@ -79,20 +79,20 @@ const fs = require('fs');
 //     }))
 // })
 
-const readFolder = () => {
-    fs.readdir(path.join(__dirname,'last_task'),  (err,data) => {
-        if(err) throw err;
-        data.forEach(dat => {
-            if(dat.includes('.')) {
-                fs.truncate(path.join(__dirname, 'last_task', dat), err => {
-                    if(err) throw err
-                })
-            } else {
-                fs.rename(path.join(__dirname, 'last_task', dat), path.join(__dirname, 'last_task', `${dat}_`), err=> {
-                    if(err) throw err
-                })
-            }
-        })
-    })
-}
-readFolder()
+// const readFolder = () => {
+//     fs.readdir(path.join(__dirname,'last_task'),  (err,data) => {
+//         if(err) throw err;
+//         data.forEach(dat => {
+//             if(dat.includes('.')) {
+//                 fs.truncate(path.join(__dirname, 'last_task', dat), err => {
+//                     if(err) throw err
+//                 })
+//             } else {
+//                 fs.rename(path.join(__dirname, 'last_task', dat), path.join(__dirname, 'last_task', `${dat}_`), err=> {
+//                     if(err) throw err
+//                 })
+//             }
+//         })
+//     })
+// }
+// readFolder()
