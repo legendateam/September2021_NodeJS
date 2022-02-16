@@ -1,10 +1,10 @@
+// const fs = require('fs');
+// const path = require('path');
+
 // Всі дії виконувати з допомогою модулів (вручну нічого не створюємо)
 
-const fs = require('fs');
-const path = require('path');
-
 // Створити основну папку (main), в яку покласти дві інші папки: перша - online, друга - inPerson
-
+//
 // fs.mkdir(path.join(__dirname,'main','online'),{recursive: true}, (err,p) => {
 //     if(err) {
 //         console.log(err);
@@ -24,7 +24,7 @@ const path = require('path');
 //             })
 //         }
 //     })
-// })
+// });
 
 // Потім створити в вашому головному файлі (для прикладу app.js) два масиви з обєктами user ({. name: "Andrii", age: 22, city: "Lviv" }),
 // відповідно перший - onlineUsers, другий - inPersonUsers;
@@ -36,7 +36,7 @@ const path = require('path');
 //         console.log(err);
 //         throw err
 //     }
-// })
+// });
 
 // const onlineUsers = [{name: "Andrii", age: 22, city: "Lviv"}];
 // const inPersonUsers = [{name: "Yura", age: 25, city: "Lviv"}];
@@ -53,7 +53,7 @@ const path = require('path');
 //             }
 //         })
 //     }
-// }
+// };
 //
 // for(let i = 0; i < inPersonUsers.length; i++) {
 //     for(let k in inPersonUsers[i]) {
@@ -64,8 +64,7 @@ const path = require('path');
 //             }
 //         })
 //     }
-// }
-
+// };
 //
 // Коли ви це виконаєте напишіть функцію яка буде міняти місцями юзерів з одного файлу і папки в іншу.
 // (ті, що були в папці inPerson будуть в папці online)
@@ -109,7 +108,7 @@ const path = require('path');
 //             })
 //         }
 //     })
-// }
+// };
 // swap()
 
 
@@ -122,7 +121,7 @@ const path = require('path');
 //                 throw err
 //             }
 //         })
-// }
+// };
 //
 // swap2('inPerson', 'online', 'online');
-// swap2('online', 'inPerson', 'inPerson');
+// swap2('online', 'inPerson', 'inPerson')
