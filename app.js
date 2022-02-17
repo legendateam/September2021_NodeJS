@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 
 // Всі дії виконувати з допомогою модулів (вручну нічого не створюємо)
 
@@ -38,25 +38,25 @@ const path = require('path');
 //     }
 // });
 
-const onlineUsers = [{name: "Andrii", age: 22, city: "Lviv"}];
-const inPersonUsers = [{name: "Yura", age: 25, city: "Lviv"}];
+// const onlineUsers = [{name: "Andrii", age: 22, city: "Lviv"}];
+// const inPersonUsers = [{name: "Yura", age: 25, city: "Lviv"}];
 
 // і створити файли txt в папках (online, inPerson) в яких як дату покласти юзерів з ваших масивів, але щоб ваш файл виглядав як
 // NAME: ім'я з обєкту і т.д і всі пункти з нового рядка.
 
-const keyValue = (location, arr) => {
-    for(let i = 0; i < arr.length; i++) {
-    for(let k in arr[i]) {
-        fs.appendFile(path.join(__dirname, 'main', location, 'online.txt'), `${k}:${arr[i][k]}\n`, err => {
-            if(err) {
-                console.log(err);
-                throw err
-            }
-        })
-    }}
-}
-keyValue('online',onlineUsers)
-keyValue('inPerson',inPersonUsers)
+// const keyValue = (location, arr) => {
+//     for(let i = 0; i < arr.length; i++) {
+//     for(let k in arr[i]) {
+//         fs.appendFile(path.join(__dirname, 'main', location, 'online.txt'), `${k}:${arr[i][k]}\n`, err => {
+//             if(err) {
+//                 console.log(err);
+//                 throw err
+//             }
+//         })
+//     }}
+// }
+// keyValue('online',onlineUsers)
+// keyValue('inPerson',inPersonUsers)
 //
 // Коли ви це виконаєте напишіть функцію яка буде міняти місцями юзерів з одного файлу і папки в іншу.
 // (ті, що були в папці inPerson будуть в папці online)
