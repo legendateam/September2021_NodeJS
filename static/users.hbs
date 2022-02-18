@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style/users.css">
+    <title>Users</title>
+</head>
+<body>
+    <div class="users">
+        {{#each users}}
+            <div class="users__user">
+                <div>Name:{{this.firstname}}</div>
+                <div>LastName:{{this.lastname}}</div>
+                <div>Email:{{this.email}}</div>
+                <div>Password:{{this.password}}</div>
+                <div>Age:{{this.age}}</div>
+                <div>City:{{this.city}}</div>
+            </div>
+            <hr>
+        {{/each}}
+        {{#each usersAge}}
+            <div class="users__user">
+                <div>Name:{{this.firstname}}</div>
+                <div>LastName:{{this.lastname}}</div>
+                <div>Email:{{this.email}}</div>
+                <div>Password:{{this.password}}</div>
+                <div>Age:{{this.age}}</div>
+                <div>City:{{this.city}}</div>
+            </div>
+            <hr>
+        {{/each}}
+        {{#each usersCity}}
+            <div class="users__user">
+                <div>Name:{{this.firstname}}</div>
+                <div>LastName:{{this.lastname}}</div>
+                <div>Email:{{this.email}}</div>
+                <div>Password:{{this.password}}</div>
+                <div>Age:{{this.age}}</div>
+                <div>City:{{this.city}}</div>
+            </div>
+            <hr>
+        {{/each}}
+    </div>
+</body>
+</html>
