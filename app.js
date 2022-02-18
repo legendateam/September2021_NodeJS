@@ -47,7 +47,7 @@
 // const keyValue = (location, arr) => {
 //     for(let i = 0; i < arr.length; i++) {
 //     for(let k in arr[i]) {
-//         fs.appendFile(path.join(__dirname, 'main', location, 'online.txt'), `${k}:${arr[i][k]}\n`, err => {
+//         fs.appendFile(path.join(__dirname, 'main', location, `${location}.txt`), `${k}:${arr[i][k]}\n`, err => {
 //             if(err) {
 //                 console.log(err);
 //                 throw err
@@ -55,13 +55,12 @@
 //         })
 //     }}
 // }
-// keyValue('online',onlineUsers)
-// keyValue('inPerson',inPersonUsers)
-//
+// keyValue('online',onlineUsers);
+// keyValue('inPerson',inPersonUsers);
+
 // Коли ви це виконаєте напишіть функцію яка буде міняти місцями юзерів з одного файлу і папки в іншу.
 // (ті, що були в папці inPerson будуть в папці online)
 //
-
 // варіант 1
 // const swap = () => {
 //     fs.readdir(path.join(__dirname, 'main', 'inPerson'), (err,data)=> {
