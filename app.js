@@ -1,5 +1,5 @@
-// const fs = require('fs');
-// const path = require('path');
+const fs = require('fs');
+const path = require('path');
 
 // Всі дії виконувати з допомогою модулів (вручну нічого не створюємо)
 
@@ -61,7 +61,7 @@
 // Коли ви це виконаєте напишіть функцію яка буде міняти місцями юзерів з одного файлу і папки в іншу.
 // (ті, що були в папці inPerson будуть в папці online)
 //
-// варіант 1
+// варіант 1 функція міняє місцями файли, але в самих файлах дата не змінюється
 // const swap = () => {
 //     fs.readdir(path.join(__dirname, 'main', 'inPerson'), (err,data)=> {
 //         if(err){
@@ -100,10 +100,12 @@
 //         }
 //     })
 // };
-// swap()
+// swap();
 
+// варіант 2 якщо завдання полягало в тому шоб функція приймала постійно різні папки і файли, або коли ми змінили папку, чи файл на проекті
+// ми могли як аргументом передавати різні папки, чи файли, але варіант такий собі,
+// тому що прописуємо руцями кожен раз
 
-// варіант 2
 // const swap2 = (oldLocation, newLocation, fileNameTXT) => {
 //     fs.rename(path.join(__dirname,'main',oldLocation ,`${fileNameTXT}.txt`), path.join(__dirname,'main', newLocation,`${fileNameTXT}.txt`),
 //         (err) => {
@@ -114,5 +116,27 @@
 //         })
 // };
 //
+// swap2('inPerson', 'online', 'inPerson');
+// swap2('online', 'inPerson', 'online');
+// після цих викликів функції, викликаємо ше раз, для того шоб повернути файли на свої місця
 // swap2('inPerson', 'online', 'online');
-// swap2('online', 'inPerson', 'inPerson')
+// swap2('online', 'inPerson', 'inPerson');
+
+// варіант 3 якщо завдання полягало в тому шо дату одного файлу перезаписується в інший
+
+// const swap3 = () => {
+//     fs.readFile(path.join(__dirname,'main', 'inPerson', 'inPerson.txt'), (err,dataPerson)=> {
+//         if(err) throw err;
+//         fs.readFile(path.join(__dirname,'main', 'online', 'online.txt'), (err,dataOnline)=> {
+//             if(err) throw err
+//             fs.writeFile(path.join(__dirname,'main', 'online', 'online.txt'), dataPerson , err => {
+//                 if(err) throw  err
+//                 fs.writeFile(path.join(__dirname,'main', 'inPerson', 'inPerson.txt'), dataOnline, (err)=> {
+//                     if(err) throw err
+//                 } )
+//             })
+//         })
+//     })
+// };
+// swap3()
+
