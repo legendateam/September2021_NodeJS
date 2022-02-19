@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style/users.css">
+    <title>{{user.firstname}}</title>
+</head>
+<body>
+    <div class="user">
+        <div>{{user.firstname}}</div>
+        <div>{{user.lastname}}</div>
+        <div>{{user.email}}</div>
+        <div>{{user.password}}</div>
+        <div>{{user.age}}</div>
+        <div>{{user.city}}</div>
+        <form action="/users/{{index}}" method="post">
+            <button>DELETE</button>
+        </form>
+    </div>
+</body>
+</html>

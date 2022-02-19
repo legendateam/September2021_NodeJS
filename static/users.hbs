@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style/users.css">
+    <title>Users</title>
+</head>
+<body>
+    <div class="users">
+        {{#each users}}
+            <div class="users__some">
+                <div>{{this.firstname}}</div>
+                <div>{{this.lastname}}</div>
+                <div>{{this.email}}</div>
+                <div>{{this.password}}</div>
+                <div>{{this.age}}</div>
+                <div>{{this.city}}</div>
+            </div>
+        {{/each}}
+
+        {{#each usersFilterAge}}
+            <div>{{this.firstname}}</div>
+            <div>{{this.lastname}}</div>
+            <div>{{this.email}}</div>
+            <div>{{this.password}}</div>
+            <div>{{this.age}}</div>
+            <div>{{this.city}}</div>
+        {{/each}}
+
+        {{#each usersFilterCity}}
+            <div>{{this.firstname}}</div>
+            <div>{{this.lastname}}</div>
+            <div>{{this.email}}</div>
+            <div>{{this.password}}</div>
+            <div>{{this.age}}</div>
+            <div>{{this.city}}</div>
+        {{/each}}
+
+    </div>
+</body>
+</html>
