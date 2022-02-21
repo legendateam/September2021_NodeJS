@@ -14,7 +14,7 @@ const signInMiddleware = (req,res,next) => {
     } catch (e) {
         res.status(400).end(e.message)
     }
-}
+};
 
 module.exports = {
     signInMiddleware
