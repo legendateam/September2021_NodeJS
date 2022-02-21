@@ -76,7 +76,7 @@ app.post('/login', (req, res) => {
 
 app.use((req, res) => {
     res.render('notFoundPage')
-})
+});
 
 app.listen(PORT, ()=> {
     console.log(`Server running at PORT:${PORT}`);
