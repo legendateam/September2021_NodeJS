@@ -15,18 +15,12 @@ app.set('view engine', '.hbs');
 app.engine('.hbs', engine({defaultLayout:false}));
 app.set('views', path.join(__dirname, 'static'));
 
-app.listen(PORT, ()=> {
-    console.log(`Server running at PORT:${PORT}`);
-});
-
 app.get('/login', (req,res)=> {
     res.render('login');
 });
 
 app.get('/users', (req,res) => {
     const {sortAge,age,city} = req.query;
-    console.log(age);
-    console.log(city);
     if(!age && !city) {
         res.render('users', { users });
     }
@@ -39,12 +33,10 @@ app.get('/users', (req,res) => {
     if(!!users.length) {
         if(age) {
             const usersAge = users.filter(user => user.age.toString() === age);
-            // res.json(usersAge);
             res.render('users', {usersAge})
         }
         if(city) {
             const usersCity = users.filter(user => user.city.toLowerCase() === city.toLowerCase());
-            // res.json(usersCity);
             res.render('users', {usersCity})
         }
     }
@@ -57,7 +49,6 @@ app.get('/login/error', (req, res) => {
 app.get('/users/:userIndex', (req, res) => {
     const {userIndex} = req.params;
     const user = users.find((_, index)=> index.toString() === userIndex);
-    console.log(user);
     if(user) {
         res.render('user', {user})
     }
@@ -87,6 +78,8 @@ app.use((req, res) => {
     res.render('notFoundPage')
 })
 
-
+app.listen(PORT, ()=> {
+    console.log(`Server running at PORT:${PORT}`);
+});
 
 
