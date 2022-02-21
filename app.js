@@ -21,7 +21,7 @@ app.get('/login', (req, res) => {
 
 app.get('/signIn', (req, res) => {
     res.render('signIn')
-})
+});
 
 app.get('/users', (req, res) => {
     const {age,city} = req.query;
@@ -38,7 +38,7 @@ app.get('/users', (req, res) => {
             res.render('users', {usersFilterCity})
         }
     }
-})
+});
 
 app.get('/users/:userIndex', (req, res) => {
     const {userIndex} = req.params;
@@ -49,7 +49,7 @@ app.get('/users/:userIndex', (req, res) => {
     } else if (!user) {
         res.redirect('/404')
     }
-})
+});
 
 app.post('/login', (req, res) => {
     const email = users.some(user => user.email === req.body.email);
@@ -62,8 +62,6 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/signIn', (req, res) => {
-    console.log(req.body);
-    console.log(typeof req.body.password);
     const find = users.find(user => user.email === req.body.email && user.password === req.body.password);
     const indexOf = users.indexOf(find);
     if(find) {
@@ -71,19 +69,19 @@ app.post('/signIn', (req, res) => {
     } else if(!find) {
         res.redirect('/login')
     }
-})
+});
 
 app.post('/users/:userIndex', (req, res) => {
     const {userIndex} = req.params;
     const number = Number(userIndex);
     users.splice(number,1);
     res.redirect('/users')
-})
-
-app.listen(PORT, ()=> {
-    console.log(`Server running at PORT:${PORT}`);
 });
 
 app.use((req, res) => {
     res.render('notFound')
-})
+});
+
+app.listen(PORT, ()=> {
+    console.log(`Server running at PORT:${PORT}`);
+});
