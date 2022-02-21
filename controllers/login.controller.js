@@ -6,7 +6,7 @@ class LoginController {
     }
     setUser(req,res) {
         users.push(req.body);
-        res.redirect('/users');
+        res.status(201).redirect('/users');
     }
 }
 module.exports = {

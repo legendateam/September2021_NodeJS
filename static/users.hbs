@@ -9,14 +9,50 @@
 </head>
 <body>
 <div>
-    {{#each users}}
-        <div>{{this.firstName}}</div>
-        <div>{{this.lastName}}</div>
-        <div>{{this.email}}</div>
-        <div>{{this.password}}</div>
-        <div>{{this.age}}</div>
-        <div>{{this.city}}</div>
-    {{/each}}
+    {{#if users.length}}
+        {{#each users}}
+            <div>{{this.firstName}}</div>
+            <div>{{this.lastName}}</div>
+            <div>{{this.email}}</div>
+            <div>{{this.password}}</div>
+            <div>{{this.age}}</div>
+            <div>{{this.city}}</div>
+        {{/each}}
+    {{/if}}
+
+    {{#if filterUsersCity.length}}
+        {{#each filterUsersCity}}
+            <div>{{this.firstName}}</div>
+            <div>{{this.lastName}}</div>
+            <div>{{this.email}}</div>
+            <div>{{this.password}}</div>
+            <div>{{this.age}}</div>
+            <div>{{this.city}}</div>
+        {{/each}}
+    {{/if}}
+
+    {{#if filterUsersAge.length}}
+        {{#each filterUsersAge}}
+            <div>{{this.firstName}}</div>
+            <div>{{this.lastName}}</div>
+            <div>{{this.email}}</div>
+            <div>{{this.password}}</div>
+            <div>{{this.age}}</div>
+            <div>{{this.city}}</div>
+        {{/each}}
+    {{/if}}
+
+    {{#if filterUsersCityAge.length}}
+        {{#each filterUsersCityAge}}
+            <div>{{this.firstName}}</div>
+            <div>{{this.lastName}}</div>
+            <div>{{this.email}}</div>
+            <div>{{this.password}}</div>
+            <div>{{this.age}}</div>
+            <div>{{this.city}}</div>
+        {{/each}}
+    {{/if}}
+
 </div>
 </body>
 </html>
