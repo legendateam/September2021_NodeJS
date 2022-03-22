@@ -1,7 +1,9 @@
 import { Router } from 'express';
 
-import { usersController } from '../controllers/users.controller';
+import { addOne, getAll } from '../controllers/users.controller';
+import { userMiddleware } from '../middlewares/user.middleware';
 
 export const usersRouter = Router();
 
-usersRouter.get('/users', usersController);
+usersRouter.get('/', getAll);
+usersRouter.post('/', userMiddleware, addOne);

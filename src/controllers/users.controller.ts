@@ -1,16 +1,22 @@
 import { getManager } from 'typeorm';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 import { UsersEntity } from '../entity/users.entity';
 
 class UsersController {
-    public static async getAll(_:any, res:Response):Promise<void> {
+    public static async getAll(_:any, res:Response) {
         const users = await getManager()
             .getRepository(UsersEntity)
-            .createQueryBuilder('Users')
-            .getMany();
+            .find();
         res.json(users);
+    }
+
+    public static async addOne(req:Request, res: Response) {
+        const user = await getManager()
+            .getRepository(UsersEntity)
+            .save(req.body);
+        res.json(user);
     }
 }
 
-export const usersController = new UsersController();
+export const { addOne, getAll } = UsersController;

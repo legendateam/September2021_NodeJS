@@ -4,6 +4,7 @@ import { engine } from 'express-handlebars';
 import { createConnection } from 'typeorm';
 
 import { apiRouter } from './routes/api.router';
+import { PORT } from './configs/port';
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.set('views', path.join(__dirname, 'static'));
 
 app.use(apiRouter);
 
-app.listen(3200, async () => {
+app.listen(PORT, async () => {
     console.log('Server has started');
     try {
         const connection = await createConnection();
