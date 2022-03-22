@@ -1,12 +1,15 @@
+// import {
+//     Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn,
+// } from 'typeorm';
 import {
-    Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn,
+    Column, Entity, PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { CommonFieldsEntity } from './commonFields.entity';
 import { IComments } from '../interfaces/comments.interface';
-import { UsersEntity } from './users.entity';
-import { PostsEntity } from './posts.entity';
-import { ActionsEntity } from './actions.entity';
+// import { UsersEntity } from './users.entity';
+// import { PostsEntity } from './posts.entity';
+// import { ActionsEntity } from './actions.entity';
 
 @Entity('Comments', { database: 'okten' })
 
@@ -33,14 +36,14 @@ export class CommentsEntity extends CommonFieldsEntity implements IComments {
     })
         postId: number;
 
-    @ManyToOne(() => UsersEntity, (user) => user.comments)
-    @JoinColumn({ name: 'authorId' })
-        user: UsersEntity;
-
-    @ManyToOne(() => PostsEntity, (post) => post.comments)
-    @JoinColumn({ name: 'postId' })
-        post: PostsEntity;
-
-    @OneToMany(() => ActionsEntity, (actions) => actions.comment)
-        actions: ActionsEntity[];
+//     @ManyToOne(() => UsersEntity, (user) => user.comments)
+//     @JoinColumn({ name: 'authorId' })
+//         user: UsersEntity;
+//
+//     @ManyToOne(() => PostsEntity, (post) => post.comments)
+//     @JoinColumn({ name: 'postId' })
+//         post: PostsEntity;
+//
+//     @OneToMany(() => ActionsEntity, (actions) => actions.comment)
+//         actions: ActionsEntity[];
 }

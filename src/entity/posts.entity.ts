@@ -1,11 +1,14 @@
+// import {
+//     PrimaryGeneratedColumn, Entity, Column, ManyToOne, JoinColumn, OneToMany,
+// } from 'typeorm';
 import {
-    PrimaryGeneratedColumn, Entity, Column, ManyToOne, JoinColumn, OneToMany,
+    PrimaryGeneratedColumn, Entity, Column,
 } from 'typeorm';
 
 import { CommonFieldsEntity } from './commonFields.entity';
 import { IPosts } from '../interfaces/posts.interface';
-import { UsersEntity } from './users.entity';
-import { CommentsEntity } from './comments.entity';
+// import { UsersEntity } from './users.entity';
+// import { CommentsEntity } from './comments.entity';
 
 @Entity('Posts', { database: 'okten' })
 
@@ -33,10 +36,10 @@ export class PostsEntity extends CommonFieldsEntity implements IPosts {
     })
         userId: number;
 
-    @ManyToOne(() => UsersEntity, (user) => user.posts)
-    @JoinColumn({ name: 'userId' })
-        user: UsersEntity;
-
-    @OneToMany(() => CommentsEntity, (comments) => comments.post)
-        comments: CommentsEntity[];
+//     @ManyToOne(() => UsersEntity, (user) => user.posts)
+//     @JoinColumn({ name: 'userId' })
+//         user: UsersEntity;
+//
+//     @OneToMany(() => CommentsEntity, (comments) => comments.post)
+//         comments: CommentsEntity[];
 }

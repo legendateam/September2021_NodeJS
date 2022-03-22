@@ -1,6 +1,6 @@
 import { NextFunction, Response, Request } from 'express';
 
-export const userMiddleware = (req:Request, res:Response, next:NextFunction) => {
+export const userFieldsFilledMiddleware = (req:Request, res:Response, next:NextFunction) => {
     try {
         const {
             firstName, lastName, age, phone, email, password,

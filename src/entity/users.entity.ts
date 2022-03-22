@@ -1,12 +1,15 @@
+// import {
+//     Column, Entity, OneToMany, PrimaryGeneratedColumn,
+// } from 'typeorm';
 import {
-    Column, Entity, OneToMany, PrimaryGeneratedColumn,
+    Column, Entity, PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { CommonFieldsEntity } from './commonFields.entity';
 import { IUsers } from '../interfaces/users.interface';
-import { PostsEntity } from './posts.entity';
-import { CommentsEntity } from './comments.entity';
-import { ActionsEntity } from './actions.entity';
+// import { PostsEntity } from './posts.entity';
+// import { CommentsEntity } from './comments.entity';
+// import { ActionsEntity } from './actions.entity';
 
 @Entity('Users', { database: 'okten' })
 export class UsersEntity extends CommonFieldsEntity implements IUsers {
@@ -56,12 +59,12 @@ export class UsersEntity extends CommonFieldsEntity implements IUsers {
     })
         password: string;
 
-    @OneToMany(() => PostsEntity, (posts) => posts.user)
-        posts: PostsEntity[];
-
-    @OneToMany(() => CommentsEntity, (comments) => comments.user)
-        comments: CommentsEntity[];
-
-    @OneToMany(() => ActionsEntity, (actions) => actions.user)
-        actions: ActionsEntity[];
+//     @OneToMany(() => PostsEntity, (posts) => posts.user)
+//         posts: PostsEntity[];
+//
+//     @OneToMany(() => CommentsEntity, (comments) => comments.user)
+//         comments: CommentsEntity[];
+//
+//     @OneToMany(() => ActionsEntity, (actions) => actions.user)
+//         actions: ActionsEntity[];
 }
