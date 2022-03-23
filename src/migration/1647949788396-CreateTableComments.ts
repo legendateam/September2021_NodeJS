@@ -8,6 +8,8 @@ export class CreateTableComments1647949788396 implements MigrationInterface {
                 text VARCHAR(250) NOT NULL,
                 authorId INT NOT NULL,
                 postId INT NOT NULL,
+                FOREIGN KEY (authorId) REFERENCES Users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                FOREIGN KEY (postId) REFERENCES Posts(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 createAt TIMESTAMP DEFAULT(UTC_TIMESTAMP()) NOT NULL,
                 deleteAt TIMESTAMP
             )

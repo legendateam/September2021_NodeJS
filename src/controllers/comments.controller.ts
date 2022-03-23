@@ -36,13 +36,46 @@ class CommentsController {
         const user = await getManager()
             .getRepository(CommentsEntity)
             .createQueryBuilder('comments')
-            .innerJoinAndSelect('comments.authorId', 'user')
-            .where(`comment.authorId = ${id}`)
+            .where(`comments.authorId = ${id}`)
+            .innerJoinAndSelect('comments.user', 'user')
+            .innerJoinAndSelect('comments.post', 'post')
             .getMany();
         res.json(user);
+    }
+
+    public static async updateText(req:Request, res:Response) {
+        const { commentId } = req.params;
+        const { text } = req.body;
+        const id = Number(commentId);
+        const update = await getManager()
+            .getRepository(CommentsEntity)
+            .update({ id }, {
+                text,
+            });
+        res.json(update);
+    }
+
+    public static async getCountAction(req:Request, res:Response) {
+        const { commentId } = req.params;
+        const id = Number(commentId);
+        const count = await getManager()
+            .query(`
+                SELECT COUNT(_like) as likeCount, COUNT(_dislike) as dislikeCOunt
+                FROM Actions a where a.commentId=${id};
+            `);
+        res.json(count);
+    }
+
+    public static async remove(req:Request, res:Response) {
+        const { commentId } = req.params;
+        const id = Number(commentId);
+        const remove = await getManager()
+            .getRepository(CommentsEntity)
+            .softDelete({ id });
+        res.json(remove);
     }
 }
 
 export const {
-    getAll, addOne, getOne, getUserComments,
+    getAll, addOne, getOne, getUserComments, updateText, remove, getCountAction,
 } = CommentsController;

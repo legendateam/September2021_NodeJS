@@ -8,8 +8,9 @@ export class CreateTablePosts1647949771134 implements MigrationInterface {
                 title VARCHAR(250) NOT NULL,
                 text VARCHAR(250) NOT NULL,
                 userId INT NOT NULL,
+                FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 createAt TIMESTAMP DEFAULT(UTC_TIMESTAMP()),
-                deleteAt TIMESTAMP 
+                deleteAt TIMESTAMP
             )
         `);
     }

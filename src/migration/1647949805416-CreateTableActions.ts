@@ -9,6 +9,8 @@ export class CreateTableActions1647949805416 implements MigrationInterface {
                 userId INT NOT NULL,
                 _like INT,
                 _dislike INT,
+                FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                FOREIGN KEY (commentId) REFERENCES Comments(id) ON DELETE CASCADE ON UPDATE CASCADE,
                 createAt TIMESTAMP DEFAULT(UTC_TIMESTAMP()) NOT NULL,
                 deleteAt TIMESTAMP
             )
