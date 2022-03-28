@@ -1,5 +1,5 @@
-// import { IComments } from './comments.interface';
-// import { IUsers } from './users.interface';
+import { IComments } from './comments.interface';
+import { IUsers } from './users.interface';
 
 export interface IActions {
     id: number,
@@ -7,6 +7,6 @@ export interface IActions {
     userId: number,
     _like?: number,
     _dislike?: number,
-    // comment: IComments,
-    // user: IUsers
+    comment?: IComments,
+    user?: IUsers
 }

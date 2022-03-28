@@ -1,15 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-import { getManager } from 'typeorm';
-import { UsersEntity } from '../entity/users.entity';
+import { userRepository } from '../repositories/user/user.repository';
 
 export const userRegisteredMiddleware = async (req:Request, res:Response, next:NextFunction) => {
     try {
-        const { phone, email } = req.body;
-        const users = await getManager().getRepository(UsersEntity).find();
-        const some = users.some((user) => user.email.toLowerCase() === email.toLowerCase()
-            || user.phone === phone);
+        const { email, phone } = req.body;
+        const user = await userRepository.getOneByEmailOrByPhone(email, phone);
 
-        if (some) {
+        if (user) {
             throw new Error('user already exists');
         }
 

@@ -13,6 +13,6 @@ export const usersRouter = Router();
 
 usersRouter.get('/', getAll);
 usersRouter.post('/', userFieldsFilledMiddleware, userTypeMiddleware, userRegisteredMiddleware, addOne);
-usersRouter.patch('/:userId', userPatchFieldsMiddleware, userUniqueValueFieldsMiddleware, updateFields);
 usersRouter.get('/:userId', getOne);
+usersRouter.patch('/:userId', userPatchFieldsMiddleware, userUniqueValueFieldsMiddleware, updateFields);
 usersRouter.delete('/:userId', remove);

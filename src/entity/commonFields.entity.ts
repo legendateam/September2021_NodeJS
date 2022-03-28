@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn } from 'typeorm';
 import { ICommonFields } from '../interfaces/commonFields.interface';
 
 export class CommonFieldsEntity implements ICommonFields {
@@ -12,6 +12,6 @@ export class CommonFieldsEntity implements ICommonFields {
     @Column({
         nullable: true,
     })
-    @CreateDateColumn({ type: 'timestamp' })
+    @DeleteDateColumn({ type: 'timestamp' })
         deleteAt?:string;
 }

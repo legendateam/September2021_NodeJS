@@ -1,41 +1,28 @@
 import { Request, Response } from 'express';
-import { getManager } from 'typeorm';
-import { PostsEntity } from '../entity/posts.entity';
+import { postService } from '../services/post/post.service';
 
 class PostsController {
-    public static async getAll(_:any, res:Response) {
-        const posts = await getManager()
-            .getRepository(PostsEntity)
-            .createQueryBuilder('posts')
-            .getMany();
+    public static async getAll(_:any, res:Response):Promise<void> {
+        const posts = await postService.getAll();
         res.json(posts);
     }
 
-    public static async getOne(req:Request, res:Response) {
+    public static async getOne(req:Request, res:Response):Promise<void> {
         const { postId } = req.params;
-        const post = await getManager()
-            .getRepository(PostsEntity)
-            .createQueryBuilder('post')
-            .where(`post.id = ${postId}`)
-            .getOne();
+        const id = Number(postId);
+        const post = await postService.getOne(id);
         res.json(post);
     }
 
-    public static async addOne(req:Request, res:Response) {
-        const post = await getManager()
-            .getRepository(PostsEntity)
-            .save(req.body);
+    public static async addOne(req:Request, res:Response):Promise<void> {
+        const post = await postService.addOne(req.body);
         res.json(post);
     }
 
     public static async getUserPosts(req:Request, res:Response) {
         const { userId } = req.params;
         const id = Number(userId);
-        const posts = await getManager()
-            .getRepository(PostsEntity)
-            .createQueryBuilder('posts')
-            .where(`posts.userId = ${id}`)
-            .getMany();
+        const posts = await postService.getUserPosts(id);
         res.json(posts);
     }
 
@@ -43,20 +30,14 @@ class PostsController {
         const { text } = req.body;
         const { postId } = req.params;
         const id = Number(postId);
-        const patch = await getManager()
-            .getRepository(PostsEntity)
-            .update({ id }, {
-                text,
-            });
+        const patch = await postService.updateFieldValue(id, text);
         res.json(patch);
     }
 
     public static async removeOne(req:Request, res:Response) {
         const { postId } = req.params;
         const id = Number(postId);
-        const remove = await getManager()
-            .getRepository(PostsEntity)
-            .softDelete({ id });
+        const remove = await postService.removeOne(id);
         res.json(remove);
     }
 }

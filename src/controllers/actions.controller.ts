@@ -1,33 +1,22 @@
 import { Request, Response } from 'express';
-import { getManager } from 'typeorm';
 
-import { ActionsEntity } from '../entity/actions.entity';
+import { actionService } from '../services/action/action.service';
 
 class actionsController {
-    public static async getAll(_:any, res:Response) {
-        const actions = await getManager()
-            .getRepository(ActionsEntity)
-            .createQueryBuilder('actions')
-            .getMany();
+    public static async getAll(_:any, res:Response):Promise<void> {
+        const actions = await actionService.getAll();
         res.json(actions);
     }
 
-    public static async addAction(req:Request, res:Response) {
-        const action = await getManager()
-            .getRepository(ActionsEntity)
-            .save(req.body);
+    public static async addAction(req:Request, res:Response):Promise<void> {
+        const action = await actionService.addAction(req.body);
         res.json(action);
     }
 
-    public static async getComments(req:Request, res:Response) {
+    public static async getComments(req:Request, res:Response):Promise<void> {
         const { commentId } = req.params;
         const id = Number(commentId);
-        const actions = await getManager()
-            .getRepository(ActionsEntity)
-            .createQueryBuilder('actions')
-            .where(`actions.commentId = ${id}`)
-            .innerJoinAndSelect('actions.comment', 'comment')
-            .getMany();
+        const actions = await actionService.getComments(id);
         res.json(actions);
     }
 }

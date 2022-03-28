@@ -1,18 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { getManager } from 'typeorm';
-
-import { UsersEntity } from '../entity/users.entity';
+import { userRepository } from '../repositories/user/user.repository';
 
 const userUniqueValueFieldsMiddleware = async (req:Request, res:Response, next:NextFunction) => {
     try {
         const { email, phone } = req.body;
-        const users = await getManager()
-            .getRepository(UsersEntity)
-            .find();
-        const some = users.some((user) => user.email.toLowerCase() === email.toLowerCase()
-            || user.phone === phone);
+        const user = await userRepository.getOneByEmailOrByPhone(email, phone);
 
-        if (some) {
+        if (user) {
             throw new Error('patch is impossible, some data is already used by other user or data is invalid');
         }
         next();

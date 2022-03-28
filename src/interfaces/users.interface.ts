@@ -14,3 +14,9 @@ export interface IUsers {
     // comments: IComments[],
     // actions: IActions[]
 }
+
+export interface IUpdateFields {
+    password:string,
+    email:string,
+    phone:string
+}

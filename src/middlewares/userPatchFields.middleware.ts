@@ -4,7 +4,7 @@ export const userPatchFieldsMiddleware = (req:Request, res:Response, next:NextFu
     try {
         const { password, email, phone } = req.body;
 
-        if (!password && !email && !phone) {
+        if (!password || !email || !phone) {
             throw new Error('probably not all fields are filled');
         }
         next();

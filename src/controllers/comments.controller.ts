@@ -1,81 +1,55 @@
 import { Request, Response } from 'express';
-import { getManager } from 'typeorm';
 
-import { CommentsEntity } from '../entity/comments.entity';
+import { commentService } from '../services/comment/comment.service';
 
 class CommentsController {
-    public static async getAll(_:any, res:Response) {
-        const comments = await getManager()
-            .getRepository(CommentsEntity)
-            .createQueryBuilder()
-            .getMany();
+    public static async getAll(_:any, res:Response):Promise<void> {
+        const comments = await commentService.getAll();
         res.json(comments);
     }
 
-    public static async getOne(req:Request, res:Response) {
+    public static async getOne(req:Request, res:Response):Promise<void> {
         const { commentId } = req.params;
         const id = Number(commentId);
-        const comment = await getManager()
-            .getRepository(CommentsEntity)
-            .createQueryBuilder('comment')
-            .where(`comment.id = ${id}`)
-            .getOne();
+        const comment = await commentService.getOneById(id);
         res.json(comment);
     }
 
-    public static async addOne(req:Request, res:Response) {
-        const comment = await getManager()
-            .getRepository(CommentsEntity)
-            .save(req.body);
+    public static async addOne(req:Request, res:Response):Promise<void> {
+        const comment = await commentService.addOne(req.body);
         res.json(comment);
     }
 
-    public static async getUserComments(req:Request, res:Response) {
+    public static async getUserComments(req:Request, res:Response):Promise<void> {
         const { userId } = req.params;
-        const id = Number(userId);
-        const user = await getManager()
-            .getRepository(CommentsEntity)
-            .createQueryBuilder('comments')
-            .where(`comments.authorId = ${id}`)
-            .innerJoinAndSelect('comments.user', 'user')
-            .innerJoinAndSelect('comments.post', 'post')
-            .getMany();
-        res.json(user);
+        const authorId = Number(userId);
+        const userComments = await commentService.getUserComment(authorId);
+        res.json(userComments);
     }
 
-    public static async updateText(req:Request, res:Response) {
+    public static async updateText(req:Request, res:Response):Promise<void> {
         const { commentId } = req.params;
         const { text } = req.body;
         const id = Number(commentId);
-        const update = await getManager()
-            .getRepository(CommentsEntity)
-            .update({ id }, {
-                text,
-            });
+        const update = await commentService.updateText(id, text);
         res.json(update);
     }
 
-    public static async getCountAction(req:Request, res:Response) {
+    public static async getCountAction(req:Request, res:Response):Promise<void> {
         const { commentId } = req.params;
         const id = Number(commentId);
-        const count = await getManager()
-            .query(`
-                SELECT COUNT(_like) as likeCount, COUNT(_dislike) as dislikeCOunt
-                FROM Actions a where a.commentId=${id};
-            `);
+        const count = await commentService.getCountAction(id);
         res.json(count);
     }
 
-    public static async remove(req:Request, res:Response) {
+    public static async remove(req:Request, res:Response):Promise<void> {
         const { commentId } = req.params;
         const id = Number(commentId);
-        const remove = await getManager()
-            .getRepository(CommentsEntity)
-            .softDelete({ id });
+        const remove = await commentService.removeComment(id);
         res.json(remove);
     }
 }
 
 export const {
-    getAll, addOne, getOne, getUserComments, updateText, remove, getCountAction,
+    getAll, addOne, getOne, getUserComments, updateText, getCountAction, remove,
 } = CommentsController;

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import {
-    getAll, addOne, getOne, getUserComments, updateText, remove, getCountAction,
+    getAll, addOne, getOne, getUserComments, updateText, getCountAction, remove,
 } from '../controllers/comments.controller';
 import { commentsFieldsFilled } from '../middlewares/commentsFieldsFilled.middleware';
 import { commentsPatch } from '../middlewares/commentsPatch.middleware';
