@@ -1,4 +1,6 @@
 import { UpdateResult } from 'typeorm';
+import bcrypt from 'bcrypt';
+
 import { userRepository } from '../../repositories/user/user.repository';
 import { IUpdateFields, IUsers } from '../../interfaces/users.interface';
 
@@ -13,8 +15,12 @@ class UserService {
         return user;
     }
 
-    public async addOne(user:IUsers):Promise<IUsers> {
-        return userRepository.addOne(user);
+    public async addOne(user:IUsers) {
+        const { password } = user;
+        const passwordHashed = await this._hashPassword(password);
+        const data = { ...user, password: passwordHashed };
+        const createUser = await userRepository.addOne(data);
+        return createUser;
     }
 
     public async updateFields(id:number, newValueFields: IUpdateFields):Promise<UpdateResult> {
@@ -25,6 +31,10 @@ class UserService {
     public async remove(id:number):Promise<UpdateResult> {
         const remove = await userRepository.softDelete(id);
         return remove;
+    }
+
+    private async _hashPassword(password:string):Promise<string> {
+        return bcrypt.hash(password, 10);
     }
 }
 

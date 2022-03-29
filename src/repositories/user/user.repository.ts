@@ -1,6 +1,7 @@
 import {
     EntityRepository, getManager, Repository, UpdateResult,
 } from 'typeorm';
+
 import { UsersEntity } from '../../entity/users.entity';
 import { IUpdateFields, IUsers } from '../../interfaces/users.interface';
 import { IUserAbstraction } from '../../interfaces/abstraction/user.interface';

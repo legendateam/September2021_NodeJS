@@ -1,4 +1,5 @@
 import { UpdateResult } from 'typeorm';
+
 import { IPosts } from '../../interfaces/posts.interface';
 import { postRepository } from '../../repositories/post/post.repository';
 

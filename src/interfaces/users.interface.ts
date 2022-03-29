@@ -1,6 +1,6 @@
-// import { IPosts } from './posts.interface';
-// import { IComments } from './comments.interface';
-// import { IActions } from './actions.interface';
+import { IPosts } from './posts.interface';
+import { IComments } from './comments.interface';
+import { IActions } from './actions.interface';
 
 export interface IUsers {
     id: number,
@@ -10,9 +10,9 @@ export interface IUsers {
     phone: string,
     email: string,
     password: string,
-    // posts: IPosts[],
-    // comments: IComments[],
-    // actions: IActions[]
+    posts?: IPosts[],
+    comments?: IComments[],
+    actions?: IActions[]
 }
 
 export interface IUpdateFields {
