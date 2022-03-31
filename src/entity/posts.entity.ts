@@ -6,8 +6,9 @@ import { CommonFieldsEntity } from './commonFields.entity';
 import { IPosts } from '../interfaces/posts.interface';
 import { UsersEntity } from './users.entity';
 import { CommentsEntity } from './comments.entity';
+import { config } from '../configs/config';
 
-@Entity('Posts', { database: 'okten' })
+@Entity('Posts', { database: config.MYSQL_DATABASE_NAME })
 
 export class PostsEntity extends CommonFieldsEntity implements IPosts {
     @PrimaryGeneratedColumn()

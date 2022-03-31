@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 
 import { userRepository } from '../../repositories/user/user.repository';
 import { IUpdateFields, IUsers } from '../../interfaces/users.interface';
+import { config } from '../../configs/config';
 
 class UserService {
     public async getAll():Promise<IUsers[]> {
@@ -34,7 +35,7 @@ class UserService {
     }
 
     private async _hashPassword(password:string):Promise<string> {
-        return bcrypt.hash(password, 10);
+        return bcrypt.hash(password, Number(config.USER_SALT_ROUNDS));
     }
 }
 

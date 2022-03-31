@@ -1,44 +1,48 @@
 import { Request, Response } from 'express';
+import { UpdateResult } from 'typeorm';
+
 import { postService } from '../services/post/post.service';
+import { IPosts } from '../interfaces/posts.interface';
 
 class PostsController {
-    public static async getAll(_:any, res:Response):Promise<void> {
+    public static async getAll(_:any, res:Response):Promise<Response<IPosts[]>> {
         const posts = await postService.getAll();
-        res.json(posts);
+        return res.json(posts);
     }
 
-    public static async getOne(req:Request, res:Response):Promise<void> {
+    public static async getOne(req:Request, res:Response):Promise<Response<IPosts>> {
         const { postId } = req.params;
         const id = Number(postId);
         const post = await postService.getOne(id);
-        res.json(post);
+        return res.json(post);
     }
 
-    public static async addOne(req:Request, res:Response):Promise<void> {
+    public static async addOne(req:Request, res:Response):Promise<Response<IPosts>> {
         const post = await postService.addOne(req.body);
-        res.json(post);
+        return res.json(post);
     }
 
-    public static async getUserPosts(req:Request, res:Response) {
+    public static async getUserPosts(req:Request, res:Response):Promise<Response<IPosts[]>> {
         const { userId } = req.params;
         const id = Number(userId);
         const posts = await postService.getUserPosts(id);
-        res.json(posts);
+        return res.json(posts);
     }
 
-    public static async updateFieldValue(req:Request, res:Response) {
+    public static async updateFieldValue(req:Request, res:Response)
+        :Promise<Response<UpdateResult>> {
         const { text } = req.body;
         const { postId } = req.params;
         const id = Number(postId);
         const patch = await postService.updateFieldValue(id, text);
-        res.json(patch);
+        return res.json(patch);
     }
 
-    public static async removeOne(req:Request, res:Response) {
+    public static async removeOne(req:Request, res:Response):Promise<Response<UpdateResult>> {
         const { postId } = req.params;
         const id = Number(postId);
         const remove = await postService.removeOne(id);
-        res.json(remove);
+        return res.json(remove);
     }
 }
 

@@ -1,39 +1,41 @@
 import { Request, Response } from 'express';
+import { UpdateResult } from 'typeorm';
 
 import { userService } from '../services/user/user.service';
+import { IUsers } from '../interfaces/users.interface';
 
 class UsersController {
-    public static async getAll(_:any, res:Response):Promise<void> {
+    public static async getAll(_:any, res:Response):Promise<Response<IUsers[]>> {
         const users = await userService.getAll();
-        res.json(users);
+        return res.json(users);
     }
 
-    public static async getOne(req:Request, res:Response):Promise<void> {
+    public static async getOne(req:Request, res:Response):Promise<Response<IUsers>> {
         const { userId } = req.params;
         const id = Number(userId);
         const user = await userService.getOne(id);
-        res.json(user);
+        return res.json(user);
     }
 
-    public static async addOne(req:Request, res: Response):Promise<void> {
+    public static async addOne(req:Request, res: Response):Promise<Response<IUsers>> {
         const user = await userService.addOne(req.body);
-        res.json(user);
+        return res.json(user);
     }
 
-    public static async updateFields(req:Request, res:Response):Promise<void> {
+    public static async updateFields(req:Request, res:Response):Promise<Response<IUsers>> {
         const { password, email, phone } = req.body;
         const newValueFields = { password, email, phone };
         const { userId } = req.params;
         const id = Number(userId);
         const updateUser = await userService.updateFields(id, newValueFields);
-        res.json(updateUser);
+        return res.json(updateUser);
     }
 
-    public static async remove(req:Request, res:Response):Promise<void> {
+    public static async remove(req:Request, res:Response):Promise<Response<UpdateResult>> {
         const { userId } = req.params;
         const id = Number(userId);
         const remove = await userService.remove(id);
-        res.json(remove);
+        return res.json(remove);
     }
 }
 

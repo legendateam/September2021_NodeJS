@@ -7,8 +7,9 @@ import { IUsers } from '../interfaces/users.interface';
 import { PostsEntity } from './posts.entity';
 import { CommentsEntity } from './comments.entity';
 import { ActionsEntity } from './actions.entity';
+import { config } from '../configs/config';
 
-@Entity('Users', { database: 'okten' })
+@Entity('Users', { database: config.MYSQL_DATABASE_NAME })
 export class UsersEntity extends CommonFieldsEntity implements IUsers {
     @PrimaryGeneratedColumn()
         id: number;

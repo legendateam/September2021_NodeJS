@@ -7,8 +7,9 @@ import { IComments } from '../interfaces/comments.interface';
 import { UsersEntity } from './users.entity';
 import { PostsEntity } from './posts.entity';
 import { ActionsEntity } from './actions.entity';
+import { config } from '../configs/config';
 
-@Entity('Comments', { database: 'okten' })
+@Entity('Comments', { database: config.MYSQL_DATABASE_NAME })
 
 export class CommentsEntity extends CommonFieldsEntity implements IComments {
     @PrimaryGeneratedColumn()
