@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { userRepository } from '../repositories/user/user.repository';
+
+import { userRepository } from '../repositories';
 
 export const userRegisteredMiddleware = async (req:Request, res:Response, next:NextFunction) => {
     try {

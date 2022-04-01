@@ -2,10 +2,8 @@ import {
     EntityRepository, getManager, Repository, UpdateResult,
 } from 'typeorm';
 
-import { CommentsEntity } from '../../entity/comments.entity';
-import { IComments } from '../../interfaces/comments.interface';
-import { ICountAction } from '../../interfaces/countAction.interface';
-import { ICommentAbstraction } from '../../interfaces/abstraction/comment.interface';
+import { CommentsEntity } from '../../entity';
+import { IComments, ICountAction, ICommentAbstraction } from '../../interfaces';
 
 @EntityRepository(CommentsEntity)
 class CommentRepository extends Repository<CommentsEntity> implements ICommentAbstraction {

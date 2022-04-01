@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { userRepository } from '../repositories/user/user.repository';
+
+import { userRepository } from '../repositories';
 
 const userUniqueValueFieldsMiddleware = async (req:Request, res:Response, next:NextFunction) => {
     try {

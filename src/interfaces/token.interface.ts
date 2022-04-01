@@ -16,3 +16,10 @@ export interface IRefreshToken{
     refreshToken: string,
     userId: number
 }
+
+export interface IRoleToken {
+    accessToken: string,
+    refreshToken: string,
+    userId: number,
+    role: string
+}

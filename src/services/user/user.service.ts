@@ -1,9 +1,9 @@
 import { UpdateResult } from 'typeorm';
 import bcrypt from 'bcrypt';
 
-import { userRepository } from '../../repositories/user/user.repository';
-import { IUpdateFields, IUsers } from '../../interfaces/users.interface';
-import { config } from '../../configs/config';
+import { userRepository } from '../../repositories';
+import { IUpdateFields, IUsers } from '../../interfaces';
+import { config } from '../../configs';
 
 class UserService {
     public async getAll():Promise<IUsers[]> {

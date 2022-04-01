@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 
-import { actionRepository } from '../repositories/action/action.repository';
+import { actionRepository } from '../repositories';
 
 export const actionUniqueUser = async (req:Request, res:Response, next:NextFunction) => {
     try {

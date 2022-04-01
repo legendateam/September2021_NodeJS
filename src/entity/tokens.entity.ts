@@ -2,10 +2,10 @@ import {
     Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { config } from '../configs/config';
+import { config } from '../configs';
 import { CommonFieldsEntity } from './commonFields.entity';
 import { UsersEntity } from './users.entity';
-import { IToken } from '../interfaces/token.interface';
+import { IToken } from '../interfaces';
 
 @Entity('Tokens', { database: config.MYSQL_DATABASE_NAME })
 

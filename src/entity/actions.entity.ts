@@ -2,11 +2,11 @@ import {
     Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { IActions } from '../interfaces';
+import { config } from '../configs';
 import { CommonFieldsEntity } from './commonFields.entity';
-import { IActions } from '../interfaces/actions.interface';
 import { UsersEntity } from './users.entity';
 import { CommentsEntity } from './comments.entity';
-import { config } from '../configs/config';
 
 @Entity('Actions', { database: config.MYSQL_DATABASE_NAME })
 

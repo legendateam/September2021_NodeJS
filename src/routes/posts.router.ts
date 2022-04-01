@@ -1,17 +1,13 @@
 import { Router } from 'express';
 
-import {
-    getAll, getOne, addOne, removeOne, getUserPosts, updateFieldValue,
-} from '../controllers/posts.controller';
-import { postFieldsFilledMiddleware } from '../middlewares/postFieldsFilled.middleware';
-import { postPatchFieldsMiddleware } from '../middlewares/postPatchFields.middleware';
-import { postTypeMiddleware } from '../middlewares/postType.middleware';
+import { postsController } from '../controllers';
+import { postFieldsFilledMiddleware, postPatchFieldsMiddleware, postTypeMiddleware } from '../middlewares';
 
 export const postsRouter = Router();
 
-postsRouter.get('/', getAll);
-postsRouter.post('/', postFieldsFilledMiddleware, postTypeMiddleware, addOne);
-postsRouter.get('/:postId', getOne);
-postsRouter.delete('/:postId', removeOne);
-postsRouter.patch('/:postId', postPatchFieldsMiddleware, updateFieldValue);
-postsRouter.get('/user/:userId', getUserPosts);
+postsRouter.get('/', postsController.getAll);
+postsRouter.post('/', postFieldsFilledMiddleware, postTypeMiddleware, postsController.addOne);
+postsRouter.get('/:postId', postsController.getOne);
+postsRouter.delete('/:postId', postsController.removeOne);
+postsRouter.patch('/:postId', postPatchFieldsMiddleware, postsController.updateFieldValue);
+postsRouter.get('/user/:userId', postsController.getUserPosts);

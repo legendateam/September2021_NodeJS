@@ -1,5 +1,5 @@
-import { actionRepository } from '../../repositories/action/action.repository';
-import { IActions } from '../../interfaces/actions.interface';
+import { actionRepository } from '../../repositories';
+import { IActions } from '../../interfaces';
 
 class ActionService {
     public async getAll():Promise<IActions[]> {

@@ -1,7 +1,7 @@
 import { UpdateResult } from 'typeorm';
 
-import { IPosts } from '../../interfaces/posts.interface';
-import { postRepository } from '../../repositories/post/post.repository';
+import { IPosts } from '../../interfaces';
+import { postRepository } from '../../repositories';
 
 class PostService {
     public async getAll():Promise<IPosts[]> {

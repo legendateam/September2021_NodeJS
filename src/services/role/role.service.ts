@@ -1,6 +1,5 @@
-import { IRole } from '../../interfaces/role.inreface';
-import { IUsers } from '../../interfaces/users.interface';
-import { roleRepository } from '../../repositories/role/role.repository';
+import { IRole, IUsers } from '../../interfaces';
+import { roleRepository } from '../../repositories';
 
 class RoleService {
     public async addRole(user:IUsers):Promise<IRole> {

@@ -3,10 +3,10 @@ import {
 } from 'typeorm';
 
 import { CommonFieldsEntity } from './commonFields.entity';
-import { IPosts } from '../interfaces/posts.interface';
+import { IPosts } from '../interfaces';
 import { UsersEntity } from './users.entity';
 import { CommentsEntity } from './comments.entity';
-import { config } from '../configs/config';
+import { config } from '../configs';
 
 @Entity('Posts', { database: config.MYSQL_DATABASE_NAME })
 

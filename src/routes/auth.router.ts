@@ -1,9 +1,7 @@
 import { Router } from 'express';
 
-import { authController } from '../controllers/auth.controller';
-import { userRegisteredMiddleware } from '../middlewares/userRegistered.middleware';
-import { userFieldsFilledMiddleware } from '../middlewares/userFieldsFilled.middleware';
-import { userTypeMiddleware } from '../middlewares/userType.middleware';
+import { authController } from '../controllers';
+import { userRegisteredMiddleware, userFieldsFilledMiddleware, userTypeMiddleware } from '../middlewares';
 
 export const authRouter = Router();
 

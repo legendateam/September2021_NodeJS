@@ -2,10 +2,10 @@ import {
     Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { config } from '../configs/config';
+import { config } from '../configs';
 import { CommonFieldsEntity } from './commonFields.entity';
 import { UsersEntity } from './users.entity';
-import { IRole } from '../interfaces/role.inreface';
+import { IRole } from '../interfaces';
 
 @Entity('Role', { database: config.MYSQL_DATABASE_NAME })
 

@@ -1,28 +1,28 @@
 import { Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
-import { userService } from '../services/user/user.service';
-import { IUsers } from '../interfaces/users.interface';
+import { userService } from '../services';
+import { IUsers } from '../interfaces';
 
 class UsersController {
-    public static async getAll(_:any, res:Response):Promise<Response<IUsers[]>> {
+    public async getAll(_:any, res:Response):Promise<Response<IUsers[]>> {
         const users = await userService.getAll();
         return res.json(users);
     }
 
-    public static async getOne(req:Request, res:Response):Promise<Response<IUsers>> {
+    public async getOne(req:Request, res:Response):Promise<Response<IUsers>> {
         const { userId } = req.params;
         const id = Number(userId);
         const user = await userService.getOne(id);
         return res.json(user);
     }
 
-    public static async addOne(req:Request, res: Response):Promise<Response<IUsers>> {
+    public async addOne(req:Request, res: Response):Promise<Response<IUsers>> {
         const user = await userService.addOne(req.body);
         return res.json(user);
     }
 
-    public static async updateFields(req:Request, res:Response):Promise<Response<IUsers>> {
+    public async updateFields(req:Request, res:Response):Promise<Response<IUsers>> {
         const { password, email, phone } = req.body;
         const newValueFields = { password, email, phone };
         const { userId } = req.params;
@@ -31,7 +31,7 @@ class UsersController {
         return res.json(updateUser);
     }
 
-    public static async remove(req:Request, res:Response):Promise<Response<UpdateResult>> {
+    public async remove(req:Request, res:Response):Promise<Response<UpdateResult>> {
         const { userId } = req.params;
         const id = Number(userId);
         const remove = await userService.remove(id);
@@ -39,6 +39,4 @@ class UsersController {
     }
 }
 
-export const {
-    addOne, getAll, getOne, remove, updateFields,
-} = UsersController;
+export const usersController = new UsersController();

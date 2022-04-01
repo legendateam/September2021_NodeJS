@@ -2,9 +2,8 @@ import {
     EntityRepository, getManager, Repository, UpdateResult,
 } from 'typeorm';
 
-import { TokensEntity } from '../../entity/tokens.entity';
-import { IRefreshToken } from '../../interfaces/token.interface';
-import { ITokenAbstaction } from '../../interfaces/abstraction/token.abstaction';
+import { TokensEntity } from '../../entity';
+import { IRefreshToken, ITokenAbstaction } from '../../interfaces';
 
 @EntityRepository(TokensEntity)
 class TokensRepository extends Repository<TokensEntity> implements ITokenAbstaction {

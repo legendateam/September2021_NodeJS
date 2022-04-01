@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, DeleteDateColumn } from 'typeorm';
-import { ICommonFields } from '../interfaces/commonFields.interface';
+
+import { ICommonFields } from '../interfaces';
 
 export class CommonFieldsEntity implements ICommonFields {
     @Column({

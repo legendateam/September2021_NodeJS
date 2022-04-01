@@ -2,9 +2,8 @@ import {
     EntityRepository, getManager, Repository,
 } from 'typeorm';
 
-import { RoleEntity } from '../../entity/role.entity';
-import { IRole } from '../../interfaces/role.inreface';
-import { IUsers } from '../../interfaces/users.interface';
+import { RoleEntity } from '../../entity';
+import { IRole, IUsers } from '../../interfaces';
 
 @EntityRepository(RoleEntity)
 class RoleRepository extends Repository<RoleEntity> {

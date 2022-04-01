@@ -1,10 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { UpdateResult } from 'typeorm';
 
-import { config } from '../../configs/config';
-import { IRefreshToken, ITokenPair } from '../../interfaces/token.interface';
-import { tokensRepository } from '../../repositories/token/token.repository';
-import { IRole } from '../../interfaces/role.interface';
+import { config } from '../../configs';
+import { IRefreshToken, ITokenPair, IRole } from '../../interfaces';
+import { tokensRepository } from '../../repositories';
 
 class TokenService {
     public async generateTokenPair(payload:IRole):Promise<ITokenPair> {

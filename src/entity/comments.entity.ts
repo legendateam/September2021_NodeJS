@@ -3,11 +3,11 @@ import {
 } from 'typeorm';
 
 import { CommonFieldsEntity } from './commonFields.entity';
-import { IComments } from '../interfaces/comments.interface';
+import { IComments } from '../interfaces';
 import { UsersEntity } from './users.entity';
 import { PostsEntity } from './posts.entity';
 import { ActionsEntity } from './actions.entity';
-import { config } from '../configs/config';
+import { config } from '../configs';
 
 @Entity('Comments', { database: config.MYSQL_DATABASE_NAME })
 
