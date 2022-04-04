@@ -3,7 +3,7 @@ import {
 } from 'typeorm';
 
 import { TokensEntity } from '../../entity';
-import { IRefreshToken, ITokenAbstaction } from '../../interfaces';
+import { IRefreshToken, IToken, ITokenAbstaction } from '../../interfaces';
 
 @EntityRepository(TokensEntity)
 class TokensRepository extends Repository<TokensEntity> implements ITokenAbstaction {
@@ -29,6 +29,10 @@ class TokensRepository extends Repository<TokensEntity> implements ITokenAbstact
             .getRepository(TokensEntity)
             .findOne({ userId });
         return token;
+    }
+
+    public async deleteUserTokenPair(userId: Partial<IToken>) {
+        await getManager().getRepository(TokensEntity).delete(userId);
     }
 }
 

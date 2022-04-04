@@ -3,8 +3,8 @@ import path from 'path';
 import { engine } from 'express-handlebars';
 import { createConnection } from 'typeorm';
 
-import { apiRouter } from './routes/api.router';
-import { config } from './configs/config';
+import { apiRouter } from './routes';
+import { config } from './configs';
 
 const app = express();
 

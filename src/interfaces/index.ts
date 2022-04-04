@@ -11,3 +11,4 @@ export * from './countAction.interface';
 export * from './posts.interface';
 export * from './role.interface';
 export * from './token.interface';
+export * from './request/requestUser.interface';

@@ -12,3 +12,4 @@ export * from './userPatchFields.middleware';
 export * from './userRegistered.middleware';
 export * from './userType.middleware';
 export * from './userUniqueNewValueFieldsParch.middleware';
+export * from './authLogout.middleware';
