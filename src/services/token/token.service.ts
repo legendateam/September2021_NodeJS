@@ -40,12 +40,8 @@ class TokenService {
         await tokensRepository.deleteUserTokenPair({ userId });
     }
 
-    public async verifyToken(token: string, tokenType = 'access'): Promise<IRole> {
-        let secretWord = config.SECRET_ACCESS_KEY;
-
-        if (tokenType === 'refresh') {
-            secretWord = config.SECRET_REFRESH_KEY;
-        }
+    public async verifyTokenRefresh(token: string): Promise<IRole> {
+        const secretWord = config.SECRET_REFRESH_KEY;
 
         return jwt.verify(token, secretWord as string) as IRole;
     }

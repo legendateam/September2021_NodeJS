@@ -12,7 +12,7 @@ const authLogoutMiddleware = async (req: IRequestUser, res: Response, next: Next
             throw new Error('No token');
         }
 
-        const { userId } = await tokenService.verifyToken(authorization);
+        const { userId } = await tokenService.verifyTokenRefresh(authorization);
         const userFromToken = await userRepository.getOne(userId);
 
         if (!userFromToken) {
