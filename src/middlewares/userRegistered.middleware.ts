@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, NextFunction, Response } from 'express';
 
 import { userRepository } from '../repositories';
 

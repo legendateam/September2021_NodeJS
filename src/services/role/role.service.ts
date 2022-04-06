@@ -6,6 +6,11 @@ class RoleService {
         const role = await roleRepository.createRole(user);
         return role;
     }
+
+    public async getRole(user:IUsers):Promise<IRole | undefined> {
+        const role = await roleRepository.getRole(user);
+        return role;
+    }
 }
 
 export const roleService = new RoleService();

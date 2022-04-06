@@ -3,7 +3,7 @@ import { UpdateResult } from 'typeorm';
 
 import { config } from '../../configs';
 import {
-    IRefreshToken, ITokenPair, IRole,
+    ITokensRepository, ITokenPair, IRole,
 } from '../../interfaces';
 import { tokensRepository } from '../../repositories';
 
@@ -26,24 +26,33 @@ class TokenService {
         };
     }
 
-    public async saveToken(refreshToken:IRefreshToken):Promise<IRefreshToken | UpdateResult> {
-        const { userId } = refreshToken;
-        const token = await tokensRepository.findToken(userId);
-        if (token) {
-            token.refreshToken = refreshToken.refreshToken;
-            return tokensRepository.updateToken(token);
+    public async saveToken(tokensPair:ITokensRepository):Promise<ITokensRepository | UpdateResult> {
+        const { userId } = tokensPair;
+        const tokensFromDB = await tokensRepository.findToken(userId);
+        if (tokensFromDB) {
+            tokensFromDB.refreshToken = tokensPair.refreshToken;
+            tokensFromDB.accessToken = tokensPair.accessToken;
+            return tokensRepository.updateToken(tokensFromDB);
         }
-        return tokensRepository.saveToken(refreshToken);
+        return tokensRepository.saveToken(tokensPair);
     }
 
     public async deleteTokenPair(userId:number) {
         await tokensRepository.deleteUserTokenPair({ userId });
     }
 
-    public async verifyTokenRefresh(token: string): Promise<IRole> {
-        const secretWord = config.SECRET_REFRESH_KEY;
+    public async verifyTokens(token: string, type = 'access'): Promise<IRole> {
+        let secretWord = config.SECRET_ACCESS_KEY;
+
+        if (type === 'refresh') {
+            secretWord = config.SECRET_REFRESH_KEY;
+        }
 
         return jwt.verify(token, secretWord as string) as IRole;
+    }
+
+    public async findToken(userId: number):Promise<ITokensRepository | undefined> {
+        return tokensRepository.findToken(userId);
     }
 }
 

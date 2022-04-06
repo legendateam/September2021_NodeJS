@@ -10,11 +10,16 @@ class AuthService {
         return this._getToken(role);
     }
 
+    public async newTokens(user:IUsers): Promise<IRoleToken> {
+        const role = await roleService.getRole(user);
+        return this._getToken(role as IRole);
+    }
+
     private async _getToken(userRole:IRole):Promise<IRoleToken> {
         const { role, userId } = userRole;
         const tokensPair = await tokenService.generateTokenPair({ userId, role });
-        const { refreshToken } = tokensPair;
-        await tokenService.saveToken({ userId, refreshToken });
+        const { accessToken, refreshToken } = tokensPair;
+        await tokenService.saveToken({ userId, accessToken, refreshToken });
 
         return {
             ...tokensPair,

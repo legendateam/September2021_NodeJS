@@ -2,17 +2,11 @@ import { Response, NextFunction } from 'express';
 
 import { tokenService } from '../services';
 import { userRepository } from '../repositories';
-import { IRequestUser } from '../interfaces';
+import { IRequestAuth } from '../interfaces';
 
-const authLogoutMiddleware = async (req: IRequestUser, res: Response, next: NextFunction) => {
+const authLogoutMiddleware = async (req: IRequestAuth, res: Response, next: NextFunction) => {
     try {
-        const authorization = req.get('Authorization');
-
-        if (!authorization) {
-            throw new Error('No token');
-        }
-
-        const { userId } = await tokenService.verifyTokenRefresh(authorization);
+        const { userId } = await tokenService.verifyTokens(req.authorization as string);
         const userFromToken = await userRepository.getOne(userId);
 
         if (!userFromToken) {

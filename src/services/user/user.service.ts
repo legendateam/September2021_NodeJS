@@ -34,6 +34,10 @@ class UserService {
         return remove;
     }
 
+    public async checkPassword(password: string, hashPassword: string): Promise<boolean> {
+        return bcrypt.compare(password, hashPassword);
+    }
+
     private async _hashPassword(password:string):Promise<string> {
         return bcrypt.hash(password, Number(config.USER_SALT_ROUNDS));
     }

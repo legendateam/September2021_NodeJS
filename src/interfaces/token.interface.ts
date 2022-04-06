@@ -3,6 +3,7 @@ import { IUsers } from './users.interface';
 export interface IToken {
     id:number,
     refreshToken: string,
+    accessToken: string,
     userId: number,
     user? : IUsers
 }
@@ -12,7 +13,8 @@ export interface ITokenPair {
     refreshToken: string
 }
 
-export interface IRefreshToken{
+export interface ITokensRepository {
+    accessToken: string,
     refreshToken: string,
     userId: number
 }

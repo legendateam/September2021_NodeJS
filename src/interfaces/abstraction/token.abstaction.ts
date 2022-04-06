@@ -1,6 +1,10 @@
-import { IRefreshToken } from '../token.interface';
+import { UpdateResult } from 'typeorm';
+
+import { IToken, ITokensRepository } from '../token.interface';
 
 export interface ITokenAbstaction {
-    saveToken(refreshToken:IRefreshToken):Promise<IRefreshToken>,
-    findToken(userId:number):Promise<IRefreshToken | undefined>
+    saveToken(refreshToken:ITokensRepository):Promise<ITokensRepository>,
+    updateToken(tokensPair: ITokensRepository):Promise<UpdateResult>,
+    findToken(userId:number):Promise<ITokensRepository | undefined>,
+    deleteUserTokenPair(userId: Partial<IToken>): Promise<void>
 }

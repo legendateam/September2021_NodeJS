@@ -23,7 +23,7 @@ class UserRepository extends Repository<UsersEntity> implements IUserAbstraction
         return user;
     }
 
-    public async getOneByEmailOrByPhone(email:string, phone:string):Promise<IUsers | undefined> {
+    public async getOneByEmailOrByPhone(email:string, phone?:string):Promise<IUsers | undefined> {
         const user = await getManager()
             .getRepository(UsersEntity)
             .createQueryBuilder('user')

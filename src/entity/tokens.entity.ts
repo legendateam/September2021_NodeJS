@@ -21,6 +21,13 @@ export class TokensEntity extends CommonFieldsEntity implements IToken {
         refreshToken: string;
 
     @Column({
+        type: 'varchar',
+        width: 250,
+        nullable: false,
+    })
+        accessToken: string;
+
+    @Column({
         type: 'int',
         nullable: false,
     })

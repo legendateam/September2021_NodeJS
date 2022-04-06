@@ -3,35 +3,36 @@ import {
 } from 'typeorm';
 
 import { TokensEntity } from '../../entity';
-import { IRefreshToken, IToken, ITokenAbstaction } from '../../interfaces';
+import { ITokensRepository, IToken, ITokenAbstaction } from '../../interfaces';
 
 @EntityRepository(TokensEntity)
 class TokensRepository extends Repository<TokensEntity> implements ITokenAbstaction {
-    public async saveToken(refreshToken:IRefreshToken):Promise<IRefreshToken> {
+    public async saveToken(tokensPair:ITokensRepository):Promise<ITokensRepository> {
         const token = await getManager()
             .getRepository(TokensEntity)
-            .save(refreshToken);
+            .save(tokensPair);
         return token;
     }
 
-    public async updateToken(tokenRefresh: IRefreshToken):Promise<UpdateResult> {
-        const { userId, refreshToken } = tokenRefresh;
+    public async updateToken(tokensPair: ITokensRepository):Promise<UpdateResult> {
+        const { userId, accessToken, refreshToken } = tokensPair;
         const token = await getManager()
             .getRepository(TokensEntity)
             .update({ userId }, {
+                accessToken,
                 refreshToken,
             });
         return token;
     }
 
-    public async findToken(userId:number):Promise<IRefreshToken | undefined> {
+    public async findToken(userId:number):Promise<ITokensRepository | undefined> {
         const token = await getManager()
             .getRepository(TokensEntity)
             .findOne({ userId });
         return token;
     }
 
-    public async deleteUserTokenPair(userId: Partial<IToken>) {
+    public async deleteUserTokenPair(userId: Partial<IToken>): Promise<void> {
         await getManager().getRepository(TokensEntity).delete(userId);
     }
 }
