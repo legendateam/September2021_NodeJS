@@ -1,7 +1,7 @@
-import { IUsers } from '../users.interface';
+import { IUser } from '../user.interface';
 import { IRole } from '../role.interface';
 
 export interface IRoleAbstraction {
-    createRole({ id }:IUsers):Promise<IRole>,
-    getRole({ id }:IUsers):Promise<IRole | undefined>
+    createRole({ id }:IUser):Promise<IRole>,
+    getRole({ id }:IUser):Promise<IRole | undefined>
 }

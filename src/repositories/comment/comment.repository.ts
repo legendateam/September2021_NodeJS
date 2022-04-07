@@ -3,11 +3,11 @@ import {
 } from 'typeorm';
 
 import { CommentsEntity } from '../../entity';
-import { IComments, ICountAction, ICommentAbstraction } from '../../interfaces';
+import { IComment, ICountAction, ICommentAbstraction } from '../../interfaces';
 
 @EntityRepository(CommentsEntity)
 class CommentRepository extends Repository<CommentsEntity> implements ICommentAbstraction {
-    public async getAll():Promise<IComments[]> {
+    public async getAll():Promise<IComment[]> {
         const comments = await getManager()
             .getRepository(CommentsEntity)
             .createQueryBuilder()
@@ -15,7 +15,7 @@ class CommentRepository extends Repository<CommentsEntity> implements ICommentAb
         return comments;
     }
 
-    public async getOne(commentId:number):Promise<IComments | undefined> {
+    public async getOne(commentId:number):Promise<IComment | undefined> {
         const comment = await getManager()
             .getRepository(CommentsEntity)
             .createQueryBuilder('comment')
@@ -24,14 +24,14 @@ class CommentRepository extends Repository<CommentsEntity> implements ICommentAb
         return comment;
     }
 
-    public async addOne(comment:IComments):Promise<IComments> {
+    public async addOne(comment:IComment):Promise<IComment> {
         const newComment = await getManager()
             .getRepository(CommentsEntity)
             .save(comment);
         return newComment;
     }
 
-    public async getUserComment(authorId:number):Promise<IComments[]> {
+    public async getUserComment(authorId:number):Promise<IComment[]> {
         const comments = await getManager()
             .getRepository(CommentsEntity)
             .createQueryBuilder('comments')

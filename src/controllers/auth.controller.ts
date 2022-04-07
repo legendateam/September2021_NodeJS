@@ -1,14 +1,14 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 
 import { authService, tokenService } from '../services';
-import { COOKIE } from '../constans';
+import { COOKIE } from '../constants';
 import {
-    IRequestAuth, IRequestUser, IRoleToken, IUsers,
+    IRequestAuth, IRequestUser, IRoleToken, IUser,
 } from '../interfaces';
 
 class AuthController {
-    public async registration(req: Request, res: Response):Promise<Response<IRoleToken>> {
-        const data = await authService.registration(req.body);
+    public async registration(req: IRequestUser, res: Response):Promise<Response<IRoleToken>> {
+        const data = await authService.registration(req.user as IUser);
         res.cookie(
             COOKIE.nameRefreshToken,
             data.refreshToken,
@@ -23,7 +23,7 @@ class AuthController {
     }
 
     public async logout(req: IRequestUser, res: Response): Promise<Response<string>> {
-        const { id } = req.user as IUsers;
+        const { id } = req.user as IUser;
 
         res.clearCookie(COOKIE.nameAccessToken);
         res.clearCookie(COOKIE.nameRefreshToken);
@@ -33,7 +33,7 @@ class AuthController {
     }
 
     public async login(req: IRequestUser, res: Response):Promise<Response<IRoleToken>> {
-        const loginData = await authService.newTokens(req.user as IUsers);
+        const loginData = await authService.newTokens(req.user as IUser);
         res.cookie(
             COOKIE.nameAccessToken,
             loginData.accessToken,
@@ -47,18 +47,18 @@ class AuthController {
         return res.json(loginData);
     }
 
-    public async refresh(req: IRequestAuth, res: Response) {
-        const refresh = await authService.newTokens(req.user as IUsers);
+    public async refresh(req: IRequestAuth, res: Response):Promise<Response<IRoleToken>> {
+        const refresh = await authService.newTokens(req.user as IUser);
         res.clearCookie(COOKIE.nameAccessToken);
         res.clearCookie(COOKIE.nameAccessToken);
         res.cookie(
-            COOKIE.nameRefreshToken,
-            'a',
+            COOKIE.nameAccessToken,
+            refresh.accessToken,
             { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
         );
         res.cookie(
             COOKIE.nameRefreshToken,
-            'a',
+            refresh.refreshToken,
             { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
         );
         return res.json(refresh);

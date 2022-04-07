@@ -1,11 +1,11 @@
 import { UpdateResult } from 'typeorm';
-import { IUpdateFields, IUsers } from '../users.interface';
+import { IUpdateFields, IUser } from '../user.interface';
 
 export interface IUserAbstraction {
-    getAll():Promise<IUsers[]>,
-    getOne(id:Number): Promise<IUsers | undefined>,
-    getOneByEmailOrByPhone(email:string, phone:string):Promise<IUsers | undefined>,
-    addOne(user:IUsers):Promise<IUsers>,
+    getAll():Promise<IUser[]>,
+    getOne(id:Number): Promise<IUser | undefined>,
+    getOneByEmailOrByPhone(email:string, phone:string):Promise<IUser | undefined>,
+    addOne(user:IUser):Promise<IUser>,
     updateFields(id:number, { password, phone, email }:IUpdateFields)
         :Promise<UpdateResult>,
     softDelete(id:number):Promise<UpdateResult>

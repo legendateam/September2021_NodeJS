@@ -1,25 +1,25 @@
 import { UpdateResult } from 'typeorm';
 
 import { commentRepository } from '../../repositories';
-import { IComments, ICountAction } from '../../interfaces';
+import { IComment, ICountAction } from '../../interfaces';
 
 class CommentService {
-    public async getAll():Promise<IComments[]> {
+    public async getAll():Promise<IComment[]> {
         const comments = await commentRepository.getAll();
         return comments;
     }
 
-    public async getOneById(id:number):Promise<IComments | undefined> {
+    public async getOneById(id:number):Promise<IComment | undefined> {
         const comment = await commentRepository.getOne(id);
         return comment;
     }
 
-    public async addOne(comment:IComments):Promise<IComments> {
+    public async addOne(comment:IComment):Promise<IComment> {
         const newComment = await commentRepository.addOne(comment);
         return newComment;
     }
 
-    public async getUserComment(authorId:number):Promise<IComments[]> {
+    public async getUserComment(authorId:number):Promise<IComment[]> {
         const comments = await commentRepository.getUserComment(authorId);
         return comments;
     }

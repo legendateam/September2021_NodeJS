@@ -1,11 +1,11 @@
 import { EntityRepository, getManager, Repository } from 'typeorm';
 
 import { ActionsEntity } from '../../entity';
-import { IActions, IActionAbstraction } from '../../interfaces';
+import { IAction, IActionAbstraction } from '../../interfaces';
 
 @EntityRepository(ActionsEntity)
 class ActionRepository extends Repository<ActionsEntity> implements IActionAbstraction {
-    public async getAll():Promise<IActions[]> {
+    public async getAll():Promise<IAction[]> {
         const actions = getManager()
             .getRepository(ActionsEntity)
             .createQueryBuilder('actions')
@@ -13,14 +13,14 @@ class ActionRepository extends Repository<ActionsEntity> implements IActionAbstr
         return actions;
     }
 
-    public async addOne(action:IActions):Promise<IActions> {
+    public async addOne(action:IAction):Promise<IAction> {
         const newAction = getManager()
             .getRepository(ActionsEntity)
             .save(action);
         return newAction;
     }
 
-    public async getComments(commentId:number):Promise<IActions[]> {
+    public async getComments(commentId:number):Promise<IAction[]> {
         const actions = await getManager()
             .getRepository(ActionsEntity)
             .createQueryBuilder('actions')
@@ -30,7 +30,7 @@ class ActionRepository extends Repository<ActionsEntity> implements IActionAbstr
         return actions;
     }
 
-    public async checkUniqueUser(id:number, idComment:number):Promise<IActions | undefined> {
+    public async checkUniqueUser(id:number, idComment:number):Promise<IAction | undefined> {
         const results = getManager()
             .getRepository(ActionsEntity)
             .createQueryBuilder('action')

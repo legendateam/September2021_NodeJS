@@ -3,7 +3,7 @@ import {
 } from 'typeorm';
 
 import { CommonFieldsEntity } from './commonFields.entity';
-import { IComments } from '../interfaces';
+import { IComment } from '../interfaces';
 import { UsersEntity } from './users.entity';
 import { PostsEntity } from './posts.entity';
 import { ActionsEntity } from './actions.entity';
@@ -11,7 +11,7 @@ import { config } from '../configs';
 
 @Entity('Comments', { database: config.MYSQL_DATABASE_NAME })
 
-export class CommentsEntity extends CommonFieldsEntity implements IComments {
+export class CommentsEntity extends CommonFieldsEntity implements IComment {
     @PrimaryGeneratedColumn()
         id: number;
 

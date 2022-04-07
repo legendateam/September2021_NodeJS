@@ -3,10 +3,10 @@ import {
 } from 'typeorm';
 
 import { TokensEntity } from '../../entity';
-import { ITokensRepository, IToken, ITokenAbstaction } from '../../interfaces';
+import { ITokensRepository, IToken, ITokenAbstraction } from '../../interfaces';
 
 @EntityRepository(TokensEntity)
-class TokensRepository extends Repository<TokensEntity> implements ITokenAbstaction {
+class TokensRepository extends Repository<TokensEntity> implements ITokenAbstraction {
     public async saveToken(tokensPair:ITokensRepository):Promise<ITokensRepository> {
         const token = await getManager()
             .getRepository(TokensEntity)

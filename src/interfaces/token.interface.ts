@@ -1,11 +1,11 @@
-import { IUsers } from './users.interface';
+import { IUser } from './user.interface';
 
 export interface IToken {
     id:number,
     refreshToken: string,
     accessToken: string,
     userId: number,
-    user? : IUsers
+    user? : IUser
 }
 
 export interface ITokenPair {

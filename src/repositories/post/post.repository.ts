@@ -3,11 +3,11 @@ import {
 } from 'typeorm';
 
 import { PostsEntity } from '../../entity';
-import { IPosts, IPostAbstraction } from '../../interfaces';
+import { IPost, IPostAbstraction } from '../../interfaces';
 
 @EntityRepository(PostsEntity)
 class PostRepository extends Repository<PostsEntity> implements IPostAbstraction {
-    getAll():Promise<IPosts[]> {
+    getAll():Promise<IPost[]> {
         const posts = getManager()
             .getRepository(PostsEntity)
             .createQueryBuilder('posts')
@@ -15,7 +15,7 @@ class PostRepository extends Repository<PostsEntity> implements IPostAbstraction
         return posts;
     }
 
-    getOneById(id:number):Promise<IPosts | undefined> {
+    getOneById(id:number):Promise<IPost | undefined> {
         const post = getManager()
             .getRepository(PostsEntity)
             .createQueryBuilder('post')
@@ -24,14 +24,14 @@ class PostRepository extends Repository<PostsEntity> implements IPostAbstraction
         return post;
     }
 
-    addOne(post:IPosts):Promise<IPosts> {
+    addOne(post:IPost):Promise<IPost> {
         const newPost = getManager()
             .getRepository(PostsEntity)
             .save(post);
         return newPost;
     }
 
-    getUserPosts(userId:number):Promise<IPosts[]> {
+    getUserPosts(userId:number):Promise<IPost[]> {
         const posts = getManager()
             .getRepository(PostsEntity)
             .createQueryBuilder('posts')

@@ -1,7 +1,7 @@
 import { Request } from 'express';
 
-import { IUsers } from '../users.interface';
+import { IUser } from '../user.interface';
 
 export interface IRequestUser extends Request {
-    user?: IUsers;
+    user?: IUser;
 }

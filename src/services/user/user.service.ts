@@ -2,21 +2,21 @@ import { UpdateResult } from 'typeorm';
 import bcrypt from 'bcrypt';
 
 import { userRepository } from '../../repositories';
-import { IUpdateFields, IUsers } from '../../interfaces';
+import { IUpdateFields, IUser } from '../../interfaces';
 import { config } from '../../configs';
 
 class UserService {
-    public async getAll():Promise<IUsers[]> {
+    public async getAll():Promise<IUser[]> {
         const users = await userRepository.getAll();
         return users;
     }
 
-    public async getOne(id:Number): Promise<IUsers | undefined> {
+    public async getOne(id:Number): Promise<IUser | undefined> {
         const user = await userRepository.getOne(id);
         return user;
     }
 
-    public async addOne(user:IUsers) {
+    public async addOne(user:IUser) {
         const { password } = user;
         const passwordHashed = await this._hashPassword(password);
         const data = { ...user, password: passwordHashed };
@@ -25,7 +25,10 @@ class UserService {
     }
 
     public async updateFields(id:number, newValueFields: IUpdateFields):Promise<UpdateResult> {
-        const update = await userRepository.updateFields(id, newValueFields);
+        const { password } = newValueFields;
+        const hashPassword = await this._hashPassword(password);
+        const data = { ...newValueFields, password: hashPassword };
+        const update = await userRepository.updateFields(id, data);
         return update;
     }
 

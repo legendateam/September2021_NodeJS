@@ -2,27 +2,27 @@ import { Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
 import { commentService } from '../services';
-import { IComments } from '../interfaces';
+import { IComment, IRequestComment } from '../interfaces';
 
 class CommentsController {
-    public async getAll(_:any, res:Response):Promise<Response<IComments[]>> {
+    public async getAll(_: Request, res:Response):Promise<Response<IComment[]>> {
         const comments = await commentService.getAll();
         return res.json(comments);
     }
 
-    public async getOne(req:Request, res:Response):Promise<Response<IComments | undefined>> {
+    public async getOne(req:Request, res:Response):Promise<Response<IComment | undefined>> {
         const { commentId } = req.params;
         const id = Number(commentId);
         const comment = await commentService.getOneById(id);
         return res.json(comment);
     }
 
-    public async addOne(req:Request, res:Response):Promise<Response<IComments>> {
-        const comment = await commentService.addOne(req.body);
+    public async addOne(req:IRequestComment, res:Response):Promise<Response<IComment>> {
+        const comment = await commentService.addOne(req.comment as IComment);
         return res.json(comment);
     }
 
-    public async getUserComments(req:Request, res:Response):Promise<Response<IComments[]>> {
+    public async getUserComments(req:Request, res:Response):Promise<Response<IComment[]>> {
         const { userId } = req.params;
         const authorId = Number(userId);
         const userComments = await commentService.getUserComment(authorId);

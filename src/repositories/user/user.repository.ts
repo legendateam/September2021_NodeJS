@@ -3,18 +3,18 @@ import {
 } from 'typeorm';
 
 import { UsersEntity } from '../../entity';
-import { IUpdateFields, IUsers, IUserAbstraction } from '../../interfaces';
+import { IUpdateFields, IUser, IUserAbstraction } from '../../interfaces';
 
 @EntityRepository(UsersEntity)
 class UserRepository extends Repository<UsersEntity> implements IUserAbstraction {
-    public async getAll():Promise<IUsers[]> {
+    public async getAll():Promise<IUser[]> {
         const users = await getManager()
             .getRepository(UsersEntity)
             .find();
         return users;
     }
 
-    public async getOne(id:Number): Promise<IUsers | undefined> {
+    public async getOne(id:Number): Promise<IUser | undefined> {
         const user = await getManager()
             .getRepository(UsersEntity)
             .createQueryBuilder('user')
@@ -23,7 +23,7 @@ class UserRepository extends Repository<UsersEntity> implements IUserAbstraction
         return user;
     }
 
-    public async getOneByEmailOrByPhone(email:string, phone?:string):Promise<IUsers | undefined> {
+    public async getOneByEmailOrByPhone(email:string, phone?:string):Promise<IUser | undefined> {
         const user = await getManager()
             .getRepository(UsersEntity)
             .createQueryBuilder('user')
@@ -33,7 +33,7 @@ class UserRepository extends Repository<UsersEntity> implements IUserAbstraction
         return user;
     }
 
-    public async addOne(user:IUsers):Promise<IUsers> {
+    public async addOne(user:IUser):Promise<IUser> {
         const newUsers = await getManager()
             .getRepository(UsersEntity)
             .save(user);

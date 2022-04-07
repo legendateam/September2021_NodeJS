@@ -1,25 +1,25 @@
 import { UpdateResult } from 'typeorm';
 
-import { IPosts } from '../../interfaces';
+import { IPost } from '../../interfaces';
 import { postRepository } from '../../repositories';
 
 class PostService {
-    public async getAll():Promise<IPosts[]> {
+    public async getAll():Promise<IPost[]> {
         const posts = await postRepository.getAll();
         return posts;
     }
 
-    public async getOne(id:number):Promise<IPosts | undefined> {
+    public async getOne(id:number):Promise<IPost | undefined> {
         const post = await postRepository.getOneById(id);
         return post;
     }
 
-    public async addOne(post:IPosts):Promise<IPosts> {
+    public async addOne(post:IPost):Promise<IPost> {
         const newPost = await postRepository.addOne(post);
         return newPost;
     }
 
-    public async getUserPosts(id:number):Promise<IPosts[]> {
+    public async getUserPosts(id:number):Promise<IPost[]> {
         const posts = await postRepository.getUserPosts(id);
         return posts;
     }

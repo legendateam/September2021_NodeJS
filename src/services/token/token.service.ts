@@ -2,10 +2,9 @@ import jwt from 'jsonwebtoken';
 import { UpdateResult } from 'typeorm';
 
 import { config } from '../../configs';
-import {
-    ITokensRepository, ITokenPair, IRole,
-} from '../../interfaces';
+import { IRole, ITokenPair, ITokensRepository } from '../../interfaces';
 import { tokensRepository } from '../../repositories';
+import { JwtEnum } from '../../enums';
 
 class TokenService {
     public async generateTokenPair(payload:IRole):Promise<ITokenPair> {
@@ -41,10 +40,10 @@ class TokenService {
         await tokensRepository.deleteUserTokenPair({ userId });
     }
 
-    public async verifyTokens(token: string, type = 'access'): Promise<IRole> {
+    public async verifyTokens(token: string, type = JwtEnum.access): Promise<IRole> {
         let secretWord = config.SECRET_ACCESS_KEY;
 
-        if (type === 'refresh') {
+        if (type === JwtEnum.refresh) {
             secretWord = config.SECRET_REFRESH_KEY;
         }
 

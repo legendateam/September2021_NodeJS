@@ -2,27 +2,27 @@ import { Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
 import { postService } from '../services';
-import { IPosts } from '../interfaces';
+import { IPost, IRequestPost } from '../interfaces';
 
 class PostsController {
-    public async getAll(_:any, res:Response):Promise<Response<IPosts[]>> {
+    public async getAll(_: Request, res:Response):Promise<Response<IPost[]>> {
         const posts = await postService.getAll();
         return res.json(posts);
     }
 
-    public async getOne(req:Request, res:Response):Promise<Response<IPosts>> {
+    public async getOne(req:Request, res:Response):Promise<Response<IPost>> {
         const { postId } = req.params;
         const id = Number(postId);
         const post = await postService.getOne(id);
         return res.json(post);
     }
 
-    public async addOne(req:Request, res:Response):Promise<Response<IPosts>> {
-        const post = await postService.addOne(req.body);
+    public async addOne(req:IRequestPost, res:Response):Promise<Response<IPost>> {
+        const post = await postService.addOne(req.post as IPost);
         return res.json(post);
     }
 
-    public async getUserPosts(req:Request, res:Response):Promise<Response<IPosts[]>> {
+    public async getUserPosts(req:Request, res:Response):Promise<Response<IPost[]>> {
         const { userId } = req.params;
         const id = Number(userId);
         const posts = await postService.getUserPosts(id);

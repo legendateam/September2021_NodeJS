@@ -3,14 +3,14 @@ import {
 } from 'typeorm';
 
 import { CommonFieldsEntity } from './commonFields.entity';
-import { IPosts } from '../interfaces';
+import { IPost } from '../interfaces';
 import { UsersEntity } from './users.entity';
 import { CommentsEntity } from './comments.entity';
 import { config } from '../configs';
 
 @Entity('Posts', { database: config.MYSQL_DATABASE_NAME })
 
-export class PostsEntity extends CommonFieldsEntity implements IPosts {
+export class PostsEntity extends CommonFieldsEntity implements IPost {
     @PrimaryGeneratedColumn()
         id: number;
 

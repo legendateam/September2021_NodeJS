@@ -1,11 +1,11 @@
 import { UpdateResult } from 'typeorm';
-import { IPosts } from '../posts.interface';
+import { IPost } from '../post.interface';
 
 export interface IPostAbstraction {
-    getAll():Promise<IPosts[]>,
-    getOneById(id:number):Promise<IPosts | undefined>,
-    addOne(post:IPosts):Promise<IPosts>,
-    getUserPosts(userId:number):Promise<IPosts[]>,
+    getAll():Promise<IPost[]>,
+    getOneById(id:number):Promise<IPost | undefined>,
+    addOne(post:IPost):Promise<IPost>,
+    getUserPosts(userId:number):Promise<IPost[]>,
     updateFieldValue(id:number, text:string):Promise<UpdateResult>,
     removeOne(id:number):Promise<UpdateResult>
 }
