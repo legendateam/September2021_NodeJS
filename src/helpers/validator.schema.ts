@@ -1,10 +1,10 @@
 import Joi from 'joi';
 
-import { regexConstant } from '../constants';
+import { commonValidator } from './commonValidator.helpers';
 
 class ValidatorSchema {
-    static authSchema: Joi.ObjectSchema = Joi.object({
-        firstName: Joi.string().regex(regexConstant.NAME).min(2).max(20)
+    public static authSchema: Joi.ObjectSchema = Joi.object({
+        firstName: commonValidator.name.min(2).max(20)
             .required()
             .messages({
                 'string.base': 'First Name should be a type of text',
@@ -14,7 +14,7 @@ class ValidatorSchema {
                 'string.max': 'First Name should have a maximum length of {#limit}',
                 'any.required': 'First Name is a required field',
             }),
-        lastName: Joi.string().regex(regexConstant.NAME).min(3).max(35)
+        lastName: commonValidator.name.min(3).max(35)
             .required()
             .messages({
                 'string.base': 'Last Name should be a type of text',
@@ -32,7 +32,7 @@ class ValidatorSchema {
                 'number.max': 'age should be up {#limit}',
                 'any.required': 'age is a required field',
             }),
-        phone: Joi.string().regex(regexConstant.PHONE).min(11).max(20)
+        phone: commonValidator.phone.min(11).max(20)
             .required()
             .messages({
                 'string.base': 'phone should be a type of text',
@@ -42,7 +42,7 @@ class ValidatorSchema {
                 'string.max': 'the length of the phone number can be to {#limit} characters',
                 'any.required': 'phone is a required field',
             }),
-        email: Joi.string().email().lowercase().required()
+        email: commonValidator.email.required()
             .messages({
                 'string.base': 'email should be a type of text',
                 'string.empty': 'email cannot be an empty field',
@@ -51,7 +51,7 @@ class ValidatorSchema {
                 'string.max': 'email Name should have a maximum length of {#limit}',
                 'any.required': 'email is a required field',
             }),
-        password: Joi.string().regex(regexConstant.PASSWORD).min(8).max(40)
+        password: commonValidator.password.min(8).max(40)
             .alphanum()
             .required()
             .messages({
@@ -64,8 +64,8 @@ class ValidatorSchema {
             }),
     });
 
-    static authLoginSchema: Joi.ObjectSchema = Joi.object({
-        email: Joi.string().email().lowercase().required()
+    public static authLoginSchema: Joi.ObjectSchema = Joi.object({
+        email: commonValidator.email.required()
             .messages({
                 'string.base': 'email should be a type of text',
                 'string.empty': 'email cannot be an empty field',
@@ -74,7 +74,7 @@ class ValidatorSchema {
                 'string.max': 'email Name should have a maximum length of {#limit}',
                 'any.required': 'email is a required field',
             }),
-        password: Joi.string().regex(regexConstant.PASSWORD).min(8).max(40)
+        password: commonValidator.password.min(8).max(40)
             .alphanum()
             .required()
             .messages({
@@ -87,11 +87,11 @@ class ValidatorSchema {
             }),
     });
 
-    static authTokenSchema: Joi.ObjectSchema = Joi.object({
+    public static authTokenSchema: Joi.ObjectSchema = Joi.object({
         authorization: Joi.string().min(3).max(200).required(),
     });
 
-    static actionSchema: Joi.ObjectSchema = Joi.object({
+    public static actionSchema: Joi.ObjectSchema = Joi.object({
         commentId: Joi.number().required()
             .messages({
                 'number.base': 'commentId should be a type of number',
@@ -122,7 +122,7 @@ class ValidatorSchema {
             }),
     });
 
-    static commentSchema: Joi.ObjectSchema = Joi.object({
+    public static commentSchema: Joi.ObjectSchema = Joi.object({
         authorId: Joi.number().min(0).required()
             .messages({
                 'number.base': 'authorId should be a type of number',
@@ -147,7 +147,7 @@ class ValidatorSchema {
             }),
     });
 
-    static postSchema: Joi.ObjectSchema = Joi.object({
+    public static postSchema: Joi.ObjectSchema = Joi.object({
         title: Joi.string().min(1).max(250).required()
             .messages({
                 'string.base': 'title should be a type of text',
@@ -173,8 +173,8 @@ class ValidatorSchema {
             }),
     });
 
-    static userPatchSchema: Joi.ObjectSchema = Joi.object({
-        phone: Joi.string().regex(regexConstant.PHONE).min(11).max(20)
+    public static userPatchSchema: Joi.ObjectSchema = Joi.object({
+        phone: commonValidator.phone.min(11).max(20)
             .required()
             .messages({
                 'string.base': 'phone should be a type of text',
@@ -184,7 +184,7 @@ class ValidatorSchema {
                 'string.max': 'the length of the phone number can be to {#limit} characters',
                 'any.required': 'phone is a required field',
             }),
-        email: Joi.string().email().lowercase().required()
+        email: commonValidator.email.required()
             .messages({
                 'string.base': 'email should be a type of text',
                 'string.empty': 'email cannot be an empty field',
@@ -193,7 +193,7 @@ class ValidatorSchema {
                 'string.max': 'email Name should have a maximum length of {#limit}',
                 'any.required': 'email is a required field',
             }),
-        password: Joi.string().regex(regexConstant.PASSWORD).min(8).max(40)
+        password: commonValidator.password.min(8).max(40)
             .alphanum()
             .required()
             .messages({
