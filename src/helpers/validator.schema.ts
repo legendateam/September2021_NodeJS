@@ -1,8 +1,10 @@
 import Joi from 'joi';
 
+import { regexConstant } from '../constants';
+
 class ValidatorSchema {
     static authSchema: Joi.ObjectSchema = Joi.object({
-        firstName: Joi.string().regex(/^[A-Z][a-z]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\.?)( [IVXLCDM]+)?$/).min(2).max(20)
+        firstName: Joi.string().regex(regexConstant.NAME).min(2).max(20)
             .required()
             .messages({
                 'string.base': 'First Name should be a type of text',
@@ -12,7 +14,7 @@ class ValidatorSchema {
                 'string.max': 'First Name should have a maximum length of {#limit}',
                 'any.required': 'First Name is a required field',
             }),
-        lastName: Joi.string().regex(/^[A-Z][a-z]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\.?)( [IVXLCDM]+)?$/).min(3).max(35)
+        lastName: Joi.string().regex(regexConstant.NAME).min(3).max(35)
             .required()
             .messages({
                 'string.base': 'Last Name should be a type of text',
@@ -30,7 +32,7 @@ class ValidatorSchema {
                 'number.max': 'age should be up {#limit}',
                 'any.required': 'age is a required field',
             }),
-        phone: Joi.string().regex(/^(?!.* )([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/).min(11).max(20)
+        phone: Joi.string().regex(regexConstant.PHONE).min(11).max(20)
             .required()
             .messages({
                 'string.base': 'phone should be a type of text',
@@ -49,7 +51,7 @@ class ValidatorSchema {
                 'string.max': 'email Name should have a maximum length of {#limit}',
                 'any.required': 'email is a required field',
             }),
-        password: Joi.string().regex(/^(?!.* )(?=.*\d)(?=.*[A-Z])/).min(8).max(40)
+        password: Joi.string().regex(regexConstant.PASSWORD).min(8).max(40)
             .alphanum()
             .required()
             .messages({
@@ -72,7 +74,7 @@ class ValidatorSchema {
                 'string.max': 'email Name should have a maximum length of {#limit}',
                 'any.required': 'email is a required field',
             }),
-        password: Joi.string().regex(/^(?!.* )(?=.*\d)(?=.*[A-Z])/).min(8).max(40)
+        password: Joi.string().regex(regexConstant.PASSWORD).min(8).max(40)
             .alphanum()
             .required()
             .messages({
@@ -172,7 +174,7 @@ class ValidatorSchema {
     });
 
     static userPatchSchema: Joi.ObjectSchema = Joi.object({
-        phone: Joi.string().regex(/^(?!.* )([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/).min(11).max(20)
+        phone: Joi.string().regex(regexConstant.PHONE).min(11).max(20)
             .required()
             .messages({
                 'string.base': 'phone should be a type of text',
@@ -191,7 +193,7 @@ class ValidatorSchema {
                 'string.max': 'email Name should have a maximum length of {#limit}',
                 'any.required': 'email is a required field',
             }),
-        password: Joi.string().regex(/^(?!.* )(?=.*\d)(?=.*[A-Z])/).min(8).max(40)
+        password: Joi.string().regex(regexConstant.PASSWORD).min(8).max(40)
             .alphanum()
             .required()
             .messages({
