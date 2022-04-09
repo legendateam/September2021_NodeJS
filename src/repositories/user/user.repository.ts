@@ -14,7 +14,7 @@ class UserRepository extends Repository<UsersEntity> implements IUserAbstraction
         return users;
     }
 
-    public async getOne(id:Number): Promise<IUser | undefined> {
+    public async getOne(id:number): Promise<IUser | undefined> {
         const user = await getManager()
             .getRepository(UsersEntity)
             .createQueryBuilder('user')

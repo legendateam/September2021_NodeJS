@@ -6,7 +6,7 @@ import { IAction, IActionAbstraction } from '../../interfaces';
 @EntityRepository(ActionsEntity)
 class ActionRepository extends Repository<ActionsEntity> implements IActionAbstraction {
     public async getAll():Promise<IAction[]> {
-        const actions = getManager()
+        const actions = await getManager()
             .getRepository(ActionsEntity)
             .createQueryBuilder('actions')
             .getMany();
@@ -14,7 +14,7 @@ class ActionRepository extends Repository<ActionsEntity> implements IActionAbstr
     }
 
     public async addOne(action:IAction):Promise<IAction> {
-        const newAction = getManager()
+        const newAction = await getManager()
             .getRepository(ActionsEntity)
             .save(action);
         return newAction;
@@ -31,7 +31,7 @@ class ActionRepository extends Repository<ActionsEntity> implements IActionAbstr
     }
 
     public async checkUniqueUser(id:number, idComment:number):Promise<IAction | undefined> {
-        const results = getManager()
+        const results = await getManager()
             .getRepository(ActionsEntity)
             .createQueryBuilder('action')
             .where('action.userId = :id', { id })

@@ -7,16 +7,16 @@ import { IPost, IPostAbstraction } from '../../interfaces';
 
 @EntityRepository(PostsEntity)
 class PostRepository extends Repository<PostsEntity> implements IPostAbstraction {
-    getAll():Promise<IPost[]> {
-        const posts = getManager()
+    public async getAll():Promise<IPost[]> {
+        const posts = await getManager()
             .getRepository(PostsEntity)
             .createQueryBuilder('posts')
             .getMany();
         return posts;
     }
 
-    getOneById(id:number):Promise<IPost | undefined> {
-        const post = getManager()
+    public async getOneById(id:number):Promise<IPost | undefined> {
+        const post = await getManager()
             .getRepository(PostsEntity)
             .createQueryBuilder('post')
             .where('post.id = :id', { id })
@@ -24,15 +24,15 @@ class PostRepository extends Repository<PostsEntity> implements IPostAbstraction
         return post;
     }
 
-    addOne(post:IPost):Promise<IPost> {
-        const newPost = getManager()
+    public async addOne(post:IPost):Promise<IPost> {
+        const newPost = await getManager()
             .getRepository(PostsEntity)
             .save(post);
         return newPost;
     }
 
-    getUserPosts(userId:number):Promise<IPost[]> {
-        const posts = getManager()
+    public async getUserPosts(userId:number):Promise<IPost[]> {
+        const posts = await getManager()
             .getRepository(PostsEntity)
             .createQueryBuilder('posts')
             .where('posts.userId = :userId', { userId })
@@ -40,8 +40,8 @@ class PostRepository extends Repository<PostsEntity> implements IPostAbstraction
         return posts;
     }
 
-    updateFieldValue(id:number, text:string):Promise<UpdateResult> {
-        const newText = getManager()
+    public async updateFieldValue(id:number, text:string):Promise<UpdateResult> {
+        const newText = await getManager()
             .getRepository(PostsEntity)
             .update({ id }, {
                 text,
@@ -49,8 +49,8 @@ class PostRepository extends Repository<PostsEntity> implements IPostAbstraction
         return newText;
     }
 
-    removeOne(id:number):Promise<UpdateResult> {
-        const remove = getManager()
+    public async removeOne(id:number):Promise<UpdateResult> {
+        const remove = await getManager()
             .getRepository(PostsEntity)
             .softDelete({ id });
         return remove;

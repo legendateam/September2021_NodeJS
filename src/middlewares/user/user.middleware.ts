@@ -9,7 +9,7 @@ import { ErrorHandler } from '../../error';
 class UserMiddleware {
     public async validatorRegistration(req:IRequestUser, _:Response, next:NextFunction): Promise<void> {
         try {
-            const { error, value } = await authSchema.validate(req.body);
+            const { error, value } = authSchema.validate(req.body);
 
             if (error) {
                 next(new ErrorHandler('Data is invalid or User already exists'));
@@ -27,7 +27,7 @@ class UserMiddleware {
         try {
             const { error, value } = await userPatchSchema.validate(req.body);
 
-            if(error) {
+            if (error) {
                 next(new ErrorHandler('Incorrect values or not all fields'));
             }
             req.user = value;
@@ -86,7 +86,7 @@ class UserMiddleware {
             const user = req.user as IUser;
             const { password } = req.body;
 
-            const checkedPassword = userService.checkPassword(password, user.password);
+            const checkedPassword = await userService.checkPassword(password, user.password);
 
             if (!checkedPassword) {
                 throw new Error('Wrong email or password');

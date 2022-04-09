@@ -11,7 +11,7 @@ class UserService {
         return users;
     }
 
-    public async getOne(id:Number): Promise<IUser | undefined> {
+    public async getOne(id:number): Promise<IUser | undefined> {
         const user = await userRepository.getOne(id);
         return user;
     }

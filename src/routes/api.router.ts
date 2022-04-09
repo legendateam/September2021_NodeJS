@@ -1,11 +1,13 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import {
+    Router, Request, Response, NextFunction,
+} from 'express';
 
 import { usersRouter } from './users.router';
 import { postsRouter } from './posts.router';
 import { commentsRouter } from './comments.router';
 import { actionsRouter } from './actions.router';
 import { authRouter } from './auth.router';
-import {ErrorHandler} from "../error";
+import { ErrorHandler } from '../error';
 
 export const apiRouter = Router();
 
