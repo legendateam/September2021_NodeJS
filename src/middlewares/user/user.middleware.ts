@@ -4,28 +4,33 @@ import { userRepository } from '../../repositories';
 import { IRequestUser, IUser } from '../../interfaces';
 import { userService } from '../../services';
 import { authLoginSchema, authSchema, userPatchSchema } from '../../helpers';
+import { ErrorHandler } from '../../error';
 
 class UserMiddleware {
-    public async validatorRegistration(req:IRequestUser, res:Response, next:NextFunction): Promise<void> {
+    public async validatorRegistration(req:IRequestUser, _:Response, next:NextFunction): Promise<void> {
         try {
-            const userValid = await authSchema.validateAsync(req.body);
+            const { error, value } = await authSchema.validate(req.body);
 
-            req.user = userValid;
+            if (error) {
+                next(new ErrorHandler('Data is invalid or User already exists'));
+                return;
+            }
+            req.user = value;
 
             next();
         } catch (e) {
-            if (e) {
-                res.json({
-                    status: 400,
-                    err: (e as Error).message,
-                });
-            }
+            next(e);
         }
     }
 
     public async patchFields(req:IRequestUser, res:Response, next:NextFunction):Promise<void> {
         try {
-            req.user = await userPatchSchema.validateAsync(req.body);
+            const { error, value } = await userPatchSchema.validate(req.body);
+
+            if(error) {
+                next(new ErrorHandler('Incorrect values or not all fields'));
+            }
+            req.user = value;
             next();
         } catch (e) {
             res.status(400).end((e as Error).message);
@@ -45,17 +50,18 @@ class UserMiddleware {
         }
     }
 
-    public async checkUniqueFieldsValue(req:IRequestUser, res:Response, next:NextFunction):Promise<void> {
+    public async checkUniqueFieldsValue(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
         try {
             const { email, phone } = req.user as IUser;
             const user = await userRepository.getOneByEmailOrByPhone(email, phone);
 
             if (user) {
-                throw new Error('user already exists or data is invalid');
+                next(new ErrorHandler('Data is invalid or User already exists'));
+                return;
             }
             next();
         } catch (e) {
-            res.status(400).end((e as Error).message);
+            next(e);
         }
     }
 
