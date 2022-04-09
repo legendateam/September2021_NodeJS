@@ -137,7 +137,7 @@ class ValidatorSchema {
                 'number.min': 'postId should be from {#limit}',
                 'any.required': 'postId is a required field',
             }),
-        text: Joi.string().min(0).max(250).required()
+        text: Joi.string().min(1).max(250).required()
             .messages({
                 'string.base': 'text should be a type of text',
                 'string.empty': 'text cannot be an empty field',

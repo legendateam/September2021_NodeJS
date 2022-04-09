@@ -27,7 +27,7 @@ class UserRepository extends Repository<UsersEntity> implements IUserAbstraction
         const user = await getManager()
             .getRepository(UsersEntity)
             .createQueryBuilder('user')
-            .andWhere('user.email = :email', { email })
+            .where('user.email = :email', { email })
             .orWhere('user.phone = :phone', { phone })
             .getOne();
         return user;
