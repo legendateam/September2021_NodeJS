@@ -6,70 +6,76 @@ import { constants } from '../../constants';
 import { tokenService } from '../../services';
 import { JwtEnum } from '../../enums';
 import { authTokenSchema } from '../../helpers';
+import { ErrorHandler } from '../../error';
 
 class AuthMiddleware {
-    public async authorization(req: IRequestAuth, res:Response, next:NextFunction) {
+    public authorization(req: IRequestAuth, _:Response, next:NextFunction): void {
         try {
             const authorization = req.get(constants.AUTHORIZATION);
-            await authTokenSchema.validateAsync({ authorization });
+            const { error, value } = authTokenSchema.validate({ authorization });
 
-            req.authorization = authorization;
+            if (error) {
+                next(new ErrorHandler('Wrong Token'));
+                return;
+            }
+
+            req.authorization = value;
             next();
         } catch (e) {
-            res.status(400).end((e as Error).message);
+            next(e);
         }
     }
 
-    public async isUserFromDB(req: IRequestAuth, res: Response, next:NextFunction) {
+    public async isUserFromDB(req: IRequestAuth, _: Response, next:NextFunction): Promise<void> {
         try {
             const userFromToken = await userRepository.getOne(req.userId as number);
 
             if (!userFromToken) {
-                throw new Error('Wrong Token');
+                next(new ErrorHandler('Wrong Token'));
+                return;
             }
 
             req.user = userFromToken;
 
             next();
         } catch (e) {
-            res.json({
-                status: 400,
-                error: (e as Error).message,
-            });
+            next(e);
         }
     }
 
-    public async isAccessToken(req:IRequestAuth, res:Response, next:NextFunction) {
+    public async isAccessToken(req:IRequestAuth, _:Response, next:NextFunction): Promise<void> {
         try {
             const { userId } = await tokenService.verifyTokens(req.authorization as string);
             const tokens = await tokenService.findToken(userId);
 
             if (tokens?.accessToken !== req.authorization) {
-                throw new Error('Wrong Token');
+                next(new ErrorHandler('Wrong Token'));
+                return;
             }
 
             req.userId = userId;
 
             next();
         } catch (e) {
-            res.status(400).end((e as Error).message);
+            next(e);
         }
     }
 
-    public async isRefreshToken(req:IRequestAuth, res:Response, next:NextFunction) {
+    public async isRefreshToken(req:IRequestAuth, _:Response, next:NextFunction): Promise<void> {
         try {
             const { userId } = await tokenService.verifyTokens(req.authorization as string, JwtEnum.refresh);
             const tokens = await tokenService.findToken(userId);
 
             if (tokens?.refreshToken !== req.authorization) {
-                throw new Error('Wrong Token');
+                next(new ErrorHandler('Wrong Token'));
+                return;
             }
 
             req.userId = userId;
 
             next();
         } catch (e) {
-            res.status(400).end((e as Error).message);
+            next(e);
         }
     }
 }

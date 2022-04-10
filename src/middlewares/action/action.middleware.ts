@@ -3,32 +3,35 @@ import { NextFunction, Response } from 'express';
 import { actionRepository } from '../../repositories';
 import { actionSchema } from '../../helpers';
 import { IAction, IRequestAction } from '../../interfaces';
+import { ErrorHandler } from '../../error';
 
 class ActionMiddleware {
-    public async fieldsFilled(req:IRequestAction, res:Response, next:NextFunction):Promise<void> {
+    public async fieldsFilled(req:IRequestAction, _:Response, next:NextFunction):Promise<void> {
         try {
             const { _like, _dislike } = req.body;
             if ((_like === 1 && _dislike === 1) || (_like === 0 && _dislike === 0) || (!_like && !_dislike)) {
-                throw new Error('No valid action');
+                next(new ErrorHandler('Data Invalid'));
+                return;
             }
             req.action = await actionSchema.validateAsync(req.body);
             next();
         } catch (e) {
-            res.status(400).end((e as Error).message);
+            next(e);
         }
     }
 
-    public async checkUniqueUser(req:IRequestAction, res:Response, next:NextFunction):Promise<void> {
+    public async checkUniqueUser(req:IRequestAction, _:Response, next:NextFunction):Promise<void> {
         try {
             const { commentId, userId } = req.action as IAction;
             const action = await actionRepository.checkUniqueUser(userId, commentId);
 
             if (action) {
-                throw new Error('can\'t add a review again');
+                next(new ErrorHandler('can\'t add a review again', 406));
+                return;
             }
             next();
         } catch (e) {
-            res.status(405).end((e as Error).message);
+            next(e);
         }
     }
 }

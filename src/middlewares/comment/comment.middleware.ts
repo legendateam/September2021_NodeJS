@@ -3,45 +3,51 @@ import { Request, Response, NextFunction } from 'express';
 import { commentSchema } from '../../helpers';
 import { IComment, IRequestComment } from '../../interfaces';
 import { userService } from '../../services';
+import { ErrorHandler } from '../../error';
 
 class CommentMiddleware {
-    public async validator(req:IRequestComment, res:Response, next:NextFunction):Promise<void> {
+    public validator(req:IRequestComment, _:Response, next:NextFunction): void {
         try {
-            req.comment = await commentSchema.validateAsync(req.body);
+            const { error, value } = commentSchema.validate(req.body);
+
+            if (error) {
+                next(new ErrorHandler('Probably not all fields are filled'));
+                return;
+            }
+            req.comment = value;
             next();
         } catch (e) {
-            res.status(400).end((e as Error).message);
+            next(e);
         }
     }
 
-    public async checkFieldsForPatching(req:Request, res:Response, next:NextFunction):Promise<void> {
+    public async checkFieldsForPatching(req:Request, _:Response, next:NextFunction):Promise<void> {
         try {
             const { text } = req.body;
             if (!text) {
-                throw new Error('probably not all fields are filled');
+                next(new ErrorHandler('Probably not all fields are filled'));
+                return;
             }
             next();
         } catch (e) {
             if (e) {
-                res.status(400).end((e as Error).message);
+                next(e);
             }
         }
     }
 
-    public async userExists(req:IRequestComment, res:Response, next:NextFunction):Promise<void> {
+    public async userExists(req:IRequestComment, _:Response, next:NextFunction):Promise<void> {
         try {
             const { authorId } = req.comment as IComment;
             const user = await userService.getOne(authorId);
 
             if (!user) {
-                throw new Error('not valid data');
+                next(new ErrorHandler('Not Valid Data'));
+                return;
             }
             next();
         } catch (e) {
-            res.json({
-                status: 400,
-                err: (e as Error).message,
-            });
+            next(e);
         }
     }
 }

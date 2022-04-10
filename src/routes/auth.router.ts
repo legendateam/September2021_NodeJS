@@ -5,7 +5,12 @@ import { authMiddleware, userMiddleware } from '../middlewares';
 
 export const authRouter = Router();
 
-authRouter.post('/registration', userMiddleware.validatorRegistration, userMiddleware.checkUniqueFieldsValue, authController.registration);
+authRouter.post(
+    '/registration',
+    userMiddleware.validatorRegistration,
+    userMiddleware.checkUniqueEmailAndPhone,
+    authController.registration,
+);
 authRouter.post(
     '/login',
     userMiddleware.validatorLogin,

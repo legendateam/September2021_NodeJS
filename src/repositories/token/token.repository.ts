@@ -1,4 +1,5 @@
 import {
+    DeleteResult,
     EntityRepository, getManager, Repository, UpdateResult,
 } from 'typeorm';
 
@@ -32,8 +33,8 @@ class TokensRepository extends Repository<TokensEntity> implements ITokenAbstrac
         return token;
     }
 
-    public async deleteUserTokenPair(userId: Partial<IToken>): Promise<void> {
-        await getManager().getRepository(TokensEntity).delete(userId);
+    public async deleteUserTokenPair(userId: Partial<IToken>): Promise<DeleteResult> {
+        return getManager().getRepository(TokensEntity).delete(userId);
     }
 }
 

@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { UpdateResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { config } from '../../configs';
 import { IRole, ITokenPair, ITokensRepository } from '../../interfaces';
@@ -36,8 +36,8 @@ class TokenService {
         return tokensRepository.saveToken(tokensPair);
     }
 
-    public async deleteTokenPair(userId:number) {
-        await tokensRepository.deleteUserTokenPair({ userId });
+    public async deleteTokenPair(userId:number): Promise<DeleteResult> {
+        return tokensRepository.deleteUserTokenPair({ userId });
     }
 
     public async verifyTokens(token: string, type = JwtEnum.access): Promise<IRole> {

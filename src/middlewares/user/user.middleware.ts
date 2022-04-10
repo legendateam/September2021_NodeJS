@@ -23,34 +23,37 @@ class UserMiddleware {
         }
     }
 
-    public async patchFields(req:IRequestUser, res:Response, next:NextFunction):Promise<void> {
+    public async patchFields(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
         try {
             const { error, value } = await userPatchSchema.validate(req.body);
 
             if (error) {
                 next(new ErrorHandler('Incorrect values or not all fields'));
+                return;
             }
             req.user = value;
             next();
         } catch (e) {
-            res.status(400).end((e as Error).message);
+            next(e);
         }
     }
 
-    public async validatorLogin(req: IRequestUser, res: Response, next: NextFunction):Promise<void> {
+    public validatorLogin(req: IRequestUser, _: Response, next: NextFunction): void {
         try {
-            const userValidate = await authLoginSchema.validateAsync(req.body);
-            req.user = userValidate;
+            const { error, value } = authLoginSchema.validate(req.body);
+
+            if (error) {
+                next(new ErrorHandler('Incorrect values or not all fields'));
+                return;
+            }
+            req.user = value;
             next();
         } catch (e) {
-            res.json({
-                status: 400,
-                error: (e as Error).message,
-            });
+            next(e);
         }
     }
 
-    public async checkUniqueFieldsValue(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
+    public async checkUniqueEmailAndPhone(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
         try {
             const { email, phone } = req.user as IUser;
             const user = await userRepository.getOneByEmailOrByPhone(email, phone);
@@ -65,23 +68,24 @@ class UserMiddleware {
         }
     }
 
-    public async checkUserByEmail(req:IRequestUser, res:Response, next:NextFunction):Promise<void> {
+    public async checkUserByEmail(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
         try {
             const { email } = req.user as IUser;
             const user = await userRepository.getOneByEmailOrByPhone(email);
 
             if (!user) {
-                throw new Error('user already exists or data is invalid');
+                next(new ErrorHandler('user already exists or data is invalid'));
+                return;
             }
 
             req.user = user;
             next();
         } catch (e) {
-            res.status(400).end((e as Error).message);
+            next(e);
         }
     }
 
-    public async signIn(req:IRequestUser, res:Response, next:NextFunction):Promise<void> {
+    public async signIn(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
         try {
             const user = req.user as IUser;
             const { password } = req.body;
@@ -89,15 +93,13 @@ class UserMiddleware {
             const checkedPassword = await userService.checkPassword(password, user.password);
 
             if (!checkedPassword) {
-                throw new Error('Wrong email or password');
+                next(new ErrorHandler('Wrong email or password'));
+                return;
             }
 
             next();
         } catch (e) {
-            res.json({
-                status: 400,
-                err: (e as Error).message,
-            });
+            next(e);
         }
     }
 }

@@ -3,42 +3,49 @@ import { NextFunction, Request, Response } from 'express';
 import { postSchema } from '../../helpers';
 import { IPost, IRequestPost } from '../../interfaces';
 import { userService } from '../../services';
+import { ErrorHandler } from '../../error';
 
 class PostMiddleware {
-    public async fieldsFilled(req:IRequestPost, res:Response, next:NextFunction):Promise<void> {
+    public fieldsFilled(req:IRequestPost, _:Response, next:NextFunction): void {
         try {
-            req.post = await postSchema.validateAsync(req.body);
+            const { error, value } = postSchema.validate(req.body);
+            if (error) {
+                next(new ErrorHandler('Invalid Fields'));
+                return;
+            }
+            req.post = value;
             next();
         } catch (e) {
-            res.status(400).end((e as Error).message);
+            next(e);
         }
     }
 
-    public async userExists(req:IRequestPost, res: Response, next:NextFunction):Promise<void> {
+    public async userExists(req:IRequestPost, _: Response, next:NextFunction):Promise<void> {
         try {
             const { userId } = req.post as IPost;
 
             const user = await userService.getOne(userId);
 
             if (!user) {
-                throw new Error('not valid data');
+                next(new ErrorHandler('Data Invalid'));
+                return;
             }
             next();
         } catch (e) {
-            res.status(400).end((e as Error).message);
+            next(e);
         }
     }
 
-    public async fieldsForPatching(req:Request, res:Response, next:NextFunction):Promise<void> {
+    public async fieldsForPatching(req:Request, _:Response, next:NextFunction):Promise<void> {
         try {
             const { text } = req.body;
 
             if (typeof text !== 'string' || !text) {
-                throw new Error('probably not all fields are filled');
+                next(new ErrorHandler('Probably not all fields are filled'));
             }
             next();
         } catch (e) {
-            res.status(400).end((e as Error).message);
+            next(e);
         }
     }
 }
