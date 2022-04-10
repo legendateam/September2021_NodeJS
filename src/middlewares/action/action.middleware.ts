@@ -6,14 +6,22 @@ import { IAction, IRequestAction } from '../../interfaces';
 import { ErrorHandler } from '../../error';
 
 class ActionMiddleware {
-    public async fieldsFilled(req:IRequestAction, _:Response, next:NextFunction):Promise<void> {
+    public fieldsFilled(req:IRequestAction, _:Response, next:NextFunction): void {
         try {
             const { _like, _dislike } = req.body;
             if ((_like === 1 && _dislike === 1) || (_like === 0 && _dislike === 0) || (!_like && !_dislike)) {
                 next(new ErrorHandler('Data Invalid'));
                 return;
             }
-            req.action = await actionSchema.validateAsync(req.body);
+
+            const { error, value } = actionSchema.validate(req.body);
+
+            if (error) {
+                next(new ErrorHandler('Data Invalid'));
+                return;
+            }
+
+            req.action = value;
             next();
         } catch (e) {
             next(e);
