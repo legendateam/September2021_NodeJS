@@ -1,7 +1,6 @@
 import { IUser } from './user.interface';
 
 export interface IToken {
-    id:number,
     refreshToken: string,
     accessToken: string,
     userId: number,

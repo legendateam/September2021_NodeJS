@@ -1,5 +1,5 @@
 import {
-    PrimaryGeneratedColumn, Entity, Column, ManyToOne, JoinColumn, OneToMany,
+    Entity, Column, ManyToOne, JoinColumn, OneToMany,
 } from 'typeorm';
 
 import { CommonFieldsEntity } from './commonFields.entity';
@@ -11,9 +11,6 @@ import { config } from '../configs';
 @Entity('Posts', { database: config.MYSQL_DATABASE_NAME })
 
 export class PostsEntity extends CommonFieldsEntity implements IPost {
-    @PrimaryGeneratedColumn()
-        id: number;
-
     @Column({
         type: 'varchar',
         width: 250,

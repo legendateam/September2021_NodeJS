@@ -1,5 +1,5 @@
 import {
-    Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn,
+    Column, Entity, JoinColumn, ManyToOne,
 } from 'typeorm';
 
 import { IAction } from '../interfaces';
@@ -11,9 +11,6 @@ import { CommentsEntity } from './comments.entity';
 @Entity('Actions', { database: config.MYSQL_DATABASE_NAME })
 
 export class ActionsEntity extends CommonFieldsEntity implements IAction {
-    @PrimaryGeneratedColumn()
-        id: number;
-
     @Column({
         type: 'int',
         nullable: false,
@@ -30,13 +27,13 @@ export class ActionsEntity extends CommonFieldsEntity implements IAction {
         type: 'int',
         nullable: true,
     })
-        _like: number;
+        isLike: number;
 
     @Column({
         type: 'int',
         nullable: true,
     })
-        _dislike: number;
+        isDislike: number;
 
     @ManyToOne(() => UsersEntity, (user) => user.actions)
     @JoinColumn({ name: 'userId' })

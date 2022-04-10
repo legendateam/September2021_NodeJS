@@ -1,5 +1,5 @@
 import {
-    Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn,
+    Column, Entity, JoinColumn, OneToOne,
 } from 'typeorm';
 
 import { config } from '../configs';
@@ -10,9 +10,6 @@ import { IRole } from '../interfaces';
 @Entity('Role', { database: config.MYSQL_DATABASE_NAME })
 
 export class RoleEntity extends CommonFieldsEntity implements IRole {
-    @PrimaryGeneratedColumn()
-        id: number;
-
     @Column({
         type: 'varchar',
         width: 10,

@@ -1,5 +1,5 @@
 import {
-    Column, Entity, OneToMany, PrimaryGeneratedColumn,
+    Column, Entity, OneToMany,
 } from 'typeorm';
 
 import { CommonFieldsEntity } from './commonFields.entity';
@@ -11,9 +11,6 @@ import { config } from '../configs';
 
 @Entity('Users', { database: config.MYSQL_DATABASE_NAME })
 export class UsersEntity extends CommonFieldsEntity implements IUser {
-    @PrimaryGeneratedColumn()
-        id: number;
-
     @Column({
         type: 'varchar',
         width: 250,

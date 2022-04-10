@@ -1,11 +1,10 @@
-// import { IUser } from './users.interface';
-// import { IComment } from './comments.interface';
+import { IUser } from './user.interface';
+import { IComment } from './comment.interface';
 
 export interface IPost {
-    id: number,
     title: string,
     text: string,
     userId: number,
-    // user: IUser,
-    // comments: IComment[]
+    user?: IUser,
+    comments?: IComment[]
 }

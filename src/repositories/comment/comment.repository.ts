@@ -54,7 +54,7 @@ class CommentRepository extends Repository<CommentsEntity> implements ICommentAb
     public async getCountAction(id:number):Promise<ICountAction> {
         const count = getManager()
             .query(`
-                SELECT COUNT(_like) as likeCount, COUNT(_dislike) as dislikeCOunt
+                SELECT COUNT(isLike) as likeCount, COUNT(isDislike) as dislikeCount
                 FROM Actions a where a.commentId=${id};
             `);
         return count;

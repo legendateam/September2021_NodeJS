@@ -1,5 +1,5 @@
 import {
-    Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn,
+    Column, Entity, JoinColumn, ManyToOne, OneToMany,
 } from 'typeorm';
 
 import { CommonFieldsEntity } from './commonFields.entity';
@@ -12,9 +12,6 @@ import { config } from '../configs';
 @Entity('Comments', { database: config.MYSQL_DATABASE_NAME })
 
 export class CommentsEntity extends CommonFieldsEntity implements IComment {
-    @PrimaryGeneratedColumn()
-        id: number;
-
     @Column({
         type: 'varchar',
         nullable: false,

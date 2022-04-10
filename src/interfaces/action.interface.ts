@@ -2,11 +2,10 @@ import { IComment } from './comment.interface';
 import { IUser } from './user.interface';
 
 export interface IAction {
-    id: number,
     commentId: number,
     userId: number,
-    _like?: number,
-    _dislike?: number,
+    isLike?: number,
+    isDislike?: number,
     comment?: IComment,
     user?: IUser
 }

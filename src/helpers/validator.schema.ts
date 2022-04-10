@@ -108,17 +108,17 @@ class ValidatorSchema {
                 'number.max': 'userId should be up {#limit}',
                 'any.required': 'userId is a required field',
             }),
-        _like: Joi.number().min(0).max(1)
+        isLike: Joi.number().min(0).max(1)
             .messages({
-                'number.base': '_like should be a type of number',
-                'number.min': '_like minimum {#limit}',
-                'number.max': '_like maximum {#limit}',
+                'number.base': 'like should be a type of number',
+                'number.min': ' like minimum {#limit}',
+                'number.max': ' like maximum {#limit}',
             }),
-        _dislike: Joi.number().min(0).max(1)
+        isDisLike: Joi.number().min(0).max(1)
             .messages({
-                'number.base': '_dislike should be a type of number',
-                'number.min': '_dislike minimum {#limit}',
-                'number.max': '_dislike maximum {#limit}',
+                'number.base': ' dislike should be a type of number',
+                'number.min': ' dislike minimum {#limit}',
+                'number.max': ' dislike maximum {#limit}',
             }),
     });
 

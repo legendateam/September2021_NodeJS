@@ -8,8 +8,8 @@ import { ErrorHandler } from '../../error';
 class ActionMiddleware {
     public fieldsFilled(req:IRequestAction, _:Response, next:NextFunction): void {
         try {
-            const { _like, _dislike } = req.body;
-            if ((_like === 1 && _dislike === 1) || (_like === 0 && _dislike === 0) || (!_like && !_dislike)) {
+            const { isLike, isDisLike } = req.body;
+            if ((isLike === 1 && isDisLike === 1) || (isLike === 0 && isDisLike === 0) || (!isLike && !isDisLike)) {
                 next(new ErrorHandler('Data Invalid'));
                 return;
             }

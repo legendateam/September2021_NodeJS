@@ -1,5 +1,5 @@
 import {
-    Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn,
+    Column, Entity, JoinColumn, OneToOne,
 } from 'typeorm';
 
 import { config } from '../configs';
@@ -10,9 +10,6 @@ import { IToken } from '../interfaces';
 @Entity('Tokens', { database: config.MYSQL_DATABASE_NAME })
 
 export class TokensEntity extends CommonFieldsEntity implements IToken {
-    @PrimaryGeneratedColumn()
-        id:number;
-
     @Column({
         type: 'varchar',
         width: 250,
