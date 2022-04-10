@@ -12,7 +12,7 @@ class UserMiddleware {
             const { error, value } = authSchema.validate(req.body);
 
             if (error) {
-                next(new ErrorHandler('Data is invalid or User already exists'));
+                next(new ErrorHandler(error.message));
                 return;
             }
             req.user = value;

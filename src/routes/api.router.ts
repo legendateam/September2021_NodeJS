@@ -21,7 +21,7 @@ apiRouter.use((_:Request, res:Response) => {
 });
 // @ts-ignore
 apiRouter.use('*', (err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
-    res.status(err.code || 500).json({
+    res.status(err.status || 500).json({
         message: err.message,
     });
 });

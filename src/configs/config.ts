@@ -10,4 +10,6 @@ export const config = {
     SECRET_REFRESH_KEY: process.env.SECRET_REFRESH_KEY,
     EXPIRES_IN_ACCESS: process.env.EXPIRES_IN_ACCESS,
     EXPIRES_IN_REFRESH: process.env.EXPIRES_IN_REFRESH,
+    ROOT_EMAIL: process.env.ROOT_EMAIL,
+    ROOT_PASSWORD: process.env.ROOT_PASSWORD,
 };

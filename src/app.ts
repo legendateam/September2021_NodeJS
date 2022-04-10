@@ -19,7 +19,7 @@ app.set('views', path.join(__dirname, 'static'));
 app.use(apiRouter);
 
 app.listen(config.PORT, async () => {
-    console.log('Server has started');
+    console.log(`Server has started on PORT:${config.PORT}`);
     try {
         const connection = await createConnection();
         if (connection) {
