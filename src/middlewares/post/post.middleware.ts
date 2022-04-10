@@ -10,7 +10,7 @@ class PostMiddleware {
         try {
             const { error, value } = postSchema.validate(req.body);
             if (error) {
-                next(new ErrorHandler('Invalid Fields'));
+                next(new ErrorHandler(error.message));
                 return;
             }
             req.post = value;

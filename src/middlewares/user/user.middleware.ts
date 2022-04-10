@@ -28,7 +28,7 @@ class UserMiddleware {
             const { error, value } = await userPatchSchema.validate(req.body);
 
             if (error) {
-                next(new ErrorHandler('Incorrect values or not all fields'));
+                next(new ErrorHandler(error.message));
                 return;
             }
             req.user = value;
@@ -43,7 +43,7 @@ class UserMiddleware {
             const { error, value } = authLoginSchema.validate(req.body);
 
             if (error) {
-                next(new ErrorHandler('Incorrect values or not all fields'));
+                next(new ErrorHandler(error.message));
                 return;
             }
             req.user = value;

@@ -15,7 +15,7 @@ class AuthMiddleware {
             const { error, value } = authTokenSchema.validate({ authorization });
 
             if (error) {
-                next(new ErrorHandler('Wrong Token'));
+                next(new ErrorHandler(error.message));
                 return;
             }
 
@@ -31,7 +31,7 @@ class AuthMiddleware {
             const userFromToken = await userRepository.getOne(req.userId as number);
 
             if (!userFromToken) {
-                next(new ErrorHandler('Wrong Token'));
+                next(new ErrorHandler('Wrong Token', 401));
                 return;
             }
 
@@ -49,7 +49,7 @@ class AuthMiddleware {
             const tokens = await tokenService.findToken(userId);
 
             if (tokens?.accessToken !== req.authorization) {
-                next(new ErrorHandler('Wrong Token'));
+                next(new ErrorHandler('Wrong Token', 401));
                 return;
             }
 
@@ -67,7 +67,7 @@ class AuthMiddleware {
             const tokens = await tokenService.findToken(userId);
 
             if (tokens?.refreshToken !== req.authorization) {
-                next(new ErrorHandler('Wrong Token'));
+                next(new ErrorHandler('Wrong Token', 401));
                 return;
             }
 

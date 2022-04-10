@@ -17,7 +17,7 @@ class ActionMiddleware {
             const { error, value } = actionSchema.validate(req.body);
 
             if (error) {
-                next(new ErrorHandler('Data Invalid'));
+                next(new ErrorHandler(error.message));
                 return;
             }
 

@@ -11,7 +11,7 @@ class CommentMiddleware {
             const { error, value } = commentSchema.validate(req.body);
 
             if (error) {
-                next(new ErrorHandler('Probably not all fields are filled'));
+                next(new ErrorHandler(error.message));
                 return;
             }
             req.comment = value;
