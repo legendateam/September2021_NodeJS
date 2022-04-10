@@ -1,9 +1,9 @@
 import { UpdateResult } from 'typeorm';
 
-import { IPost } from '../../interfaces';
+import { IPost, IPostServiceAbstraction } from '../../interfaces';
 import { postRepository } from '../../repositories';
 
-class PostService {
+class PostService implements IPostServiceAbstraction {
     public async getAll():Promise<IPost[]> {
         const posts = await postRepository.getAll();
         return posts;

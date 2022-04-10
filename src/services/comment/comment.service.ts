@@ -1,9 +1,9 @@
 import { UpdateResult } from 'typeorm';
 
 import { commentRepository } from '../../repositories';
-import { IComment, ICountAction } from '../../interfaces';
+import { IComment, ICommentServiceAbstraction, ICountAction } from '../../interfaces';
 
-class CommentService {
+class CommentService implements ICommentServiceAbstraction {
     public async getAll():Promise<IComment[]> {
         const comments = await commentRepository.getAll();
         return comments;

@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
 import { postService } from '../services';
-import { IPost, IRequestPost } from '../interfaces';
+import { IPost, IPostControllerAbstraction, IRequestPost } from '../interfaces';
 import { ErrorHandler } from '../error';
 
-class PostsController {
+class PostsController implements IPostControllerAbstraction {
     public async getAll(_: Request, res:Response, next: NextFunction):Promise<Response<IPost[]> | undefined> {
         try {
             const posts = await postService.getAll();
@@ -62,8 +62,7 @@ class PostsController {
         }
     }
 
-    public async updateFieldValue(req:Request, res:Response, next: NextFunction)
-        :Promise<Response<UpdateResult> | undefined> {
+    public async updateFieldValue(req:Request, res:Response, next: NextFunction):Promise<Response<UpdateResult> | undefined> {
         try {
             const { text } = req.body;
             const { postId } = req.params;

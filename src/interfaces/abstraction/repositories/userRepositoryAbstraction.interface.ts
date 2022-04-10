@@ -1,5 +1,5 @@
 import { UpdateResult } from 'typeorm';
-import { IUpdateFields, IUser } from '../user.interface';
+import { IUpdateFields, IUser } from '../../user.interface';
 
 export interface IUserAbstraction {
     getAll():Promise<IUser[]>,

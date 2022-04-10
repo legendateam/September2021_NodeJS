@@ -3,11 +3,12 @@ import { NextFunction, Response } from 'express';
 import { authService, tokenService } from '../services';
 import { COOKIE } from '../constants';
 import {
+    IAuthControllerAbstraction,
     IRequestAuth, IRequestUser, IRoleToken, IUser,
 } from '../interfaces';
 import { ErrorHandler } from '../error';
 
-class AuthController {
+class AuthController implements IAuthControllerAbstraction {
     public async registration(req: IRequestUser, res: Response, next: NextFunction):Promise<Response<IRoleToken> | undefined> {
         try {
             const data = await authService.registration(req.user as IUser);

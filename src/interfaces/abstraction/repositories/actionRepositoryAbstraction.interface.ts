@@ -1,4 +1,4 @@
-import { IAction } from '../action.interface';
+import { IAction } from '../../action.interface';
 
 export interface IActionAbstraction {
     getAll():Promise<IAction[]>,

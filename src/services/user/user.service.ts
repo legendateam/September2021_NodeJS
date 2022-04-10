@@ -2,10 +2,10 @@ import { UpdateResult } from 'typeorm';
 import bcrypt from 'bcrypt';
 
 import { userRepository } from '../../repositories';
-import { IUpdateFields, IUser } from '../../interfaces';
+import { IUpdateFields, IUser, IUserServiceAbstraction } from '../../interfaces';
 import { config } from '../../configs';
 
-class UserService {
+class UserService implements IUserServiceAbstraction {
     public async getAll():Promise<IUser[]> {
         const users = await userRepository.getAll();
         return users;
@@ -16,7 +16,7 @@ class UserService {
         return user;
     }
 
-    public async addOne(user:IUser) {
+    public async addOne(user:IUser): Promise<IUser> {
         const { password } = user;
         const passwordHashed = await this._hashPassword(password);
         const data = { ...user, password: passwordHashed };

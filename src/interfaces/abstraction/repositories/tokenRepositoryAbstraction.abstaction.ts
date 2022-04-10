@@ -1,6 +1,6 @@
 import { DeleteResult, UpdateResult } from 'typeorm';
 
-import { IToken, ITokensRepository } from '../token.interface';
+import { IToken, ITokensRepository } from '../../token.interface';
 
 export interface ITokenAbstraction {
     saveToken(refreshToken:ITokensRepository):Promise<ITokensRepository>,

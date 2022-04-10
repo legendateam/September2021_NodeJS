@@ -1,7 +1,7 @@
 import { actionRepository } from '../../repositories';
-import { IAction } from '../../interfaces';
+import { IAction, IActionServiceAbstraction } from '../../interfaces';
 
-class ActionService {
+class ActionService implements IActionServiceAbstraction {
     public async getAll():Promise<IAction[]> {
         const actions = await actionRepository.getAll();
         return actions;

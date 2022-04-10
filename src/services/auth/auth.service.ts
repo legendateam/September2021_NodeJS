@@ -1,9 +1,11 @@
-import { IUser, IRole, IRoleToken } from '../../interfaces';
+import {
+    IUser, IRole, IRoleToken, IAuthServiceAbstraction,
+} from '../../interfaces';
 import { userService } from '../user/user.service';
 import { tokenService } from '../token/token.service';
 import { roleService } from '../role/role.service';
 
-class AuthService {
+class AuthService implements IAuthServiceAbstraction {
     public async registration(user:IUser):Promise<IRoleToken> {
         const createdUser = await userService.addOne(user);
         const role = await roleService.addRole(createdUser);

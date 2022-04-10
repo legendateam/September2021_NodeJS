@@ -1,7 +1,7 @@
 import { UpdateResult } from 'typeorm';
 
-import { IComment } from '../comment.interface';
-import { ICountAction } from '../countAction.interface';
+import { IComment } from '../../comment.interface';
+import { ICountAction } from '../../countAction.interface';
 
 export interface ICommentAbstraction {
     getAll():Promise<IComment[]>,

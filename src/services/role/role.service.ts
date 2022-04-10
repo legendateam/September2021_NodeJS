@@ -1,7 +1,7 @@
-import { IRole, IUser } from '../../interfaces';
+import { IRole, IRoleServiceAbstraction, IUser } from '../../interfaces';
 import { roleRepository } from '../../repositories';
 
-class RoleService {
+class RoleService implements IRoleServiceAbstraction {
     public async addRole(user:IUser):Promise<IRole> {
         const role = await roleRepository.createRole(user);
         return role;

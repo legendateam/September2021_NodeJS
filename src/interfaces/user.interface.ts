@@ -1,6 +1,7 @@
 import { IPost } from './post.interface';
 import { IComment } from './comment.interface';
 import { IAction } from './action.interface';
+import { IRole } from './role.interface';
 
 export interface IUser {
     id: number,
@@ -12,7 +13,8 @@ export interface IUser {
     password: string,
     posts?: IPost[],
     comments?: IComment[],
-    actions?: IAction[]
+    actions?: IAction[],
+    role?: IRole
 }
 
 export interface IUpdateFields {

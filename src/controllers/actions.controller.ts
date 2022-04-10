@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { actionService } from '../services';
-import { IAction, IRequestAction } from '../interfaces';
+import { IAction, IActionControllerAbstraction, IRequestAction } from '../interfaces';
 import { ErrorHandler } from '../error';
 
-class ActionsController {
+class ActionsController implements IActionControllerAbstraction {
     public async getAll(_: Request, res:Response, next: NextFunction):Promise<Response<IAction[]> | undefined> {
         try {
             const actions = await actionService.getAll();

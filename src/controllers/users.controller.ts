@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
 import { userService } from '../services';
-import { IRequestUser, IUser } from '../interfaces';
+import { IRequestUser, IUser, IUserControllerAbstraction } from '../interfaces';
 import { ErrorHandler } from '../error';
 
-class UsersController {
+class UsersController implements IUserControllerAbstraction {
     public async getAll(_: Request, res:Response, next: NextFunction):Promise<Response<IUser[]> | undefined> {
         try {
             const users = await userService.getAll();

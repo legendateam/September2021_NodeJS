@@ -2,11 +2,13 @@ import jwt from 'jsonwebtoken';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { config } from '../../configs';
-import { IRole, ITokenPair, ITokensRepository } from '../../interfaces';
+import {
+    IRole, ITokenPair, ITokenServiceAbstraction, ITokensRepository,
+} from '../../interfaces';
 import { tokensRepository } from '../../repositories';
 import { JwtEnum } from '../../enums';
 
-class TokenService {
+class TokenService implements ITokenServiceAbstraction {
     public async generateTokenPair(payload:IRole):Promise<ITokenPair> {
         const accessToken = jwt.sign(
             payload,

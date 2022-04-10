@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
 import { commentService } from '../services';
-import { IComment, IRequestComment } from '../interfaces';
+import { IComment, IRequestComment, ICommentControllerAbstraction } from '../interfaces';
 import { ErrorHandler } from '../error';
 
-class CommentsController {
+class CommentsController implements ICommentControllerAbstraction {
     public async getAll(_: Request, res:Response, next: NextFunction):Promise<Response<IComment[]> | undefined> {
         try {
             const comments = await commentService.getAll();

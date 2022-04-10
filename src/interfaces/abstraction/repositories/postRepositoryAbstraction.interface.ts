@@ -1,5 +1,5 @@
 import { UpdateResult } from 'typeorm';
-import { IPost } from '../post.interface';
+import { IPost } from '../../post.interface';
 
 export interface IPostAbstraction {
     getAll():Promise<IPost[]>,
