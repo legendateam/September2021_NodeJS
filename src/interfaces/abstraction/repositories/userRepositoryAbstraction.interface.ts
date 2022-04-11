@@ -6,7 +6,9 @@ export interface IUserAbstraction {
     getOne(id:number): Promise<IUser | undefined>,
     getOneByEmailOrByPhone(email:string, phone:string):Promise<IUser | undefined>,
     addOne(user:IUser):Promise<IUser>,
-    updateFields(id:number, { password, phone, email }:IUpdateFields)
+    updateWithPass(id:number, { password, phone, email }:IUpdateFields)
+        :Promise<UpdateResult>,
+    updateWithoutPass(id:number, { phone, email }:IUpdateFields)
         :Promise<UpdateResult>,
     softDelete(id:number):Promise<UpdateResult>
 }

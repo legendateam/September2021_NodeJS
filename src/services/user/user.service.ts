@@ -24,11 +24,16 @@ class UserService implements IUserServiceAbstraction {
         return createUser;
     }
 
-    public async updateFields(id:number, newValueFields: IUpdateFields):Promise<UpdateResult> {
+    public async updateWithPass(id:number, newValueFields: IUpdateFields):Promise<UpdateResult> {
         const { password } = newValueFields;
         const hashPassword = await this._hashPassword(password);
         const data = { ...newValueFields, password: hashPassword };
-        const update = await userRepository.updateFields(id, data);
+        const update = await userRepository.updateWithPass(id, data);
+        return update;
+    }
+
+    public async updateWithoutPass(id:number, newValueFields: IUpdateFields):Promise<UpdateResult> {
+        const update = await userRepository.updateWithoutPass(id, newValueFields);
         return update;
     }
 

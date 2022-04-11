@@ -8,14 +8,14 @@ export const authRouter = Router();
 authRouter.post(
     '/registration',
     userMiddleware.validatorRegistration,
-    userMiddleware.checkUniqueEmailAndPhone,
+    userMiddleware.checkExistsEmailAndPhone,
     authController.registration,
 );
 authRouter.post(
     '/login',
     userMiddleware.validatorLogin,
     userMiddleware.checkUserByEmail,
-    userMiddleware.signIn,
+    userMiddleware.isCurrentPassword,
     authController.login,
 );
 authRouter.post(

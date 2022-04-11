@@ -12,14 +12,14 @@ class AuthMiddleware {
     public authorization(req: IRequestAuth, _:Response, next:NextFunction): void {
         try {
             const authorization = req.get(constants.AUTHORIZATION);
-            const { error, value } = authTokenSchema.validate({ authorization });
+            const { error } = authTokenSchema.validate({ authorization });
 
             if (error) {
                 next(new ErrorHandler(error.message));
                 return;
             }
 
-            req.authorization = value;
+            req.authorization = authorization;
             next();
         } catch (e) {
             next(e);

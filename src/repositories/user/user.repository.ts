@@ -40,12 +40,23 @@ class UserRepository extends Repository<UsersEntity> implements IUserAbstraction
         return newUsers;
     }
 
-    public async updateFields(id:number, { password, phone, email }:IUpdateFields)
+    public async updateWithPass(id:number, { password, phone, email }:IUpdateFields)
         :Promise<UpdateResult> {
         const update = await getManager()
             .getRepository(UsersEntity)
             .update({ id }, {
                 password,
+                email,
+                phone,
+            });
+        return update;
+    }
+
+    public async updateWithoutPass(id:number, { phone, email }:IUpdateFields)
+        :Promise<UpdateResult> {
+        const update = await getManager()
+            .getRepository(UsersEntity)
+            .update({ id }, {
                 email,
                 phone,
             });

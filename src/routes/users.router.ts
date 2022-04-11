@@ -7,5 +7,12 @@ export const usersRouter = Router();
 
 usersRouter.get('/', usersController.getAll);
 usersRouter.get('/:userId', usersController.getOne);
-usersRouter.patch('/:userId', userMiddleware.patchFields, userMiddleware.checkUniqueEmailAndPhone, usersController.updateFields);
+usersRouter.patch(
+    '/:userId',
+    userMiddleware.patchFields,
+    userMiddleware.checkExistsEmailAndPhone,
+    userMiddleware.getUserByParams,
+    userMiddleware.isCurrentPassword,
+    usersController.updateFields,
+);
 usersRouter.delete('/:userId', usersController.remove);

@@ -3,7 +3,9 @@ import { NextFunction, Response } from 'express';
 import { userRepository } from '../../repositories';
 import { IRequestUser, IUser } from '../../interfaces';
 import { userService } from '../../services';
-import { authLoginSchema, authSchema, userPatchSchema } from '../../helpers';
+import {
+    authLoginSchema, authSchema, paramsSchema, userPatchSchema,
+} from '../../helpers';
 import { ErrorHandler } from '../../error';
 
 class UserMiddleware {
@@ -25,13 +27,45 @@ class UserMiddleware {
 
     public async patchFields(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
         try {
-            const { error, value } = await userPatchSchema.validate(req.body);
+            const { userId } = req.params;
+            const { error: errParams, value: params } = paramsSchema.validate({ userId });
+
+            if (errParams) {
+                next(new ErrorHandler(errParams.message));
+                return;
+            }
+
+            const { error, value } = userPatchSchema.validate(req.body);
 
             if (error) {
                 next(new ErrorHandler(error.message));
                 return;
             }
+
+            req.body = { password: value.currentPassword, newPassword: value.newPassword, userId: params.userId };
             req.user = value;
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public async getUserByParams(req: IRequestUser, _: Response, next: NextFunction) {
+        try {
+            const { userId } = req.body;
+
+            const currentUser = await userService.getOne(userId);
+
+            if (!currentUser) {
+                next(new ErrorHandler('Impossible patching because data is invalid'));
+                return;
+            }
+
+            const { email, phone } = req.user as IUser;
+
+            req.user = { ...currentUser, email, phone };
+
             next();
         } catch (e) {
             next(e);
@@ -53,7 +87,7 @@ class UserMiddleware {
         }
     }
 
-    public async checkUniqueEmailAndPhone(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
+    public async checkExistsEmailAndPhone(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
         try {
             const { email, phone } = req.user as IUser;
             const user = await userRepository.getOneByEmailOrByPhone(email, phone);
@@ -62,6 +96,7 @@ class UserMiddleware {
                 next(new ErrorHandler('Data is invalid or User already exists'));
                 return;
             }
+
             next();
         } catch (e) {
             next(e);
@@ -85,7 +120,7 @@ class UserMiddleware {
         }
     }
 
-    public async signIn(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
+    public async isCurrentPassword(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
         try {
             const user = req.user as IUser;
             const { password } = req.body;

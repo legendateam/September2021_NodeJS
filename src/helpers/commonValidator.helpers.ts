@@ -7,4 +7,5 @@ export const commonValidator = {
     phone: Joi.string().regex(regexConstant.PHONE),
     email: Joi.string().email().lowercase(),
     password: Joi.string().regex(regexConstant.PASSWORD),
+    userId: Joi.number(),
 };

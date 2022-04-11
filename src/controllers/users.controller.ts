@@ -49,13 +49,29 @@ class UsersController implements IUserControllerAbstraction {
 
     public async updateFields(req:IRequestUser, res:Response, next: NextFunction):Promise<Response<IUser> | undefined> {
         try {
-            const { userId } = req.params;
-            const id = Number(userId);
-            const updateUser = await userService.updateFields(id, req.user as IUser);
+            const { newPassword } = req.body;
+
+            if (newPassword) {
+                const user = { ...req.user, password: newPassword } as IUser;
+                const updateUser = await userService.updateWithPass(user.id, user);
+
+                if (!updateUser) {
+                    next(new ErrorHandler('Service Unavailable', 503));
+                    return;
+                }
+
+                res.json(updateUser);
+                return;
+            }
+
+            const user = req.user as IUser;
+            const updateUser = await userService.updateWithoutPass(user.id, user);
+
             if (!updateUser) {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;
             }
+
             res.json(updateUser);
         } catch (e) {
             next(e);

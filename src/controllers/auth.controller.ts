@@ -12,6 +12,7 @@ class AuthController implements IAuthControllerAbstraction {
     public async registration(req: IRequestUser, res: Response, next: NextFunction):Promise<Response<IRoleToken> | undefined> {
         try {
             const data = await authService.registration(req.user as IUser);
+
             if (!data) {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;
@@ -26,6 +27,7 @@ class AuthController implements IAuthControllerAbstraction {
                 data.accessToken,
                 { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
             );
+
             res.json(data);
         } catch (e) {
             next(e);
