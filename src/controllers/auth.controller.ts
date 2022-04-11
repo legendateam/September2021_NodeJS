@@ -83,7 +83,7 @@ class AuthController implements IAuthControllerAbstraction {
                 return;
             }
             res.clearCookie(COOKIE.nameAccessToken);
-            res.clearCookie(COOKIE.nameAccessToken);
+            res.clearCookie(COOKIE.nameRefreshToken);
             res.cookie(
                 COOKIE.nameAccessToken,
                 refresh.accessToken,
