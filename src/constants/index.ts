@@ -1,3 +1,4 @@
-export * from './cookie/cookie.constant';
+export * from './cookie.constant';
 export * from './constants';
+export * from './email.constant';
 export * from './regex.constant';
