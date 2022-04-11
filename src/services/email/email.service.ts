@@ -1,10 +1,10 @@
 import nodemail from 'nodemailer';
 
-import { EmailEnum } from '../enums';
-import { config } from '../configs';
-import { emailConstant } from '../constants';
+import { EmailEnum } from '../../enums';
+import { config } from '../../configs';
+import { emailConstant } from '../../constants';
 
-class EmailSender {
+class EmailService {
     public async sendEmail(email: string, type: EmailEnum) {
         const { subject, text } = emailConstant[type];
 
@@ -25,4 +25,4 @@ class EmailSender {
     }
 }
 
-export const emailSender = new EmailSender();
+export const emailService = new EmailService();
