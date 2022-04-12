@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
-import { userService } from '../services';
+import { emailService, userService } from '../services';
 import { IRequestUser, IUser, IUserControllerAbstraction } from '../interfaces';
 import { ErrorHandler } from '../error';
+import { EmailEnum } from '../enums';
 
 class UsersController implements IUserControllerAbstraction {
     public async getAll(_: Request, res:Response, next: NextFunction):Promise<Response<IUser[]> | undefined> {
@@ -60,6 +61,7 @@ class UsersController implements IUserControllerAbstraction {
                     return;
                 }
 
+                await emailService.sendEmail(user.email, EmailEnum.UPDATE_ACCOUNT_DATA);
                 res.json(updateUser);
                 return;
             }
@@ -72,21 +74,26 @@ class UsersController implements IUserControllerAbstraction {
                 return;
             }
 
+            await emailService.sendEmail(user.email, EmailEnum.UPDATE_ACCOUNT_DATA);
+
             res.json(updateUser);
         } catch (e) {
             next(e);
         }
     }
 
-    public async remove(req:Request, res:Response, next:NextFunction):Promise<Response<UpdateResult> | undefined> {
+    public async remove(req:IRequestUser, res:Response, next:NextFunction):Promise<Response<UpdateResult> | undefined> {
         try {
-            const { userId } = req.params;
-            const id = Number(userId);
+            const { id, email } = req.user as IUser;
             const remove = await userService.remove(id);
+
             if (!remove) {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;
             }
+
+            await emailService.sendEmail(email, EmailEnum.ACCOUNT_DELETED);
+
             res.json(remove);
         } catch (e) {
             next(e);

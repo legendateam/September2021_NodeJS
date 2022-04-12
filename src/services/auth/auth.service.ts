@@ -4,14 +4,12 @@ import {
 import { userService } from '../user/user.service';
 import { tokenService } from '../token/token.service';
 import { roleService } from '../role/role.service';
-import { emailService } from '../email/email.service';
-import { EmailEnum } from '../../enums';
 
 class AuthService implements IAuthServiceAbstraction {
     public async registration(user:IUser):Promise<IRoleToken> {
         const createdUser = await userService.addOne(user);
         const role = await roleService.addRole(createdUser);
-        await emailService.sendEmail(createdUser.email, EmailEnum.WELCOME);
+
         return this._getToken(role);
     }
 

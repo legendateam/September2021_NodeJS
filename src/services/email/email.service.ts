@@ -17,7 +17,7 @@ class EmailService {
         });
 
         await transport.sendMail({
-            from: 'NodeJs',
+            from: '"NodeJS" <no-reply@nodejs.com>',
             to: email,
             subject,
             text,

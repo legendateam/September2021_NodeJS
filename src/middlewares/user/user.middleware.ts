@@ -51,10 +51,29 @@ class UserMiddleware {
         }
     }
 
-    public async getUserByParams(req: IRequestUser, _: Response, next: NextFunction) {
+    public async checkUserByParams(req: IRequestUser, _: Response, next: NextFunction) {
         try {
-            const { userId } = req.body;
+            if (!req.user) {
+                const { userId } = req.params;
+                const { error, value } = paramsSchema.validate({ userId });
 
+                if (error) {
+                    next(new ErrorHandler(error.message));
+                    return;
+                }
+
+                const userFromDB = await userService.getOne(value.userId);
+
+                if (!userFromDB) {
+                    next(new ErrorHandler('Data is invalid'));
+                    return;
+                }
+
+                req.user = userFromDB;
+                next();
+                return;
+            }
+            const { userId } = req.body;
             const currentUser = await userService.getOne(userId);
 
             if (!currentUser) {

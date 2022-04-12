@@ -11,8 +11,8 @@ usersRouter.patch(
     '/:userId',
     userMiddleware.patchFields,
     userMiddleware.checkExistsEmailAndPhone,
-    userMiddleware.getUserByParams,
+    userMiddleware.checkUserByParams,
     userMiddleware.isCurrentPassword,
     usersController.updateFields,
 );
-usersRouter.delete('/:userId', usersController.remove);
+usersRouter.delete('/:userId', userMiddleware.checkUserByParams, usersController.remove);

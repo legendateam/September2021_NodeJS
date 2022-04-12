@@ -1,17 +1,18 @@
 import { NextFunction, Response } from 'express';
 
-import { authService, tokenService } from '../services';
+import { authService, emailService, tokenService } from '../services';
 import { COOKIE } from '../constants';
 import {
-    IAuthControllerAbstraction,
-    IRequestAuth, IRequestUser, IRoleToken, IUser,
+    IAuthControllerAbstraction, IRequestAuth, IRequestUser, IRoleToken, IUser,
 } from '../interfaces';
 import { ErrorHandler } from '../error';
+import { EmailEnum } from '../enums';
 
 class AuthController implements IAuthControllerAbstraction {
     public async registration(req: IRequestUser, res: Response, next: NextFunction):Promise<Response<IRoleToken> | undefined> {
         try {
-            const data = await authService.registration(req.user as IUser);
+            const user = req.user as IUser;
+            const data = await authService.registration(user);
 
             if (!data) {
                 next(new ErrorHandler('Service Unavailable', 503));
@@ -27,6 +28,8 @@ class AuthController implements IAuthControllerAbstraction {
                 data.accessToken,
                 { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
             );
+
+            await emailService.sendEmail(user.email, EmailEnum.WELCOME);
 
             res.json(data);
         } catch (e) {
@@ -54,7 +57,8 @@ class AuthController implements IAuthControllerAbstraction {
 
     public async login(req: IRequestUser, res: Response, next: NextFunction):Promise<Response<IRoleToken> | undefined> {
         try {
-            const loginData = await authService.newTokens(req.user as IUser);
+            const user = req.user as IUser;
+            const loginData = await authService.newTokens(user);
             if (!loginData) {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;
@@ -69,6 +73,8 @@ class AuthController implements IAuthControllerAbstraction {
                 loginData.refreshToken,
                 { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
             );
+
+            await emailService.sendEmail(user.email, EmailEnum.AUTHORIZED);
             res.json(loginData);
         } catch (e) {
             next(e);
