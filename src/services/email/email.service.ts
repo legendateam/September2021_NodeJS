@@ -1,26 +1,21 @@
-import nodemail from 'nodemailer';
-
 import { EmailEnum } from '../../enums';
-import { config } from '../../configs';
 import { emailConstant } from '../../constants';
+import { emailTemplate, transport } from '../../helpers';
+import { config } from '../../configs';
 
 class EmailService {
-    public async sendEmail(email: string, type: EmailEnum) {
-        const { subject, text } = emailConstant[type];
+    public async sendEmail(email: string, type: EmailEnum, context: object): Promise<void> {
+        const { subject, template } = emailConstant[type];
 
-        const transport = nodemail.createTransport({
-            service: 'gmail',
-            auth: {
-                user: config.ROOT_EMAIL,
-                pass: config.ROOT_EMAIL_PASSWORD,
-            },
-        });
+        Object.assign(context, { domainName: config.DOMAIN_NAME });
+
+        const html = await emailTemplate.render(template, { context });
 
         await transport.sendMail({
             from: '"NodeJS" <no-reply@nodejs.com>',
             to: email,
             subject,
-            text,
+            html,
         });
     }
 }

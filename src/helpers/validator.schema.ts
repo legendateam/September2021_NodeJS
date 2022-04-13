@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { commonValidator } from './commonValidator.helpers';
+import { commonValidator } from './commonValidator.helper';
 
 class ValidatorSchema {
     public static authSchema: Joi.ObjectSchema = Joi.object({

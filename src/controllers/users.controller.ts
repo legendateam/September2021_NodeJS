@@ -61,7 +61,13 @@ class UsersController implements IUserControllerAbstraction {
                     return;
                 }
 
-                await emailService.sendEmail(user.email, EmailEnum.UPDATE_ACCOUNT_DATA);
+                const oldEmail = req.oldEmail as string;
+
+                await emailService.sendEmail(oldEmail, EmailEnum.OLD_EMAIL, { oldEmail, firstName: user.firstName });
+                await emailService.sendEmail(user.email, EmailEnum.UPDATE_ACCOUNT_DATA, {
+                    oldEmail, firstName: user.firstName, lastName: user.lastName, newPassword,
+                });
+
                 res.json(updateUser);
                 return;
             }
@@ -74,7 +80,12 @@ class UsersController implements IUserControllerAbstraction {
                 return;
             }
 
-            await emailService.sendEmail(user.email, EmailEnum.UPDATE_ACCOUNT_DATA);
+            const oldEmail = req.oldEmail as string;
+
+            await emailService.sendEmail(oldEmail, EmailEnum.OLD_EMAIL, { oldEmail, firstName: user.firstName });
+            await emailService.sendEmail(user.email, EmailEnum.UPDATE_ACCOUNT_DATA, {
+                oldEmail, firstName: user.firstName, lastName: user.lastName,
+            });
 
             res.json(updateUser);
         } catch (e) {
@@ -84,7 +95,7 @@ class UsersController implements IUserControllerAbstraction {
 
     public async remove(req:IRequestUser, res:Response, next:NextFunction):Promise<Response<UpdateResult> | undefined> {
         try {
-            const { id, email } = req.user as IUser;
+            const { id, email, firstName } = req.user as IUser;
             const remove = await userService.remove(id);
 
             if (!remove) {
@@ -92,7 +103,7 @@ class UsersController implements IUserControllerAbstraction {
                 return;
             }
 
-            await emailService.sendEmail(email, EmailEnum.ACCOUNT_DELETED);
+            await emailService.sendEmail(email, EmailEnum.ACCOUNT_DELETED, { firstName });
 
             res.json(remove);
         } catch (e) {

@@ -3,26 +3,31 @@ import { EmailEnum } from '../enums';
 export const emailConstant = {
     [EmailEnum.WELCOME]: {
         subject: 'Welcome',
-        text: 'Welcome',
+        template: 'welcome',
     },
 
     [EmailEnum.AUTHORIZED]: {
         subject: 'Authorized',
-        text: 'email.login',
+        template: 'authorization',
     },
 
     [EmailEnum.UPDATE_ACCOUNT_DATA]: {
         subject: 'You`r account was updated',
-        text: 'Congratulation your account data has been successfully updated',
+        template: 'updateUser',
+    },
+
+    [EmailEnum.OLD_EMAIL]: {
+        subject: 'You`r account was updated',
+        template: 'oldEmail',
     },
 
     [EmailEnum.ACCOUNT_DELETED]: {
         subject: 'You`r account was deleted',
-        text: 'You`r account was deleted',
+        template: 'deleteAccount',
     },
 
     [EmailEnum.ACCOUNT_BLOCKED]: {
         subject: 'You`r account was blocked',
-        text: 'Oops you`r account was blocked ',
+        template: 'Oops you`r account was blocked ',
     },
 };

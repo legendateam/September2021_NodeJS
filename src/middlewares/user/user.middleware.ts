@@ -83,6 +83,7 @@ class UserMiddleware {
 
             const { email, phone } = req.user as IUser;
 
+            req.oldEmail = currentUser.email;
             req.user = { ...currentUser, email, phone };
 
             next();

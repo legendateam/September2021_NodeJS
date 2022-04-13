@@ -29,7 +29,8 @@ class AuthController implements IAuthControllerAbstraction {
                 { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
             );
 
-            await emailService.sendEmail(user.email, EmailEnum.WELCOME);
+            const { firstName, lastName, email } = user;
+            await emailService.sendEmail(user.email, EmailEnum.WELCOME, { firstName, lastName, email });
 
             res.json(data);
         } catch (e) {
@@ -59,10 +60,12 @@ class AuthController implements IAuthControllerAbstraction {
         try {
             const user = req.user as IUser;
             const loginData = await authService.newTokens(user);
+
             if (!loginData) {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;
             }
+
             res.cookie(
                 COOKIE.nameAccessToken,
                 loginData.accessToken,
@@ -74,7 +77,7 @@ class AuthController implements IAuthControllerAbstraction {
                 { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
             );
 
-            await emailService.sendEmail(user.email, EmailEnum.AUTHORIZED);
+            await emailService.sendEmail(user.email, EmailEnum.AUTHORIZED, { firstName: user.firstName });
             res.json(loginData);
         } catch (e) {
             next(e);
