@@ -12,7 +12,7 @@ class EmailService {
         const html = await emailTemplate.render(template, { context });
 
         await transport.sendMail({
-            from: '"NodeJS" <no-reply@nodejs.com>',
+            from: 'NodeJS <no-reply@nodejs.com.ua>',
             to: email,
             subject,
             html,

@@ -24,7 +24,7 @@ class UsersController implements IUserControllerAbstraction {
         try {
             const { userId } = req.params;
             const id = Number(userId);
-            const user = await userService.getOne(id);
+            const user = await userService.getOneById(id);
             if (!user) {
                 next(new ErrorHandler('Not Found', 404));
                 return;

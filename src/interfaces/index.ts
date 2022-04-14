@@ -28,4 +28,5 @@ export * from './request/requestAuth.interface';
 export * from './request/requestComment.interface';
 export * from './request/requestAction.interface';
 export * from './request/requestPost.interface';
+export * from './request/requestForgotPassword.interface';
 export * from './user.interface';

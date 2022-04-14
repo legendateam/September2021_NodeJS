@@ -10,5 +10,6 @@ export interface IUserAbstraction {
         :Promise<UpdateResult>,
     updateWithoutPass(id:number, { phone, email }:IUpdateFields)
         :Promise<UpdateResult>,
-    softDelete(id:number):Promise<UpdateResult>
+    softDelete(id:number):Promise<UpdateResult>,
+    forgotPassword(id:number, password: string):Promise<UpdateResult>
 }

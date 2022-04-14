@@ -233,14 +233,39 @@ class ValidatorSchema {
     });
 
     public static paramsSchema: Joi.ObjectSchema = Joi.object({
-        userId: commonValidator.userId.required().messages({
+        userId: commonValidator.id.required().messages({
             'number.base': 'params should be a type of number',
             'number.empty': 'params cannot be an empty field',
             'any.required': 'params is a required field',
         }),
     });
+
+    public static emailSchema: Joi.ObjectSchema = Joi.object({
+        email: commonValidator.email.min(8).required().messages({
+            'string.base': 'email should be a type of text',
+            'string.empty': 'email cannot be an empty field',
+            'string.pattern.base': 'email should have only Latin letters also "@" and without spaces',
+            'string.min': 'email should have a minimum length of {#limit}',
+            'any.required': 'email is a required field',
+        }),
+    });
+
+    public static passwordSchema: Joi.ObjectSchema = Joi.object({
+        password: commonValidator.password.min(8).max(40)
+            .alphanum()
+            .required()
+            .messages({
+                'string.base': 'password should be a type of text',
+                'string.empty': 'password cannot be an empty field',
+                'string.pattern.base': 'password should have only Latin litters without spaces also one capital letter and one number',
+                'string.min': 'password should have a minimum length of {#limit}',
+                'string.max': 'password Name should have a maximum length of {#limit}',
+                'any.required': 'password is a required field',
+            }),
+    });
 }
 
 export const {
     authSchema, authLoginSchema, authTokenSchema, actionSchema, commentSchema, postSchema, userPatchSchema, paramsSchema,
+    emailSchema, passwordSchema,
 } = ValidatorSchema;

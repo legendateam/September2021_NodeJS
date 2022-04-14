@@ -13,4 +13,5 @@ export const config = {
     ROOT_EMAIL: process.env.ROOT_EMAIL,
     ROOT_EMAIL_PASSWORD: process.env.ROOT_EMAIL_PASSWORD,
     DOMAIN_NAME: process.env.DOMAIN_NAME,
+    SECRET_FORGOT_PASSWORD_KEY: process.env.SECRET_FORGOT_PASSWORD_KEY,
 };

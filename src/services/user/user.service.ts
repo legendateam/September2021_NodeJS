@@ -11,8 +11,13 @@ class UserService implements IUserServiceAbstraction {
         return users;
     }
 
-    public async getOne(id:number): Promise<IUser | undefined> {
+    public async getOneById(id:number): Promise<IUser | undefined> {
         const user = await userRepository.getOne(id);
+        return user;
+    }
+
+    public async getOneByEmailOrPhone(email: string, phone?: string): Promise<IUser | undefined> {
+        const user = await userRepository.getOneByEmailOrByPhone(email, phone);
         return user;
     }
 
@@ -35,6 +40,12 @@ class UserService implements IUserServiceAbstraction {
     public async updateWithoutPass(id:number, newValueFields: IUpdateFields):Promise<UpdateResult> {
         const update = await userRepository.updateWithoutPass(id, newValueFields);
         return update;
+    }
+
+    public async forgotPassword(id: number, password: string): Promise<UpdateResult> {
+        const hashPassword = await this._hashPassword(password);
+        const updateResult = await userRepository.forgotPassword(id, hashPassword);
+        return updateResult;
     }
 
     public async remove(id:number):Promise<UpdateResult> {

@@ -1,5 +1,5 @@
 import {
-    Router, Request, Response, NextFunction,
+    NextFunction, Request, Response, Router,
 } from 'express';
 
 import { usersRouter } from './users.router';
@@ -8,6 +8,7 @@ import { commentsRouter } from './comments.router';
 import { actionsRouter } from './actions.router';
 import { authRouter } from './auth.router';
 import { ErrorHandler } from '../error';
+import { forgotPasswordRouter } from './forgotPassword.router';
 
 export const apiRouter = Router();
 
@@ -16,6 +17,8 @@ apiRouter.use('/posts', postsRouter);
 apiRouter.use('/comments', commentsRouter);
 apiRouter.use('/actions', actionsRouter);
 apiRouter.use('/auth', authRouter);
+apiRouter.use('/forgotpassword', forgotPasswordRouter);
+
 apiRouter.use((_:Request, res:Response) => {
     res.status(404).render('error404Page');
 });

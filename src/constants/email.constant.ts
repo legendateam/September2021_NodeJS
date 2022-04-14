@@ -28,6 +28,11 @@ export const emailConstant = {
 
     [EmailEnum.ACCOUNT_BLOCKED]: {
         subject: 'You`r account was blocked',
-        template: 'Oops you`r account was blocked ',
+        template: 'Oops you`r account was blocked',
+    },
+
+    [EmailEnum.FORGOT_PASSWORD]: {
+        subject: 'FORGOT PASSWORD',
+        template: 'forgotPassword',
     },
 };

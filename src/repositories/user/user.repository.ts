@@ -63,6 +63,15 @@ class UserRepository extends Repository<UsersEntity> implements IUserAbstraction
         return update;
     }
 
+    public async forgotPassword(id:number, password: string):Promise<UpdateResult> {
+        const update = await getManager()
+            .getRepository(UsersEntity)
+            .update({ id }, {
+                password,
+            });
+        return update;
+    }
+
     public async softDelete(id:number):Promise<UpdateResult> {
         const remove = await getManager()
             .getRepository(UsersEntity)

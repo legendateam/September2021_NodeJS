@@ -39,7 +39,7 @@ class CommentMiddleware {
     public async userExists(req:IRequestComment, _:Response, next:NextFunction):Promise<void> {
         try {
             const { authorId } = req.comment as IComment;
-            const user = await userService.getOne(authorId);
+            const user = await userService.getOneById(authorId);
 
             if (!user) {
                 next(new ErrorHandler('Not Valid Data'));

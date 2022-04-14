@@ -4,5 +4,6 @@ export enum EmailEnum {
     UPDATE_ACCOUNT_DATA = 'UpdateAccountData',
     ACCOUNT_DELETED = 'DeleteAccount',
     ACCOUNT_BLOCKED = 'AccountBlocked',
-    OLD_EMAIL = 'OldEmail'
+    OLD_EMAIL = 'OldEmail',
+    FORGOT_PASSWORD = 'ForgotPassword',
 }

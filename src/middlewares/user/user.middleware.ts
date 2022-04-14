@@ -1,6 +1,5 @@
 import { NextFunction, Response } from 'express';
 
-import { userRepository } from '../../repositories';
 import { IRequestUser, IUser } from '../../interfaces';
 import { userService } from '../../services';
 import {
@@ -62,7 +61,7 @@ class UserMiddleware {
                     return;
                 }
 
-                const userFromDB = await userService.getOne(value.userId);
+                const userFromDB = await userService.getOneById(value.userId);
 
                 if (!userFromDB) {
                     next(new ErrorHandler('Data is invalid'));
@@ -74,7 +73,7 @@ class UserMiddleware {
                 return;
             }
             const { userId } = req.body;
-            const currentUser = await userService.getOne(userId);
+            const currentUser = await userService.getOneById(userId);
 
             if (!currentUser) {
                 next(new ErrorHandler('Impossible patching because data is invalid'));
@@ -110,7 +109,7 @@ class UserMiddleware {
     public async checkExistsEmailAndPhone(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
         try {
             const { email, phone } = req.user as IUser;
-            const user = await userRepository.getOneByEmailOrByPhone(email, phone);
+            const user = await userService.getOneByEmailOrPhone(email, phone);
 
             if (user) {
                 next(new ErrorHandler('Data is invalid or User already exists'));
@@ -126,7 +125,7 @@ class UserMiddleware {
     public async checkUserByEmail(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
         try {
             const { email } = req.user as IUser;
-            const user = await userRepository.getOneByEmailOrByPhone(email);
+            const user = await userService.getOneByEmailOrPhone(email);
 
             if (!user) {
                 next(new ErrorHandler('user already exists or data is invalid'));

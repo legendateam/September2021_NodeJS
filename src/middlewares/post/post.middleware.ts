@@ -24,7 +24,7 @@ class PostMiddleware {
         try {
             const { userId } = req.post as IPost;
 
-            const user = await userService.getOne(userId);
+            const user = await userService.getOneById(userId);
 
             if (!user) {
                 next(new ErrorHandler('Data Invalid'));
