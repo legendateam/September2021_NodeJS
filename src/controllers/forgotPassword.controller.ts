@@ -50,6 +50,7 @@ class ForgotPasswordController {
         try {
             const id = req.forgotPassword?.id as number;
             const password = req.forgotPassword?.password as string;
+            const email = req.forgotPassword?.email as string;
 
             const updateResult = await userService.forgotPassword(id, password);
 
@@ -59,6 +60,7 @@ class ForgotPasswordController {
             }
 
             await tokenService.deleteForgotPasswordToken({ userId: id });
+            await emailService.sendEmail(email, EmailEnum.CHANGED_PASSWORD, {});
 
             res.json('password changed');
         } catch (e) {

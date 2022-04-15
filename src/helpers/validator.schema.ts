@@ -9,7 +9,7 @@ class ValidatorSchema {
             .messages({
                 'string.base': 'First Name should be a type of text',
                 'string.empty': 'First Name cannot be an empty field',
-                'string.pattern.base': 'Fist Name should have only Latin letters also the first letter is capitalized',
+                'string.pattern.base': 'First Name should have only Latin letters also the first letter is capitalized',
                 'string.min': 'First Name should have a minimum length of {#limit}',
                 'string.max': 'First Name should have a maximum length of {#limit}',
                 'any.required': 'First Name is a required field',

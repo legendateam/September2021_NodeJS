@@ -6,4 +6,5 @@ export enum EmailEnum {
     ACCOUNT_BLOCKED = 'AccountBlocked',
     OLD_EMAIL = 'OldEmail',
     FORGOT_PASSWORD = 'ForgotPassword',
+    CHANGED_PASSWORD = 'ChangedPassword'
 }

@@ -1,5 +1,5 @@
 import { NextFunction, Response } from 'express';
-import {emailSchema, passwordSchema} from '../../helpers';
+import { emailSchema, passwordSchema } from '../../helpers';
 import { ErrorHandler } from '../../error';
 import { IRequestForgotPassword, IVerifyTokens } from '../../interfaces';
 import { tokenService, userService } from '../../services';
@@ -94,14 +94,14 @@ class ForgotPasswordMiddleware {
         try {
             const { password } = req.body;
 
-            const { error, value } = await passwordSchema.validate(password);
+            const { error, value } = await passwordSchema.validate({ password });
 
-            if (!error) {
-                next(new ErrorHandler('oops, some wrong'));
+            if (error) {
+                next(new ErrorHandler(error.message));
                 return;
             }
 
-            req.forgotPassword = { password: value };
+            req.forgotPassword = { password: value.password };
 
             next();
         } catch (e) {
