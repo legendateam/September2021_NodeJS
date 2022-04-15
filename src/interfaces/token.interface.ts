@@ -1,4 +1,5 @@
 import { IUser } from './user.interface';
+import { ICommonFields } from './commonFields.interface';
 
 export interface IToken {
     refreshToken: string,
@@ -23,4 +24,23 @@ export interface IRoleToken {
     refreshToken: string,
     userId: number,
     role: string
+}
+
+export interface IForgotToken {
+    forgotToken: string,
+}
+
+export interface IForgotTokenRepository {
+    token: string,
+    userId: number
+}
+
+export interface IVerifyTokens extends IRoleToken {
+    forgotToken: string,
+    email: string,
+}
+
+export interface IForgotPasswordEntity extends ICommonFields {
+    userId: number,
+    token: string,
 }

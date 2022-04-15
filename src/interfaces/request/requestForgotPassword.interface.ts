@@ -6,5 +6,6 @@ export interface IRequestForgotPassword extends Request {
         code?: string,
         id?: number,
         password?: string,
-    }
+    },
+    authorization?: string
 }

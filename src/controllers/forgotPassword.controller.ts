@@ -1,8 +1,6 @@
 import { NextFunction, Response } from 'express';
-import jwt from 'jsonwebtoken';
 
-import { config } from '../configs';
-import { emailService, userService } from '../services';
+import { emailService, tokenService, userService } from '../services';
 import { EmailEnum } from '../enums';
 import { IRequestForgotPassword } from '../interfaces';
 import { ErrorHandler } from '../error';
@@ -11,16 +9,28 @@ class ForgotPasswordController {
     public async forgotPassword(req: IRequestForgotPassword, res:Response, next:NextFunction): Promise<void> {
         try {
             const email = req.forgotPassword?.email as string;
+            const id = req.forgotPassword?.id as number;
 
-            const code = jwt.sign(
-                { email },
-                config.SECRET_FORGOT_PASSWORD_KEY as string,
-                { expiresIn: config.EXPIRES_IN_ACCESS },
-            );
+            const { forgotToken } = await tokenService.generateForgotToken({ userId: id, email });
 
-            await emailService.sendEmail(email, EmailEnum.FORGOT_PASSWORD, { code });
+            if (!forgotToken) {
+                next(new ErrorHandler('oops some wrong', 501));
+                return;
+            }
 
-            res.json('email sent');
+            const tokenSaved = await tokenService.saveForgotPasswordToken({ userId: id, token: forgotToken });
+
+            if (!tokenSaved) {
+                next(new ErrorHandler('oops some wrong', 501));
+                return;
+            }
+
+            await emailService.sendEmail(email, EmailEnum.FORGOT_PASSWORD, { code: forgotToken });
+
+            res.json({
+                message: 'OK',
+                forgotToken,
+            });
         } catch (e) {
             next(e);
         }
@@ -36,7 +46,7 @@ class ForgotPasswordController {
         }
     }
 
-    public async gettingNewPassword(req: IRequestForgotPassword, res:Response, next:NextFunction): Promise<void> {
+    public async changePassword(req: IRequestForgotPassword, res:Response, next:NextFunction): Promise<void> {
         try {
             const id = req.forgotPassword?.id as number;
             const password = req.forgotPassword?.password as string;
@@ -47,6 +57,8 @@ class ForgotPasswordController {
                 next(new ErrorHandler('Oops some wrong'));
                 return;
             }
+
+            await tokenService.deleteForgotPasswordToken({ userId: id });
 
             res.json('password changed');
         } catch (e) {

@@ -3,4 +3,5 @@ export * from './comment/comment.repository';
 export * from './role/role.repository';
 export * from './post/post.repository';
 export * from './token/token.repository';
+export * from './token/forgotToken.repository';
 export * from './user/user.repository';

@@ -1,13 +1,12 @@
-import { Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import { emailSchema, passwordSchema } from '../../helpers';
+import { NextFunction, Response } from 'express';
+import {emailSchema, passwordSchema} from '../../helpers';
 import { ErrorHandler } from '../../error';
-import { IRequestForgotPassword } from '../../interfaces';
-import { config } from '../../configs';
-import { userService } from '../../services';
+import { IRequestForgotPassword, IVerifyTokens } from '../../interfaces';
+import { tokenService, userService } from '../../services';
+import { JwtEnum } from '../../enums';
 
 class ForgotPasswordMiddleware {
-    public isEmail(req: IRequestForgotPassword, _: Response, next: NextFunction): void {
+    public isEmailValidator(req: IRequestForgotPassword, _: Response, next: NextFunction): void {
         try {
             const { email } = req.body;
 
@@ -18,7 +17,7 @@ class ForgotPasswordMiddleware {
                 return;
             }
 
-            req.forgotPassword = { ...req.forgotPassword, email: value.email };
+            req.forgotPassword = { email: value.email };
 
             next();
         } catch (e) {
@@ -26,23 +25,46 @@ class ForgotPasswordMiddleware {
         }
     }
 
-    public checkCode(req: IRequestForgotPassword, _: Response, next: NextFunction): void {
+    public async checkToken(req: IRequestForgotPassword, _: Response, next: NextFunction): Promise<Partial<IVerifyTokens> | undefined> {
         try {
-            const { code } = req.params;
+            const token = req.authorization as string;
 
-            interface IVerifyEmail {
-                email: string
-            }
+            const { userId, email } = await tokenService.verifyTokens(token, JwtEnum.forgot);
 
-            const { email } = jwt.verify(code, config.SECRET_FORGOT_PASSWORD_KEY as string) as IVerifyEmail;
-
-            if (!email) {
+            if (!userId || !email) {
                 next(new ErrorHandler('oops, some wrong'));
                 return;
             }
 
-            req.forgotPassword = { ...req.forgotPassword, code, email };
+            const foundToken = await tokenService.findForgotPasswordToken({ userId });
 
+            if (!foundToken) {
+                next(new ErrorHandler('oops, some wrong'));
+                return;
+            }
+
+            req.forgotPassword = { ...req.forgotPassword, id: userId, email };
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public async existedToken(req: IRequestForgotPassword, _: Response, next: NextFunction): Promise<Partial<IVerifyTokens> | undefined> {
+        try {
+            const userId = req.forgotPassword?.id;
+
+            const foundToken = await tokenService.findForgotPasswordToken({ userId });
+
+            if (foundToken) {
+                const deleteResult = await tokenService.deleteForgotPasswordToken({ userId });
+
+                if (!deleteResult) {
+                    next(new ErrorHandler('oops some worng', 501));
+                    return;
+                }
+            }
             next();
         } catch (e) {
             next(e);
@@ -53,20 +75,6 @@ class ForgotPasswordMiddleware {
         try {
             const email = req.forgotPassword?.email as string;
 
-            const { newPassword, confirmPassword } = req.body;
-
-            if (newPassword !== confirmPassword) {
-                next(new ErrorHandler('oops, some wrong'));
-                return;
-            }
-
-            const { error, value } = passwordSchema.validate({ password: newPassword });
-
-            if (error) {
-                next(new ErrorHandler('ooop, some wrong'));
-                return;
-            }
-
             const user = await userService.getOneByEmailOrPhone(email);
 
             if (!user) {
@@ -74,9 +82,26 @@ class ForgotPasswordMiddleware {
                 return;
             }
 
-            const { id } = user;
+            req.forgotPassword = { ...req.forgotPassword, id: user.id };
 
-            req.forgotPassword = { ...req.forgotPassword, id, password: value.password };
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public async isPasswordValidator(req: IRequestForgotPassword, _: Response, next:NextFunction): Promise<void | undefined> {
+        try {
+            const { password } = req.body;
+
+            const { error, value } = await passwordSchema.validate(password);
+
+            if (!error) {
+                next(new ErrorHandler('oops, some wrong'));
+                return;
+            }
+
+            req.forgotPassword = { password: value };
 
             next();
         } catch (e) {

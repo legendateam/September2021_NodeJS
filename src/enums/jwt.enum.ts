@@ -1,4 +1,5 @@
 export enum JwtEnum {
     access = 'access',
-    refresh = 'refresh'
+    refresh = 'refresh',
+    forgot = 'forgot'
 }

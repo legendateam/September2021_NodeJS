@@ -30,3 +30,4 @@ export * from './request/requestAction.interface';
 export * from './request/requestPost.interface';
 export * from './request/requestForgotPassword.interface';
 export * from './user.interface';
+export * from './abstraction/repositories/forgotokenRepository.abstraction';

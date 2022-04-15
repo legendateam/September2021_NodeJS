@@ -3,9 +3,11 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { config } from '../../configs';
 import {
-    IRole, ITokenPair, ITokenServiceAbstraction, ITokensRepository,
+    IForgotPasswordEntity,
+    IForgotToken, IForgotTokenRepository,
+    IRole, ITokenPair, ITokenServiceAbstraction, ITokensRepository, IVerifyTokens,
 } from '../../interfaces';
-import { tokensRepository } from '../../repositories';
+import { forgotTokenRepository, tokensRepository } from '../../repositories';
 import { JwtEnum } from '../../enums';
 
 class TokenService implements ITokenServiceAbstraction {
@@ -42,18 +44,44 @@ class TokenService implements ITokenServiceAbstraction {
         return tokensRepository.deleteUserTokenPair({ userId });
     }
 
-    public async verifyTokens(token: string, type = JwtEnum.access): Promise<IRole> {
+    public async verifyTokens(token: string, type = JwtEnum.access): Promise<IVerifyTokens> {
         let secretWord = config.SECRET_ACCESS_KEY;
 
         if (type === JwtEnum.refresh) {
             secretWord = config.SECRET_REFRESH_KEY;
         }
 
-        return jwt.verify(token, secretWord as string) as IRole;
+        if (type === JwtEnum.forgot) {
+            secretWord = config.SECRET_FORGOT_PASSWORD_KEY;
+        }
+
+        return jwt.verify(token, secretWord as string) as IVerifyTokens;
     }
 
     public async findToken(userId: number):Promise<ITokensRepository | undefined> {
         return tokensRepository.findToken(userId);
+    }
+
+    public async generateForgotToken({ userId, email }: any): Promise<IForgotToken> {
+        const forgotToken = jwt.sign(
+            { userId, email },
+            config.SECRET_FORGOT_PASSWORD_KEY as string,
+            { expiresIn: config.EXPIRES_IN_FORGOT_PASSWORD },
+        );
+
+        return { forgotToken };
+    }
+
+    public async saveForgotPasswordToken(token: IForgotTokenRepository): Promise<IForgotPasswordEntity> {
+        return forgotTokenRepository.addToken(token);
+    }
+
+    public async deleteForgotPasswordToken(tokenData: Partial<IForgotTokenRepository>): Promise<DeleteResult> {
+        return forgotTokenRepository.deleteToken(tokenData);
+    }
+
+    public async findForgotPasswordToken(userId: Partial<IForgotTokenRepository>): Promise<IForgotPasswordEntity | undefined> {
+        return forgotTokenRepository.findToken(userId);
     }
 }
 

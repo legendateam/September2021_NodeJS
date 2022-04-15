@@ -1,15 +1,21 @@
 import { Router } from 'express';
 
 import { forgotPasswordController } from '../controllers';
-import { forgotPasswordMiddleware } from '../middlewares';
+import { authMiddleware, forgotPasswordMiddleware } from '../middlewares';
 
 export const forgotPasswordRouter = Router();
 
-forgotPasswordRouter.post('/', forgotPasswordMiddleware.isEmail, forgotPasswordController.forgotPassword);
-forgotPasswordRouter.get('/:code', forgotPasswordMiddleware.checkCode, forgotPasswordController.pageForgotPassword);
 forgotPasswordRouter.post(
-    '/:code',
-    forgotPasswordMiddleware.checkCode,
+    '/',
+    forgotPasswordMiddleware.isEmailValidator,
     forgotPasswordMiddleware.isUserExists,
-    forgotPasswordController.gettingNewPassword,
+    forgotPasswordMiddleware.existedToken,
+    forgotPasswordController.forgotPassword,
+);
+forgotPasswordRouter.patch(
+    '/',
+    authMiddleware.authorization,
+    forgotPasswordMiddleware.isPasswordValidator,
+    forgotPasswordMiddleware.checkToken,
+    forgotPasswordController.changePassword,
 );
