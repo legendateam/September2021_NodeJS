@@ -1,13 +1,18 @@
 import { UpdateResult } from 'typeorm';
 import dayjs from 'dayjs';
 
-import { IPost, IPostServiceAbstraction } from '../../interfaces';
+import {
+    IPagination, IPaginationPost, IPost, IPostServiceAbstraction,
+} from '../../interfaces';
 import { postRepository } from '../../repositories';
+import { PostsEntity } from '../../entity';
 
 class PostService implements IPostServiceAbstraction {
-    public async getAll():Promise<IPost[]> {
-        const posts = await postRepository.getAll();
-        return posts;
+    public async getAllPagination(pagination: IPaginationPost):Promise<Partial<IPagination<PostsEntity>>> {
+        const { page = 1, perPage = 50 } = pagination as IPaginationPost;
+        const skip = perPage * (page - 1);
+
+        return postRepository.getAllPagination({ pagination, skip });
     }
 
     public async getNewAll():Promise<IPost[]> {

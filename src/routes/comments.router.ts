@@ -5,7 +5,7 @@ import { commentMiddleware } from '../middlewares';
 
 export const commentsRouter = Router();
 
-commentsRouter.get('/', commentsController.getAll);
+commentsRouter.get('/', commentsController.getAllPagination);
 commentsRouter.post('/', commentMiddleware.validator, commentMiddleware.userExists, commentsController.addOne);
 commentsRouter.get('/:commentId', commentsController.getOne);
 commentsRouter.patch('/:commentId', commentMiddleware.checkFieldsForPatching, commentsController.updateText);

@@ -3,16 +3,27 @@ import {
 } from 'typeorm';
 
 import { PostsEntity } from '../../entity';
-import { IPost, IPostAbstraction } from '../../interfaces';
+import {
+    IPagination, IPost, IPostAbstraction, IRepoPost,
+} from '../../interfaces';
 
 @EntityRepository(PostsEntity)
 class PostRepository extends Repository<PostsEntity> implements IPostAbstraction {
-    public async getAll():Promise<IPost[]> {
-        const posts = await getManager()
+    public async getAllPagination({ pagination: { post, perPage, page }, skip }:IRepoPost):Promise<Partial<IPagination<PostsEntity>>> {
+        const [posts, countItem] = await getManager()
             .getRepository(PostsEntity)
-            .createQueryBuilder('posts')
-            .getMany();
-        return posts;
+            .findAndCount({
+                where: post,
+                skip,
+                take: perPage,
+            });
+
+        return {
+            page,
+            perPage,
+            countItem,
+            data: posts,
+        };
     }
 
     public async getNewAll(date: string):Promise<IPost[]> {

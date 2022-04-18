@@ -2,13 +2,16 @@ import { NextFunction, Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
 import { postService } from '../services';
-import { IPost, IPostControllerAbstraction, IRequestPost } from '../interfaces';
+import {
+    IPaginationPost, IPost, IPostControllerAbstraction, IRequestPost,
+} from '../interfaces';
 import { ErrorHandler } from '../error';
 
 class PostsController implements IPostControllerAbstraction {
-    public async getAll(_: Request, res:Response, next: NextFunction):Promise<Response<IPost[]> | undefined> {
+    public async getAll(req: IRequestPost, res:Response, next: NextFunction):Promise<Response<IPost[]> | undefined> {
         try {
-            const posts = await postService.getAll();
+            const pagination = req.pagination as IPaginationPost;
+            const posts = await postService.getAllPagination(pagination);
             if (!posts) {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;

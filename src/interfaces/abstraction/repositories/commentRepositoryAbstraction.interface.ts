@@ -3,9 +3,11 @@ import { UpdateResult } from 'typeorm';
 import { IComment } from '../../comment.interface';
 import { IDate } from '../../date.interface';
 import { ICountAction } from '../../countAction.interface';
+import { IPagination } from '../../pagination.interface';
+import { CommentsEntity } from '../../../entity';
 
 export interface ICommentAbstraction {
-    getAll():Promise<IComment[]>,
+    getAllPagination(page: number, perPage : number, skip: number):Promise<Partial<IPagination<CommentsEntity>>>,
     getNewAll({ date }: IDate):Promise<IComment[]>,
     getOne(commentId:number):Promise<IComment | undefined>,
     addOne(comment:IComment):Promise<IComment>,

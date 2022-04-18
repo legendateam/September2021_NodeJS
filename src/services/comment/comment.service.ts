@@ -2,11 +2,15 @@ import { UpdateResult } from 'typeorm';
 
 import dayjs from 'dayjs';
 import { commentRepository } from '../../repositories';
-import { IComment, ICommentServiceAbstraction, ICountAction } from '../../interfaces';
+import {
+    IComment, ICommentServiceAbstraction, ICountAction, IPagination,
+} from '../../interfaces';
+import { CommentsEntity } from '../../entity';
 
 class CommentService implements ICommentServiceAbstraction {
-    public async getAll():Promise<IComment[]> {
-        const comments = await commentRepository.getAll();
+    public async getAllPagination(page: number = 1, perPage: number = 50):Promise<Partial<IPagination<CommentsEntity>>> {
+        const skip = perPage * (page - 1);
+        const comments = await commentRepository.getAllPagination(page, perPage, skip);
         return comments;
     }
 

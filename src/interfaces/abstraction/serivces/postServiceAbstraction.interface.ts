@@ -1,9 +1,12 @@
 import { UpdateResult } from 'typeorm';
 
 import { IPost } from '../../post.interface';
+import { IPaginationPost } from '../../request/requestPost.interface';
+import { IPagination } from '../../pagination.interface';
+import { PostsEntity } from '../../../entity';
 
 export interface IPostServiceAbstraction {
-    getAll():Promise<IPost[]>,
+    getAllPagination(pagination: Partial<IPaginationPost>):Promise<Partial<IPagination<PostsEntity>>>,
     getNewAll():Promise<IPost[]>,
     getOne(id:number):Promise<IPost | undefined>,
     addOne(post:IPost):Promise<IPost>,

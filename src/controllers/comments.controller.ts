@@ -6,13 +6,11 @@ import { IComment, IRequestComment, ICommentControllerAbstraction } from '../int
 import { ErrorHandler } from '../error';
 
 class CommentsController implements ICommentControllerAbstraction {
-    public async getAll(_: Request, res:Response, next: NextFunction):Promise<Response<IComment[]> | undefined> {
+    public async getAllPagination(req: Request, res:Response, next: NextFunction): Promise<void> {
         try {
-            const comments = await commentService.getAll();
-            if (!comments) {
-                next(new ErrorHandler('Service Unavailable', 503));
-                return;
-            }
+            const { page = 1, perPage = 50 } = req.query;
+            const comments = await commentService.getAllPagination(+page, +perPage);
+
             res.json(comments);
         } catch (e) {
             next(e);

@@ -4,17 +4,23 @@ import {
 
 import { CommentsEntity } from '../../entity';
 import {
-    IComment, ICountAction, ICommentAbstraction, IDate,
+    IComment, ICountAction, ICommentAbstraction, IDate, IPagination,
 } from '../../interfaces';
 
 @EntityRepository(CommentsEntity)
 class CommentRepository extends Repository<CommentsEntity> implements ICommentAbstraction {
-    public async getAll():Promise<IComment[]> {
-        const comments = await getManager()
+    // eslint-disable-next-line default-param-last
+    public async getAllPagination(page: number = 1, perPage: number = 50, skip: number = 0):Promise<Partial<IPagination<CommentsEntity>>> {
+        const [comments, countItem] = await getManager()
             .getRepository(CommentsEntity)
-            .createQueryBuilder()
-            .getMany();
-        return comments;
+            .createQueryBuilder('posts')
+            .offset(skip)
+            .limit(perPage)
+            .getManyAndCount();
+
+        return {
+            page, perPage, countItem, data: comments,
+        };
     }
 
     public async getNewAll({ date }: IDate):Promise<IComment[]> {

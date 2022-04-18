@@ -6,6 +6,18 @@ import { userService } from '../../services';
 import { ErrorHandler } from '../../error';
 
 class PostMiddleware {
+    public checkQuery(req: IRequestPost, _: Response, next: NextFunction): void {
+        try {
+            const { page: p = 1, perPage: pp = 50, ...other } = req.query;
+            const page = Number(p);
+            const perPage = Number(pp);
+            req.pagination = { page, perPage, post: other };
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
     public fieldsFilled(req:IRequestPost, _:Response, next:NextFunction): void {
         try {
             const { error, value } = postSchema.validate(req.body);
