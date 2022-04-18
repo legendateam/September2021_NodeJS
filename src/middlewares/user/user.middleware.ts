@@ -156,6 +156,19 @@ class UserMiddleware {
             next(e);
         }
     }
+
+    public checkQuery(req: IRequestUser, _: Response, next: NextFunction): void {
+        try {
+            if (req.query) {
+                const { page = 1, perPage = 50, ...other } = req.query;
+
+                req.pagination = { page: +page, perPage: +perPage, user: other };
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 export const userMiddleware = new UserMiddleware();

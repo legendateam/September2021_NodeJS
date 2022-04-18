@@ -3,6 +3,7 @@ import { IPost } from '../../post.interface';
 
 export interface IPostAbstraction {
     getAll():Promise<IPost[]>,
+    getNewAll(date: string):Promise<IPost[]>,
     getOneById(id:number):Promise<IPost | undefined>,
     addOne(post:IPost):Promise<IPost>,
     getUserPosts(userId:number):Promise<IPost[]>,

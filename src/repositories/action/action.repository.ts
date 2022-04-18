@@ -1,7 +1,7 @@
 import { EntityRepository, getManager, Repository } from 'typeorm';
 
 import { ActionsEntity } from '../../entity';
-import { IAction, IActionAbstraction } from '../../interfaces';
+import { IAction, IActionAbstraction, IDate } from '../../interfaces';
 
 @EntityRepository(ActionsEntity)
 class ActionRepository extends Repository<ActionsEntity> implements IActionAbstraction {
@@ -11,6 +11,14 @@ class ActionRepository extends Repository<ActionsEntity> implements IActionAbstr
             .createQueryBuilder('actions')
             .getMany();
         return actions;
+    }
+
+    public async getNewAll({ date }: IDate): Promise<IAction[]> {
+        return getManager()
+            .getRepository(ActionsEntity)
+            .createQueryBuilder('actions')
+            .where('actions.createAt >= :date', { date })
+            .getMany();
     }
 
     public async addOne(action:IAction):Promise<IAction> {

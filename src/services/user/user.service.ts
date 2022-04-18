@@ -2,13 +2,21 @@ import { UpdateResult } from 'typeorm';
 import bcrypt from 'bcrypt';
 
 import { userRepository } from '../../repositories';
-import { IUpdateFields, IUser, IUserServiceAbstraction } from '../../interfaces';
+import {
+    IPagination, IPaginationUser, IRequestUser, IUpdateFields, IUser, IUserServiceAbstraction,
+} from '../../interfaces';
 import { config } from '../../configs';
 
 class UserService implements IUserServiceAbstraction {
-    public async getAll():Promise<IUser[]> {
-        const users = await userRepository.getAll();
-        return users;
+    public async getAllPagination(pagination: Partial<IRequestUser>): Promise<Partial<IPagination<IUser>>> {
+        const { page = 1, perPage = 50, user } = pagination as Partial<IPaginationUser>;
+        const skip = perPage * (page - 1);
+
+        return userRepository.getAllPagination({ page, perPage, user }, skip);
+    }
+
+    public async getNewAll():Promise<IUser[]> {
+        return userRepository.getNewAll();
     }
 
     public async getOneById(id:number): Promise<IUser | undefined> {

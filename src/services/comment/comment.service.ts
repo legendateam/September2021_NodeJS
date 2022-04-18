@@ -1,5 +1,6 @@
 import { UpdateResult } from 'typeorm';
 
+import dayjs from 'dayjs';
 import { commentRepository } from '../../repositories';
 import { IComment, ICommentServiceAbstraction, ICountAction } from '../../interfaces';
 
@@ -7,6 +8,11 @@ class CommentService implements ICommentServiceAbstraction {
     public async getAll():Promise<IComment[]> {
         const comments = await commentRepository.getAll();
         return comments;
+    }
+
+    public async getNewAll():Promise<IComment[]> {
+        const date = { date: dayjs().utc().startOf('day').format() };
+        return commentRepository.getNewAll(date);
     }
 
     public async getOneById(id:number):Promise<IComment | undefined> {

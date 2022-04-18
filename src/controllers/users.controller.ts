@@ -2,14 +2,23 @@ import { NextFunction, Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
 import { emailService, userService } from '../services';
-import { IRequestUser, IUser, IUserControllerAbstraction } from '../interfaces';
+import {
+    IPagination, IRequestUser, IUser, IUserControllerAbstraction,
+} from '../interfaces';
 import { ErrorHandler } from '../error';
 import { EmailEnum } from '../enums';
 
 class UsersController implements IUserControllerAbstraction {
-    public async getAll(_: Request, res:Response, next: NextFunction):Promise<Response<IUser[]> | undefined> {
+    public async getAllPagination(
+        req: IRequestUser,
+        res:Response,
+        next: NextFunction,
+    )
+        :Promise<Response<Partial<IPagination<IUser>>> | undefined> {
         try {
-            const users = await userService.getAll();
+            const pagination = req.pagination as Partial<IRequestUser>;
+            const users = await userService.getAllPagination(pagination);
+
             if (!users) {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;

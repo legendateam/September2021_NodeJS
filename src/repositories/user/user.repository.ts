@@ -1,17 +1,41 @@
 import {
     EntityRepository, getManager, Repository, UpdateResult,
 } from 'typeorm';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
 import { UsersEntity } from '../../entity';
-import { IUpdateFields, IUser, IUserAbstraction } from '../../interfaces';
+import {
+    IPagination, IPaginationUser, IUpdateFields, IUser, IUserAbstraction,
+} from '../../interfaces';
+
+dayjs.extend(utc);
 
 @EntityRepository(UsersEntity)
 class UserRepository extends Repository<UsersEntity> implements IUserAbstraction {
-    public async getAll():Promise<IUser[]> {
-        const users = await getManager()
+    public async getAllPagination({ page, perPage, user }:Partial<IPaginationUser>, skip: number): Promise<Partial<IPagination<IUser>>> {
+        const [users, countItem] = await getManager()
             .getRepository(UsersEntity)
-            .find();
-        return users;
+            .findAndCount({
+                where: user,
+                skip,
+                take: perPage,
+            });
+
+        return {
+            page,
+            perPage,
+            countItem,
+            data: users,
+        };
+    }
+
+    public async getNewAll():Promise<IUser[]> {
+        return getManager()
+            .getRepository(UsersEntity)
+            .createQueryBuilder('user')
+            .where('user.createAt >= :date', { date: dayjs().utc().startOf('day').format() })
+            .getMany();
     }
 
     public async getOne(id:number): Promise<IUser | undefined> {

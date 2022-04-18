@@ -15,6 +15,15 @@ class PostRepository extends Repository<PostsEntity> implements IPostAbstraction
         return posts;
     }
 
+    public async getNewAll(date: string):Promise<IPost[]> {
+        const posts = await getManager()
+            .getRepository(PostsEntity)
+            .createQueryBuilder('posts')
+            .where('posts.createAt >= :date', { date })
+            .getMany();
+        return posts;
+    }
+
     public async getOneById(id:number):Promise<IPost | undefined> {
         const post = await getManager()
             .getRepository(PostsEntity)

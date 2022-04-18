@@ -3,7 +3,9 @@ import {
 } from 'typeorm';
 
 import { CommentsEntity } from '../../entity';
-import { IComment, ICountAction, ICommentAbstraction } from '../../interfaces';
+import {
+    IComment, ICountAction, ICommentAbstraction, IDate,
+} from '../../interfaces';
 
 @EntityRepository(CommentsEntity)
 class CommentRepository extends Repository<CommentsEntity> implements ICommentAbstraction {
@@ -13,6 +15,14 @@ class CommentRepository extends Repository<CommentsEntity> implements ICommentAb
             .createQueryBuilder()
             .getMany();
         return comments;
+    }
+
+    public async getNewAll({ date }: IDate):Promise<IComment[]> {
+        return getManager()
+            .getRepository(CommentsEntity)
+            .createQueryBuilder('comments')
+            .where('comments.createAt >= :date', { date })
+            .getMany();
     }
 
     public async getOne(commentId:number):Promise<IComment | undefined> {

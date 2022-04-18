@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { actionRepository } from '../../repositories';
 import { IAction, IActionServiceAbstraction } from '../../interfaces';
 
@@ -15,6 +17,11 @@ class ActionService implements IActionServiceAbstraction {
     public async getComments(commentId:number):Promise<IAction[]> {
         const actions = await actionRepository.getComments(commentId);
         return actions;
+    }
+
+    public async getNewAll() {
+        const date = { date: dayjs().utc().startOf('day').format() };
+        return actionRepository.getNewAll(date);
     }
 }
 

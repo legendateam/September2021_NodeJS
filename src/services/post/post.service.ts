@@ -1,4 +1,5 @@
 import { UpdateResult } from 'typeorm';
+import dayjs from 'dayjs';
 
 import { IPost, IPostServiceAbstraction } from '../../interfaces';
 import { postRepository } from '../../repositories';
@@ -6,6 +7,12 @@ import { postRepository } from '../../repositories';
 class PostService implements IPostServiceAbstraction {
     public async getAll():Promise<IPost[]> {
         const posts = await postRepository.getAll();
+        return posts;
+    }
+
+    public async getNewAll():Promise<IPost[]> {
+        const date = dayjs().utc().startOf('day').format();
+        const posts = await postRepository.getNewAll(date);
         return posts;
     }
 

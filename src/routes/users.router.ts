@@ -5,7 +5,7 @@ import { userMiddleware } from '../middlewares';
 
 export const usersRouter = Router();
 
-usersRouter.get('/', usersController.getAll);
+usersRouter.get('/', userMiddleware.checkQuery, usersController.getAllPagination);
 usersRouter.get('/:userId', usersController.getOne);
 usersRouter.patch(
     '/:userId',

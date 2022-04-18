@@ -4,6 +4,7 @@ import { IPost } from '../../post.interface';
 
 export interface IPostServiceAbstraction {
     getAll():Promise<IPost[]>,
+    getNewAll():Promise<IPost[]>,
     getOne(id:number):Promise<IPost | undefined>,
     addOne(post:IPost):Promise<IPost>,
     getUserPosts(id:number):Promise<IPost[]>,
