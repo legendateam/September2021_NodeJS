@@ -5,7 +5,7 @@ import { IPost } from '../../post.interface';
 import { IRequestPost } from '../../request/requestPost.interface';
 
 export interface IPostControllerAbstraction {
-    getAll(_: Request, res:Response, next: NextFunction):Promise<Response<IPost[]> | undefined>,
+    getAllPagination(_: Request, res:Response, next: NextFunction):Promise<Response<IPost[]> | undefined>,
     getOne(req:Request, res:Response, next: NextFunction):Promise<Response<IPost> | undefined>,
     addOne(req:IRequestPost, res:Response, next: NextFunction):Promise<Response<IPost> | undefined>,
     getUserPosts(req:Request, res:Response, next: NextFunction):Promise<Response<IPost[]> | undefined>,

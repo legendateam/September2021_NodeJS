@@ -8,7 +8,7 @@ import {
 import { ErrorHandler } from '../error';
 
 class PostsController implements IPostControllerAbstraction {
-    public async getAll(req: IRequestPost, res:Response, next: NextFunction):Promise<Response<IPost[]> | undefined> {
+    public async getAllPagination(req: IRequestPost, res:Response, next: NextFunction):Promise<Response<IPost[]> | undefined> {
         try {
             const pagination = req.pagination as IPaginationPost;
             const posts = await postService.getAllPagination(pagination);
