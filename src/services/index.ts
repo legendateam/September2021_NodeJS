@@ -6,3 +6,4 @@ export * from './role/role.service';
 export * from './user/user.service';
 export * from './token/token.service';
 export * from './post/post.service';
+export * from './s3.service';

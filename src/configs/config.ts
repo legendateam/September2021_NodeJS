@@ -15,4 +15,8 @@ export const config = {
     ROOT_EMAIL: process.env.ROOT_EMAIL,
     ROOT_EMAIL_PASSWORD: process.env.ROOT_EMAIL_PASSWORD,
     DOMAIN_NAME: process.env.DOMAIN_NAME,
+    S3_NAME: process.env.S3_NAME,
+    S3_REGION: process.env.S3_REGION,
+    S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
+    S3_SECRET_KEY: process.env.S3_SECRET_KEY,
 };

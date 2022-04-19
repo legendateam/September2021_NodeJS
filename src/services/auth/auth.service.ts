@@ -9,7 +9,6 @@ class AuthService implements IAuthServiceAbstraction {
     public async registration(user:IUser):Promise<IRoleToken> {
         const createdUser = await userService.addOne(user);
         const role = await roleService.addRole(createdUser);
-
         return this._getToken(role);
     }
 

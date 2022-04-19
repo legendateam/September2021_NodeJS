@@ -1,13 +1,16 @@
 import express from 'express';
-import path from 'path';
 import { engine } from 'express-handlebars';
+import fileUpload from 'express-fileupload';
 import { createConnection } from 'typeorm';
+import path from 'path';
 
 import { apiRouter } from './routes';
 import { config } from './configs';
 import { cronNode } from './cron';
 
 const app = express();
+
+app.use(fileUpload());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

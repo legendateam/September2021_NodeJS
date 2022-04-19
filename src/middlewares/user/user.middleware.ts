@@ -1,4 +1,5 @@
 import { NextFunction, Response } from 'express';
+import { UploadedFile } from 'express-fileupload';
 
 import { IRequestUser, IUser } from '../../interfaces';
 import { userService } from '../../services';
@@ -6,6 +7,7 @@ import {
     authLoginSchema, authSchema, paramsSchema, userPatchSchema,
 } from '../../helpers';
 import { ErrorHandler } from '../../error';
+import { constants } from '../../constants';
 
 class UserMiddleware {
     public async validatorRegistration(req:IRequestUser, _:Response, next:NextFunction): Promise<void> {
@@ -164,6 +166,31 @@ class UserMiddleware {
 
                 req.pagination = { page: +page, perPage: +perPage, user: other };
             }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public checkAvatar(req: IRequestUser, _: Response, next: NextFunction): void {
+        try {
+            if (!req.files?.avatar) {
+                next();
+                return;
+            }
+
+            const { size, mimetype } = req.files.avatar as UploadedFile;
+
+            if (size > constants.SIZE_AVATAR) {
+                next(new ErrorHandler('Wrong file size'));
+                return;
+            }
+
+            if (!constants.PHOTOS_MIMETYPES.includes(mimetype)) {
+                next(new ErrorHandler('Wrong file type'));
+                return;
+            }
+
             next();
         } catch (e) {
             next(e);

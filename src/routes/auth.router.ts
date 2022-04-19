@@ -8,6 +8,7 @@ export const authRouter = Router();
 authRouter.post(
     '/registration',
     userMiddleware.validatorRegistration,
+    userMiddleware.checkAvatar,
     userMiddleware.checkExistsEmailAndPhone,
     authController.registration,
 );

@@ -31,8 +31,10 @@ class UserService implements IUserServiceAbstraction {
 
     public async addOne(user:IUser): Promise<IUser> {
         const { password } = user;
+
         const passwordHashed = await this._hashPassword(password);
         const data = { ...user, password: passwordHashed };
+
         const createUser = await userRepository.addOne(data);
         return createUser;
     }

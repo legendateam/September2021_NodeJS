@@ -1,38 +1,48 @@
 import { NextFunction, Response } from 'express';
 
-import { authService, emailService, tokenService } from '../services';
+import { UploadedFile } from 'express-fileupload';
+import {
+    authService, emailService, s3Service, tokenService,
+} from '../services';
 import { COOKIE } from '../constants';
 import {
     IAuthControllerAbstraction, IRequestAuth, IRequestUser, IRoleToken, IUser,
 } from '../interfaces';
 import { ErrorHandler } from '../error';
-import { EmailEnum } from '../enums';
+import { EmailEnum, UploadFileEnum } from '../enums';
 
 class AuthController implements IAuthControllerAbstraction {
-    public async registration(req: IRequestUser, res: Response, next: NextFunction):Promise<Response<IRoleToken> | undefined> {
+    public async registration(req: IRequestUser, res: Response, next: NextFunction):Promise<void> {
         try {
             const user = req.user as IUser;
-            const data = await authService.registration(user);
+            const tokenPairData = await authService.registration(user);
 
-            if (!data) {
+            if (!tokenPairData) {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;
             }
             res.cookie(
                 COOKIE.nameRefreshToken,
-                data.refreshToken,
+                tokenPairData.refreshToken,
                 { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
             );
             res.cookie(
                 COOKIE.nameAccessToken,
-                data.accessToken,
+                tokenPairData.accessToken,
                 { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
             );
+
+            if (req.files?.avatar) {
+                const avatar = req.files.avatar as UploadedFile;
+                const uploadFile = await s3Service.uploadFile(avatar, UploadFileEnum.USERS, tokenPairData.userId);
+                console.log(uploadFile);
+                console.log(uploadFile.Location);
+            }
 
             const { firstName, lastName, email } = user;
             await emailService.sendEmail(user.email, EmailEnum.WELCOME, { firstName, lastName, email });
 
-            res.json(data);
+            res.json(tokenPairData);
         } catch (e) {
             next(e);
         }
