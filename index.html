@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
+    <title>Socket</title>
+</head>
+<body>
+
+<button id="Socket-test">TEST</button>
+<button id="Room1">JOIN1</button>
+<button id="Room2">JOIN2</button>
+
+<script>
+
+    const socket = io('http://localhost:3200', { query: 'userId=8&accessToken=BLA_BLA_BLA' });
+
+    console.log(socket);
+
+    const btn = document.getElementById('Socket-test');
+    const btnRoom1 = document.getElementById('Room1');
+    const btnRoom2 = document.getElementById('Room2');
+
+    btn.onclick = () => {
+        socket.emit('Test', { message: 'Hello World' });
+    }
+
+    socket.on('Test2', (data) => {
+        console.log({ message: data.message});
+    })
+
+    btnRoom1.onclick = () => {
+        socket.emit('Join', { room: 1, name: 'Юра' });
+    }
+
+    btnRoom2.onclick = () => {
+        socket.emit('Join', { room: 2, name: 'Віктор' });
+    }
+
+    socket.on('joined', (data) => {
+        console.log({ message: data.message });
+    })
+
+    socket.on('welcome', (data) => {
+        console.log(data.message);
+    })
+
+    socket.on('Alert', (data) => {
+        console.log(data.message);
+    })
+
+    socket.on('Test3', (data) => {
+        console.log(data.message);
+    })
+
+</script>
+
+</body>
+</html>

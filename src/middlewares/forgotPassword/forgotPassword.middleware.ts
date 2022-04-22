@@ -61,7 +61,7 @@ class ForgotPasswordMiddleware {
                 const deleteResult = await tokenService.deleteForgotPasswordToken({ userId });
 
                 if (!deleteResult) {
-                    next(new ErrorHandler('oops some worng', 501));
+                    next(new ErrorHandler('oops some wrong', 501));
                     return;
                 }
             }
