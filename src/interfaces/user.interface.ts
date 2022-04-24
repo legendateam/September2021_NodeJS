@@ -14,7 +14,7 @@ export interface IUser extends ICommonFields{
     posts?: IPost[],
     comments?: IComment[],
     actions?: IAction[],
-    role?: IRole
+    role?: IRole,
 }
 
 export interface IUpdateFields {

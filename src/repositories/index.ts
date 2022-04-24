@@ -1,4 +1,6 @@
 export * from './action/action.repository';
+export * from './chat/chat.repository';
+export * from './chat/joinToRoom.repository';
 export * from './comment/comment.repository';
 export * from './role/role.repository';
 export * from './post/post.repository';

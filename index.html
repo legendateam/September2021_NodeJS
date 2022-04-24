@@ -5,55 +5,164 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"
+            integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="main.css">
     <title>Socket</title>
 </head>
 <body>
 
-<button id="Socket-test">TEST</button>
-<button id="Room1">JOIN1</button>
-<button id="Room2">JOIN2</button>
+<div id="main">
+    <h1></h1>
+    <div class="flex" id="main__wrap">
+        <div id="chat"></div>
 
-<script>
+        <div id="rooms" class="flex">
+            <h1>ROOMS</h1>
 
-    const socket = io('http://localhost:3200', { query: 'userId=8&accessToken=BLA_BLA_BLA' });
+            <div class="rooms__room">
 
+                <div class="room__title flex">
+                    <h2>Room 1</h2>
+                </div>
+
+                <button id="room-1" class="rooms__join">JOIN TO ROOM 1</button>
+
+                <form id="rooms__form_room-1">
+                    <textarea name="room_message" placeholder="write text"></textarea>
+                    <button>SAVE</button>
+                </form>
+
+            </div>
+
+            <div class="rooms__room">
+
+                <div class="room__title flex">
+                    <h2>Room 2</h2>
+                </div>
+
+                <button id="room-2" class="rooms__join">JOIN TO ROOM 2</button>
+
+                <form id="rooms__form_room-2">
+                    <textarea name="room_message" placeholder="write text"></textarea>
+                    <button>SAVE</button>
+                </form>
+
+            </div>
+
+            <div class="rooms__room">
+
+                <div class="room__title flex">
+                    <h2>Room 3</h2>
+                </div>
+
+                <button id="room-3" class="rooms__join">JOIN TO ROOM 3</button>
+
+                <form id="rooms__form_room-3">
+                    <textarea name="room_message" placeholder="write text"></textarea>
+                    <button>SAVE</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+
+<script type="module">
+    import {v4 as uuidv4} from 'https://jspm.dev/uuid';
+
+    const id = uuidv4();
+    const socket = io('http://localhost:5000', {query: `userId=${id}`});
     console.log(socket);
 
-    const btn = document.getElementById('Socket-test');
-    const btnRoom1 = document.getElementById('Room1');
-    const btnRoom2 = document.getElementById('Room2');
+    let roomId = [];
+    const btn = document.getElementsByClassName('rooms__join');
+    const form = document.getElementsByTagName('form');
+    const chat = document.getElementById('chat');
+    const h1 = document.getElementsByTagName('h1')[0];
 
-    btn.onclick = () => {
-        socket.emit('Test', { message: 'Hello World' });
+    for (const btnElement of btn) {
+        btnElement.onclick = () => {
+
+            if (!roomId.length) {
+
+                roomId.push(id);
+                roomId.push(btnElement.id);
+
+                socket.emit('room-join', { roomId: btnElement.id, id });
+            }
+
+            if (roomId.length && roomId.includes(id) && !roomId.includes(btnElement.id)) {
+                socket.emit('room-join', { roomId: btnElement.id, id });
+
+                roomId.push(btnElement.id)
+            }
+
+            if (roomId.length && roomId.includes(id) && roomId.includes(btnElement.id)) {
+                console.warn('You are joined earlier');
+            }
+        }
     }
 
-    socket.on('Test2', (data) => {
-        console.log({ message: data.message});
+    socket.on('room-joined', (server) => {
+        h1.innerText = server.message;
     })
 
-    btnRoom1.onclick = () => {
-        socket.emit('Join', { room: 1, name: 'Юра' });
+    socket.on('room-getMessages-after-reloading-page', (server) => {
+        socket.emit('room-reload', server);
+    })
+
+    for (const formElement of form) {
+        formElement.onsubmit = (event) => {
+            event.preventDefault();
+            const message = event.target[0].value;
+
+            if (message) {
+                socket.emit('message-create', { message });
+            }
+        }
     }
 
-    btnRoom2.onclick = () => {
-        socket.emit('Join', { room: 2, name: 'Віктор' });
-    }
+    socket.on('message-created', (server) => {
+        const { userId, message, accessToken, authorName, roomId } = server;;
 
-    socket.on('joined', (data) => {
-        console.log({ message: data.message });
-    })
+        const div = document.createElement('div');
+        const h2 = document.createElement('h2');
+        const p = document.createElement('p');
+        const hr = document.createElement('hr');
 
-    socket.on('welcome', (data) => {
-        console.log(data.message);
-    })
+        div.classList.add('chat__users_message', 'flex', 'flex-direction-column');
 
-    socket.on('Alert', (data) => {
-        console.log(data.message);
-    })
+        h2.innerText = authorName;
+        p.innerText = message;
 
-    socket.on('Test3', (data) => {
-        console.log(data.message);
+        if (h2.innerText !== 'undefined' && p.innerText !== 'undefined') {
+            div.append(h2, p, hr);
+            chat.append(div)
+        }
+    });
+
+    socket.on('message-getFromDB', (server) => {
+
+        server.forEach(msg => {
+
+                const div = document.createElement('div');
+                const h2 = document.createElement('h2');
+                const p = document.createElement('p');
+                const hr = document.createElement('hr');
+
+                div.classList.add('chat__users_message', 'flex', 'flex-direction-column');
+
+                h2.innerText = msg.authorName;
+                p.innerText = msg.message;
+
+                div.append(h2, p, hr);
+                chat.append(div)
+            })
     })
 
 </script>
