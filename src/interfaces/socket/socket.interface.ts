@@ -9,4 +9,8 @@ export interface IRoomReload {
 
 export interface ICreateMessage {
     message: string,
+    userId: string,
+    authorName: string,
+    roomId: string,
+    accessToken: string,
 }

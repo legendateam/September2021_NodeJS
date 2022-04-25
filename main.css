@@ -20,7 +20,7 @@ button {
     width: 400px;
 }
 
-.main__wrap, .room__title {
+#main__wrap, .room__title {
     justify-content: center;
 }
 

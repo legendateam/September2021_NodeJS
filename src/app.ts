@@ -5,15 +5,11 @@ import { createConnection } from 'typeorm';
 import path from 'path';
 import { App } from 'uWebSockets.js';
 import { Server } from 'socket.io';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
 
 import { apiRouter } from './routes';
 import { config } from './configs';
 import { cronNode } from './cron';
-import { chatService, joinToRoomService } from './services';
-import { ICreateMessage, IRoomJoin, IRoomReload } from './interfaces';
-// import { chatService } from './services';
+import { socketController } from './controllers';
 
 const app = express();
 
@@ -48,43 +44,7 @@ app.listen(config.PORT, async () => {
     }
 });
 
-io.on('connection', (socket) => {
-    console.log(socket.id, 'socket__id');
-    console.log(socket.handshake.query.userId, 'uuid__emit_userId');
-
-    const accessToken = socket.id;
-    const userId = socket.handshake.query?.userId as string;
-
-    const config: Config = { dictionaries: [names] };
-
-    const authorName = uniqueNamesGenerator(config); // Winona
-
-    socket.on('room-join', async ({ roomId, id } : IRoomJoin) => {
-        await joinToRoomService.join({ roomId, userId: id, accessToken });
-        socket.join(roomId);
-
-        socket.broadcast.to(roomId).emit('room-joined', { message: `${authorName} has joined room ${roomId}` });
-
-        socket.emit('room-getMessages-after-reloading-page', { roomId });
-
-        socket.on('message-create', async ({ message }: ICreateMessage) => {
-
-            await chatService.saveMessage({
-                userId, message, authorName, roomId, accessToken,
-            });
-
-            io.to(roomId).emit('message-created', {
-                userId, message, authorName, roomId, accessToken,
-            });
-        });
-        // }
-    });
-
-    socket.on('room-reload', async ({ roomId } : IRoomReload) => {
-        const messages = await chatService.getMessages({ roomId });
-        socket.emit('message-getFromDB', messages);
-    });
-});
+io.on('connection', (socket) => socketController.connection(io, socket));
 
 app2.listen(5000, (token: any) => {
     try {
