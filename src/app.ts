@@ -1,10 +1,11 @@
 import express from 'express';
 import { engine } from 'express-handlebars';
 import fileUpload from 'express-fileupload';
-import { createConnection } from 'typeorm';
+import mongoose from 'mongoose';
 import path from 'path';
-import { App } from 'uWebSockets.js';
+import { createConnection } from 'typeorm';
 import { Server } from 'socket.io';
+import { App } from 'uWebSockets.js';
 
 import { apiRouter } from './routes';
 import { config } from './configs';
@@ -20,6 +21,8 @@ const io = new Server();
 io.attachApp(app2, { cors: { origin: '*' } });
 
 app.use(fileUpload());
+
+mongoose.connect(`mongodb://localhost:${config.PORT_MONGO}/${config.MONGODB_DATABASE_NAME}`);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

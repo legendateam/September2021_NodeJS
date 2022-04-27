@@ -4,3 +4,7 @@ export interface IPagination<T> {
     countItem: number,
     data: T[],
 }
+
+export interface IPaginationQuery<T> extends IPagination<T> {
+    other: any
+}

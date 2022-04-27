@@ -8,4 +8,5 @@ export * from './token/token.service';
 export * from './post/post.service';
 export * from './chat.service';
 export * from './joinToRoom.service';
+export * from './password.service';
 export * from './s3.service';

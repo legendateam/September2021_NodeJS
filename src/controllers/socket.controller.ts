@@ -31,7 +31,6 @@ class SocketController {
                 roomId,
                 accessToken,
             }));
-
         });
 
         socket.on('room-reload', ({ roomId } : IRoomReload) => this._roomReload(socket, { roomId }));

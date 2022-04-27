@@ -8,4 +8,12 @@ export const commonValidator = {
     email: Joi.string().email().lowercase(),
     password: Joi.string().regex(regexConstant.PASSWORD),
     id: Joi.number(),
+    idMongo: Joi.string(),
+    address: {
+        city: Joi.string().required(),
+        oblast: Joi.string().required(),
+        street: Joi.string().required(),
+        buildingNumber: Joi.number().required(),
+        app: Joi.number(),
+    },
 };

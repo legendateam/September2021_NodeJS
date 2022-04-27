@@ -4,3 +4,4 @@ export * from './comment/comment.middleware';
 export * from './forgotPassword/forgotPassword.middleware';
 export * from './post/post.middleware';
 export * from './user/user.middleware';
+export * from './teacher.middleware';

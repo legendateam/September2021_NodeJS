@@ -4,8 +4,12 @@ dotenv.config();
 
 export const config = {
     PORT: process.env.PORT || 5000,
+    PORT_MONGO: process.env.PORT_MONGO || 27017,
+    DEFAULT_PASSWORD: process.env.DEFAULT_PASSWORD || 'Harvard University',
     MYSQL_DATABASE_NAME: process.env.MYSQL_DATABASE_NAME,
+    MONGODB_DATABASE_NAME: process.env.MONGODB_DATABASE_NAME,
     USER_SALT_ROUNDS: process.env.USER_SALT_ROUNDS,
+    HOST_DATABASE: process.env.HOST_DATABASE || 'localhost',
     SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY,
     SECRET_REFRESH_KEY: process.env.SECRET_REFRESH_KEY,
     SECRET_FORGOT_PASSWORD_KEY: process.env.SECRET_FORGOT_PASSWORD_KEY,
