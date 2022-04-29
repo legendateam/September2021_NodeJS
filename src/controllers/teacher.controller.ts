@@ -70,8 +70,9 @@ class TeacherController implements ITeacherControllerAbstraction {
                 return;
             }
 
-
-            res.json({ ...teacherCreated, password: null });
+            res.json({
+                message: `${teacherCreated.firstName} ${teacherCreated.lastName} successfully created`,
+            });
         } catch (e) {
             next(e);
         }

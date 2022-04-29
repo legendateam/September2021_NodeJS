@@ -22,7 +22,7 @@ io.attachApp(app2, { cors: { origin: '*' } });
 
 app.use(fileUpload());
 
-mongoose.connect(`mongodb://localhost:${config.PORT_MONGO}/${config.MONGODB_DATABASE_NAME}`);
+mongoose.connect(`mongodb://${config.HOST_DATABASE}:${config.PORT_MONGO}/${config.MONGODB_DATABASE_NAME}`);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

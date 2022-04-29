@@ -1,4 +1,4 @@
-export interface IStreet {
+export interface IAddress {
     city: string,
     oblast: string,
     street: string,

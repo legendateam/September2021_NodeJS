@@ -1,6 +1,9 @@
 import { Schema, model } from 'mongoose';
 
-const departmentSchema = new Schema({
+import { config } from '../configs';
+import { IDepartment } from '../interfaces';
+
+const departmentSchema = new Schema<IDepartment>({
     name: {
         type: String,
         required: true,
@@ -10,7 +13,7 @@ const departmentSchema = new Schema({
     webStore: {
         type: String,
         trim: true,
-        default: 'https://owu.com.ua/',
+        default: config.DOMAIN_NAME,
     },
 
 }, {
@@ -19,4 +22,4 @@ const departmentSchema = new Schema({
     toObject: { virtuals: true },
 });
 
-export const departmentModel = model('department', departmentSchema);
+export const departmentModel = model<IDepartment>('department', departmentSchema);

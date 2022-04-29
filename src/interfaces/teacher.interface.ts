@@ -1,14 +1,10 @@
-import { IStreet } from './street.interface';
+import { IUserMongoose } from './userMongoose.interface';
+import {IDepartment} from "./department.interface";
+import {ISubject} from "./subject.interface";
+import {ICorpus} from "./corpus.interface";
 
-export interface ITeacher {
-    firstName: string,
-    lastName: string,
-    age: number,
-    email: string,
-    address: IStreet,
-    role: string,
-    password: string,
-    department?: any,
-    subjects?: any[],
-    corpus?: any[]
+export interface ITeacher extends IUserMongoose {
+    department: IDepartment,
+    subjects: ISubject[],
+    corpus: ICorpus[]
 }

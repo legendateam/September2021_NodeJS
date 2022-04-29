@@ -4,8 +4,9 @@ import { teacherModel } from './Teacher.model';
 import { departmentModel } from './Department.model';
 import { subjectModel } from './Subject.model';
 import { corpusModel } from './Corpus.model';
+import { IGroup } from '../interfaces';
 
-const groupSchema = new Schema({
+const groupSchema = new Schema<IGroup>({
     name: {
         type: String,
         required: true,
@@ -49,4 +50,4 @@ groupSchema.pre('findOne', function () {
     this.populate('subjects');
 });
 
-export const groupModel = model('group', groupSchema);
+export const groupModel = model<IGroup>('group', groupSchema);

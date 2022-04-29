@@ -1,8 +1,9 @@
 import mongoose, { Schema, model } from 'mongoose';
 
 import { subjectModel } from './Subject.model';
+import {IRating} from "../interfaces";
 
-const ratingSchema = new Schema({
+const ratingSchema = new Schema<IRating>({
     rating: {
         type: Number,
         require: true,
@@ -28,4 +29,4 @@ ratingSchema.pre('findOne', function () {
     this.populate('subject');
 });
 
-export const ratingModel = model('rating', ratingSchema);
+export const ratingModel = model<IRating>('rating', ratingSchema);

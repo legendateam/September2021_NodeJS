@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
 import { commonValidator } from './commonValidator.helper';
+import {ICorpus, IDepartment, IGroup, IRating, IStudent, ISubject, ITeacher} from '../interfaces';
 
 class ValidatorSchema {
     public static authSchema: Joi.ObjectSchema = Joi.object({
@@ -272,7 +273,7 @@ class ValidatorSchema {
             }),
     });
 
-    public static teacherSchema: Joi.ObjectSchema = Joi.object({
+    public static teacherSchema: Joi.ObjectSchema = Joi.object<ITeacher>({
         firstName: commonValidator.name.required().messages({
             'string.base': 'First Name should be a type of text',
             'string.empty': 'First Name cannot be an empty field',
@@ -314,10 +315,100 @@ class ValidatorSchema {
             'any.required': 'email is a required field',
         }),
         address: commonValidator.address,
+        role: Joi.string().max(8),
+        department: Joi.string(),
+        subjects: Joi.string(),
+        corpus: Joi.string()
     });
+
+    public static studentSchema: Joi.ObjectSchema = Joi.object<IStudent>({
+        firstName: commonValidator.name.required().messages({
+            'string.base': 'First Name should be a type of text',
+            'string.empty': 'First Name cannot be an empty field',
+            'string.pattern.base': 'First Name should have only Latin letters also the first letter is capitalized',
+            'any.required': 'First Name is a required field',
+        }),
+
+        lastName: commonValidator.name.required().messages({
+            'string.base': 'First Name should be a type of text',
+            'string.empty': 'First Name cannot be an empty field',
+            'string.pattern.base': 'First Name should have only Latin letters also the first letter is capitalized',
+            'any.required': 'First Name is a required field',
+        }),
+
+        age: Joi.number().min(21).max(65).required()
+            .messages({
+                'number.base': 'age should be a type of number',
+                'number.empty': 'age cannot be an empty field',
+                'number.min': 'age should be from {#limit}',
+                'number.max': 'age should be up {#limit}',
+                'any.required': 'age is a required field',
+            }),
+
+        password: commonValidator.password.min(8).max(40)
+            .required()
+            .messages({
+                'string.base': 'password should be a type of text',
+                'string.empty': 'password cannot be an empty field',
+                'string.pattern.base': 'password should have only Latin litters without spaces also one capital letter and one number',
+                'string.min': 'password should have a minimum length of {#limit}',
+                'string.max': 'password Name should have a maximum length of {#limit}',
+                'any.required': 'password is a required field',
+            }),
+
+        email: commonValidator.email.required().messages({
+            'string.base': 'email should be a type of text',
+            'string.empty': 'email cannot be an empty field',
+            'string.pattern.base': 'email should have only Latin letters also "@" and without spaces',
+            'any.required': 'email is a required field',
+        }),
+        address: commonValidator.address,
+        formOfEducation: Joi.string().required(),
+        role: Joi.string(),
+        department: Joi.string(),
+        subjects: Joi.string(),
+        curator: Joi.string(),
+        teachers: Joi.string(),
+        group: Joi.string(),
+        ratings: Joi.string()
+    });
+
+    public static subjectSchema: Joi.ObjectSchema = Joi.object<ISubject>({
+        name: Joi.string().required().trim().message('The Name of the subject must be and has type text'),
+    });
+
+    public static ratingSchema: Joi.ObjectSchema = Joi.object<IRating>({
+        rating: Joi.number().required().min(1).max(5)
+            .message('rating cannot be an empty field and rating must be type number also min 1 max 5'),
+        subject: Joi.string()
+    });
+
+    public static groupSchema: Joi.ObjectSchema = Joi.object<IGroup>({
+        name: Joi.string().required().min(2)
+            .message('type name string and min 2 symbols'),
+        course: Joi.number().required(),
+        subjects: Joi.string(),
+        curator: Joi.string(),
+        department: Joi.string(),
+        corpus: Joi.string(),
+    });
+
+    public static departmentSchema: Joi.ObjectSchema = Joi.object<IDepartment>({
+        name: Joi.string().required().min(5)
+            .message('type name string and min 5 symbols'),
+        webStore: Joi.string(),
+    });
+
+    public static corpusSchema: Joi.ObjectSchema = Joi.object<ICorpus>({
+        number: Joi.number().required().min(0),
+        subjects: Joi.string(),
+        department: Joi.string(),
+        address: commonValidator.address
+    })
 }
 
 export const {
     authSchema, authLoginSchema, authTokenSchema, actionSchema, commentSchema, postSchema, userPatchSchema, paramsSchema,
-    emailSchema, passwordSchema, paramsMongoIdSchema, teacherSchema,
+    emailSchema, passwordSchema, paramsMongoIdSchema, groupSchema, departmentSchema, ratingSchema, studentSchema,
+    subjectSchema, teacherSchema, corpusSchema
 } = ValidatorSchema;

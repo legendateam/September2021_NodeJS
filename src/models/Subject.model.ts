@@ -1,12 +1,14 @@
 import mongoose, { Schema, model } from 'mongoose';
 
 import { departmentModel } from './Department.model';
+import { ISubject } from '../interfaces';
 
-const subjectSchema = new Schema({
+const subjectSchema = new Schema<ISubject>({
     name: {
         type: String,
         required: true,
         trim: true,
+        unique: true,
     },
 
     department: {
@@ -20,4 +22,9 @@ const subjectSchema = new Schema({
     toObject: { virtuals: true },
 });
 
-export const subjectModel = model('subject', subjectSchema);
+// eslint-disable-next-line func-names
+subjectSchema.pre('findOne', function (): void {
+    this.populate('department');
+});
+
+export const subjectModel = model<ISubject>('subject', subjectSchema);

@@ -2,23 +2,10 @@ import { Response, NextFunction } from 'express';
 
 import { ErrorHandler } from '../error';
 import { IRequestExtended, ITeacher } from '../interfaces';
-import { paramsMongoIdSchema, teacherSchema } from '../helpers';
+import {paramsMongoIdSchema, teacherSchema} from '../helpers';
 import { teacherModel } from '../models';
 
 class TeacherMiddleware {
-    public checkQueryPagination(req: Partial<IRequestExtended>, _: Response, next: NextFunction): void {
-        try {
-            if (req.query) {
-                const { page = 1, perPage = 50, ...other } = req.query;
-
-                req.pagination = { page: +page, perPage: +perPage, other };
-            }
-            next();
-        } catch (e) {
-            next(e);
-        }
-    }
-
     public validateIdByParams(req: IRequestExtended, _: Response, next: NextFunction): void {
         try {
             const { teacherId } = req.params;

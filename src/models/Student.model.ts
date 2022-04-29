@@ -7,8 +7,10 @@ import { teacherModel } from './Teacher.model';
 import { subjectModel } from './Subject.model';
 import { ratingModel } from './Rating.model';
 import { RoleEnum } from '../enums';
+import { IHashPassword, IStudent, IStudentModel } from '../interfaces';
+import { passwordService } from '../services';
 
-const studentSchema = new Schema({
+const studentSchema = new Schema<IStudent, IStudentModel>({
     firstName: {
         type: String,
         require: true,
@@ -29,8 +31,9 @@ const studentSchema = new Schema({
 
     formOfEducation: {
         type: String,
-        require: true,
         trim: true,
+        required: true,
+        default: 'daily',
     },
 
     email: {
@@ -39,6 +42,13 @@ const studentSchema = new Schema({
         unique: true,
         trim: true,
         lowercase: true,
+    },
+
+    password: {
+        type: String,
+        required: true,
+        trim: true,
+        select: false,
     },
 
     address: addressSchema,
@@ -90,4 +100,19 @@ studentSchema.pre('findOne', function () {
     this.populate('curator');
 });
 
-export const studentModel = model('student', studentSchema);
+studentSchema.methods = {
+    async compare({ password }: IHashPassword): Promise<boolean> {
+        return passwordService.compare({ password, hashPassword: this.password });
+    },
+};
+
+studentSchema.statics = {
+    async hash(student: IStudent) : Promise<IStudent> {
+        const { password } = student;
+        const hashedPassword = await passwordService.hash({ password });
+
+        return { ...student, password: hashedPassword };
+    },
+};
+
+export const studentModel = model<IStudent, IStudentModel>('student', studentSchema);

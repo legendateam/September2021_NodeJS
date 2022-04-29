@@ -3,13 +3,9 @@ import mongoose, { Schema, model } from 'mongoose';
 import { addressSchema } from './address';
 import { departmentModel } from './Department.model';
 import { subjectModel } from './Subject.model';
+import { ICorpus } from '../interfaces';
 
-const corpusSchema = new Schema({
-    name: {
-        type: String,
-        trim: true,
-    },
-
+const corpusSchema = new Schema<ICorpus>({
     number: {
         type: Number,
         required: true,
@@ -18,7 +14,7 @@ const corpusSchema = new Schema({
 
     address: addressSchema,
 
-    departments: {
+    department: {
         type: mongoose.Schema.Types.ObjectId,
         ref: departmentModel,
     },
@@ -34,4 +30,9 @@ const corpusSchema = new Schema({
     toObject: { virtuals: true },
 });
 
-export const corpusModel = model('corpus', corpusSchema);
+corpusSchema.pre('findOne', function () {
+    this.populate('department');
+    this.populate('subjects');
+});
+
+export const corpusModel = model<ICorpus>('corpus', corpusSchema);
