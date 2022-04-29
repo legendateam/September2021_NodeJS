@@ -9,7 +9,7 @@ class CorpusMiddleware {
 
     public async checkUnique(req: IRequestExtended, _: Response, next: NextFunction): Promise<void> {
         try {
-            const { number } = req.body as ICorpus;
+            const { number } = req.corpus as ICorpus;
 
             const corpus = await corpusModel.findOne({ number });
 
@@ -26,7 +26,7 @@ class CorpusMiddleware {
 
     public async checkParams(req: IRequestExtended, _: Response, next: NextFunction): Promise<void> {
         try {
-            const { corpusId } = req.body;
+            const { corpusId } = req.params;
 
             if (!corpusId) {
                 next(new ErrorHandler('Some Wrong'));
@@ -54,6 +54,7 @@ class CorpusMiddleware {
                 next(new ErrorHandler('oops'));
                 return;
             }
+
 
             const { error, value } = corpusSchema.validate(req.body);
 

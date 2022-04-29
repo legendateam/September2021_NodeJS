@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', otherMiddleware.checkQueryPagination, corpusController.getAll);
 router.get('/:corpusId', corpusMiddleware.checkParams, corpusController.getOne);
-router.post('/', corpusMiddleware.checkUnique, corpusController.addOne);
+router.post('/', corpusMiddleware.checkBody, corpusMiddleware.checkUnique, corpusController.addOne);
 router.delete('/:corpusId', corpusMiddleware.checkParams, corpusController.removeOne);
 
 export const corpusRouter = router;

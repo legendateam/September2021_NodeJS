@@ -9,7 +9,6 @@ const corpusSchema = new Schema<ICorpus>({
     number: {
         type: Number,
         required: true,
-        trim: true,
     },
 
     address: addressSchema,

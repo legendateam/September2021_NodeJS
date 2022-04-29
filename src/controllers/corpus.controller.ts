@@ -37,6 +37,7 @@ class CorpusController implements ICorpusAbstraction {
 
     public async getOne(req: IRequestExtended, res: Response, next: NextFunction): Promise<void> {
         try {
+
             const corpus = await corpusModel.findById(req._id);
 
             if (!corpus) {
@@ -52,7 +53,7 @@ class CorpusController implements ICorpusAbstraction {
 
     public async addOne(req: IRequestExtended, res: Response, next: NextFunction): Promise<void> {
         try {
-            const corpus = await corpusModel.create(req.department);
+            const corpus = await corpusModel.create(req.corpus);
 
             if (!corpus) {
                 next(new ErrorHandler('Some Wong'));

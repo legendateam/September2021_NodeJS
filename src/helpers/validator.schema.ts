@@ -400,11 +400,11 @@ class ValidatorSchema {
     });
 
     public static corpusSchema: Joi.ObjectSchema = Joi.object<ICorpus>({
-        number: Joi.number().required().min(0),
+        number: Joi.number().required().min(1),
         subjects: Joi.string(),
         department: Joi.string(),
-        address: commonValidator.address
-    })
+        address: commonValidator.address,
+    });
 }
 
 export const {
