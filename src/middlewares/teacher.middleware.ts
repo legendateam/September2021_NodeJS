@@ -51,7 +51,7 @@ class TeacherMiddleware {
             const teacher = await teacherModel.findOne({ email });
 
             if (teacher) {
-                next(new ErrorHandler('Teacher Exists'));
+                next(new ErrorHandler('Teacher already exists!\''));
                 return;
             }
 

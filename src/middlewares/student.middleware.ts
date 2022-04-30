@@ -61,7 +61,7 @@ class StudentMiddleware {
             const student = await studentModel.findOne({ email });
 
             if (student) {
-                next(new ErrorHandler('Some Wrong'));
+                next(new ErrorHandler('Student already exists!'));
                 return;
             }
 

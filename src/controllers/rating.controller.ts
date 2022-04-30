@@ -12,7 +12,7 @@ class RatingController implements IRatingAbstraction {
 
                 const skip = perPage * (page - 1);
 
-                const ratings = ratingModel.find().skip(skip).limit(perPage);
+                const ratings = await ratingModel.find().skip(skip).limit(perPage);
 
                 if (!ratings) {
                     next(new ErrorHandler('Some Wrong'));
@@ -23,7 +23,7 @@ class RatingController implements IRatingAbstraction {
                 return;
             }
 
-            const ratings = ratingModel.find({});
+            const ratings = await ratingModel.find({});
 
             if (!ratings) {
                 next(new ErrorHandler('Some Wrong'));
@@ -40,7 +40,7 @@ class RatingController implements IRatingAbstraction {
         try {
             const { _id } = req;
 
-            const rating = ratingModel.findById(_id);
+            const rating = await ratingModel.findById(_id);
 
             if (!rating) {
                 next(new ErrorHandler('Some Wrong'));
@@ -57,7 +57,7 @@ class RatingController implements IRatingAbstraction {
         try {
             const { _id } = req;
 
-            const ratingDeleted = ratingModel.remove({ _id });
+            const ratingDeleted = await ratingModel.remove({ _id });
 
             if (!ratingDeleted) {
                 next(new ErrorHandler('Some Wrong'));
@@ -76,7 +76,7 @@ class RatingController implements IRatingAbstraction {
         try {
             const { rating } = req;
 
-            const ratingCreated = ratingModel.create(rating);
+            const ratingCreated = await ratingModel.create(rating);
 
             if (!ratingCreated) {
                 next(new ErrorHandler('Some Wrong'));

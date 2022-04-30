@@ -22,7 +22,6 @@ class GroupMiddleware {
             }
 
             req._id = value._id;
-            req._id = req.body;
 
             next();
         } catch (e) {

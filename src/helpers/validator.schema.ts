@@ -336,7 +336,7 @@ class ValidatorSchema {
             'any.required': 'First Name is a required field',
         }),
 
-        age: Joi.number().min(21).max(65).required()
+        age: Joi.number().min(18).max(65).required()
             .messages({
                 'number.base': 'age should be a type of number',
                 'number.empty': 'age cannot be an empty field',
@@ -375,6 +375,7 @@ class ValidatorSchema {
 
     public static subjectSchema: Joi.ObjectSchema = Joi.object<ISubject>({
         name: Joi.string().required().trim().message('The Name of the subject must be and has type text'),
+        department: Joi.string(),
     });
 
     public static ratingSchema: Joi.ObjectSchema = Joi.object<IRating>({

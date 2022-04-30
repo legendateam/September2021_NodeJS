@@ -12,7 +12,7 @@ class SubjectController implements ISubjectAbstraction {
 
                 const skip = perPage * (page - 1);
 
-                const subjects = subjectModel.find().skip(skip).limit(perPage);
+                const subjects = await subjectModel.find().skip(skip).limit(perPage);
 
                 if (!subjects) {
                     next(new ErrorHandler('Some Wrong'));
@@ -23,7 +23,7 @@ class SubjectController implements ISubjectAbstraction {
                 return;
             }
 
-            const subjects = subjectModel.find();
+            const subjects = await subjectModel.find();
 
             if (!subjects) {
                 next(new ErrorHandler('Some Wrong'));
