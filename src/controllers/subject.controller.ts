@@ -65,7 +65,7 @@ class SubjectController implements ISubjectAbstraction {
             }
 
             res.json({
-                message: 'subject deleted successfully!',
+                message: 'successfully removed!',
             });
         } catch (e) {
             next(e);

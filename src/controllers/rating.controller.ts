@@ -65,7 +65,7 @@ class RatingController implements IRatingAbstraction {
             }
 
             res.json({
-                message: 'subject deleted successfully!',
+                message: 'successfully removed!',
             });
         } catch (e) {
             next(e);

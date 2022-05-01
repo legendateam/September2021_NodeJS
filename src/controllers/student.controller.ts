@@ -90,7 +90,7 @@ class StudentController implements IStudentAbstraction {
             }
 
             res.json({
-                message: 'remove deleted',
+                message: 'successfully removed',
             });
         } catch (e) {
             next(e);

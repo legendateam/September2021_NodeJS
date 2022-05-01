@@ -90,7 +90,7 @@ class TeacherController implements ITeacherControllerAbstraction {
             }
 
             res.json({
-                message: 'remove is completed',
+                message: 'successfully removed',
             });
         } catch (e) {
             next(e);

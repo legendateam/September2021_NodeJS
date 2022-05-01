@@ -63,7 +63,7 @@ class GroupController {
             }
 
             res.json({
-                message: 'Deleted successfully!',
+                message: 'successfully removed!',
             });
         } catch (e) {
             next(e);
