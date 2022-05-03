@@ -1,19 +1,37 @@
-import { Request, Response, NextFunction } from 'express';
-import { groupModel } from '../models';
-import { ErrorHandler } from '../error';
-import { IGroup, IRequestExtended } from '../interfaces';
+import {NextFunction, Request, Response} from 'express';
+import {groupModel} from '../models';
+import {ErrorHandler} from '../error';
+import {IGroup, IRequestExtended} from '../interfaces';
+import {responseMessageConstant} from "../constants";
+import {ResponseEnum} from "../enums";
 
 class GroupController {
-    public async getAll(_: Request, res: Response, next: NextFunction) {
+    public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const groups = await groupModel.find();
+            const { page = 1, perPage = 50 } = req.query;
+
+            const skip = Number(perPage) * (Number(page) - 1);
+
+            const groups = await groupModel.find().skip(skip).limit(+perPage);
 
             if (!groups) {
                 next(new ErrorHandler('Some worng'));
                 return;
             }
 
-            res.json(groups);
+            const countItem = await groupModel.find().count({});
+
+            if (!countItem) {
+                next(new ErrorHandler('Some worng'));
+                return;
+            }
+
+            res.json({
+                page,
+                perPage,
+                countItem,
+                data: groups
+            });
         } catch (e) {
             next(e);
         }
@@ -62,9 +80,7 @@ class GroupController {
                 return;
             }
 
-            res.json({
-                message: 'successfully removed!',
-            });
+            res.json(responseMessageConstant[ResponseEnum.DELETED]);
         } catch (e) {
             next(e);
         }

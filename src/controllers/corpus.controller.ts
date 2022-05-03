@@ -1,8 +1,10 @@
-import { NextFunction, Response } from 'express';
+import {NextFunction, Response} from 'express';
 
-import { ICorpusAbstraction, IRequestExtended } from '../interfaces';
-import { corpusModel } from '../models';
-import { ErrorHandler } from '../error';
+import {ICorpusAbstraction, IRequestExtended} from '../interfaces';
+import {corpusModel} from '../models';
+import {ErrorHandler} from '../error';
+import {responseMessageConstant} from "../constants";
+import {ResponseEnum} from "../enums";
 
 class CorpusController implements ICorpusAbstraction {
     public async getAll(req: IRequestExtended, res: Response, next: NextFunction): Promise<void> {
@@ -12,13 +14,19 @@ class CorpusController implements ICorpusAbstraction {
                 const skip = perPage * (page - 1);
 
                 const corpus = await corpusModel.find({}).skip(skip).limit(perPage);
+                const countItem = await corpusModel.count({});
 
                 if (!corpus) {
                     next(new ErrorHandler('Some Wong'));
                     return;
                 }
 
-                res.json(corpus);
+                res.json({
+                    page,
+                    perPage,
+                    countItem,
+                    data: corpus,
+                });
                 return;
             }
 
@@ -76,7 +84,7 @@ class CorpusController implements ICorpusAbstraction {
                 return;
             }
 
-            res.json(deleted);
+            res.json(responseMessageConstant[ResponseEnum.DELETED]);
         } catch (e) {
             next(e);
         }

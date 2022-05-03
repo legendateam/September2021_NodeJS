@@ -1,8 +1,10 @@
-import { Response, NextFunction } from 'express';
+import {NextFunction, Response} from 'express';
 
-import { IRequestExtended, IStudent, IStudentAbstraction } from '../interfaces';
-import { studentModel } from '../models';
-import { ErrorHandler } from '../error';
+import {IRequestExtended, IStudent, IStudentAbstraction} from '../interfaces';
+import {studentModel} from '../models';
+import {ErrorHandler} from '../error';
+import {responseMessageConstant} from "../constants";
+import {ResponseEnum} from "../enums";
 
 class StudentController implements IStudentAbstraction {
     public async getAll(req: IRequestExtended, res: Response, next: NextFunction): Promise<void> {
@@ -70,9 +72,7 @@ class StudentController implements IStudentAbstraction {
                 return;
             }
 
-            res.json({
-                message: `${studentCreated.firstName} ${studentCreated.lastName} successfully created`,
-            });
+            res.json(responseMessageConstant[ResponseEnum.CREATED](studentCreated.firstName, studentCreated.lastName));
         } catch (e) {
             next(e);
         }
@@ -89,9 +89,7 @@ class StudentController implements IStudentAbstraction {
                 return;
             }
 
-            res.json({
-                message: 'successfully removed',
-            });
+            res.json(responseMessageConstant[ResponseEnum.DELETED]);
         } catch (e) {
             next(e);
         }

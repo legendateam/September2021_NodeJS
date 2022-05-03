@@ -1,0 +1,3154 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "okten",
+    "version": "0.1",
+    "description": "test doc",
+    "contact": {
+      "name": "Yurii",
+      "email": "yurii@gmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "operationId": "getAll",
+        "tags": ["Users"],
+        "description": "get All Users",
+        "parameters": [
+          {
+          "name": "page",
+          "type": "string",
+          "description": "page number",
+          "in": "query",
+          "pattern": "2",
+          "default": 1
+          },
+
+          {
+            "name": "perPage",
+            "type": "string",
+            "description": "perPage number",
+            "in": "query",
+            "pattern": "70",
+            "default": 50
+          },
+
+          {
+            "name": "other",
+            "type": "string",
+            "description": "additional queries to search",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200" : {
+            "schema": {
+              "$ref": "#/definitions/usersPaginationResponse"
+            },
+            "description": "Successfully users response"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "Error response"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "operationId": "getOne",
+        "tags": ["Users"],
+        "description": "get One user",
+        "parameters": [
+          {
+            "name": "userId",
+            "type": "string",
+            "pattern": "1",
+            "in": "path",
+            "required": true,
+            "description": "id user of the params"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/userResponse"
+            },
+            "description": "Successfully users response"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "Error response"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "pathOne",
+        "tags": ["Users"],
+        "description": "pathing user",
+        "parameters": [
+          {
+            "name": "userId",
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "description": "id user of the params"
+          },
+
+          {
+            "name": "phone",
+            "type": "string",
+            "in": "body",
+            "required": true,
+            "pattern": "'380-661-23-45-45'",
+            "description": "new phone number"
+          },
+
+          {
+            "name": "email",
+            "type": "string",
+            "in": "body",
+            "required": true,
+            "description": "new email",
+            "pattern": "'test@gmail.com'"
+          },
+
+          {
+            "name": "currentPassword",
+            "type": "string",
+            "in": "body",
+            "required": true,
+            "description": "current password user to confirm ownership",
+            "pattern": "'asdQwe12345'"
+          },
+
+          {
+            "name": "newPassword",
+            "type": "string",
+            "in": "body",
+            "required": false,
+            "description": "not required but if you need to change the password to a new one",
+            "pattern": "'asdQwe12345'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "Successfully patched"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "Error Response"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteOne",
+        "tags": ["Users"],
+        "description": "delete user",
+        "parameters": [
+          {
+            "name": "userId",
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "description": "id of the params for deleting"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "Successfully deleted!"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "Some Wrong"
+          }
+        }
+      }
+    },
+    "/posts": {
+      "get": {
+        "tags": ["Posts"],
+        "operationId": "getAll",
+        "description": "get All posts",
+        "parameters": [
+          {
+            "name": "page",
+            "type": "string",
+            "in": "query",
+            "description": "page number",
+            "default": 1
+          },
+
+          {
+            "name": "perPage",
+            "type": "string",
+            "in": "query",
+            "description": "per Page number",
+            "default": 50
+          },
+
+          {
+            "name": "other",
+            "type": "string",
+            "in": "query",
+            "description": "additional query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+            "$ref": "#/definitions/postsPaginationResponse"
+            },
+            "description": "Response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "error response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "addPost",
+        "tags": ["Posts"],
+        "description": "add Post",
+        "parameters": [
+          {
+            "name": "title",
+            "type": "string",
+            "in": "body",
+            "minimum": 1,
+            "maximum": 250,
+            "pattern": "'some_title'",
+            "description": "post title name",
+            "required": true
+          },
+
+          {
+            "name": "text",
+            "type": "string",
+            "in": "body",
+            "minimum": 1,
+            "maximum": 250,
+            "pattern": "'some_text'",
+            "description": "text content",
+            "required": true
+          },
+
+          {
+            "name": "userId",
+            "type": "number",
+            "in": "body",
+            "minimum": "1",
+            "description": "id user",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/postResponse"
+            },
+            "description": "resp ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "err resp"
+          }
+        }
+      }
+    },
+    "/posts/{postId}": {
+      "get": {
+        "operationId": "get One",
+        "tags": ["Posts"],
+        "description": "get One Post",
+        "parameters": [
+          {
+            "name": "postId",
+            "type": "string",
+            "in": "path",
+            "pattern": "1",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/postResponse"
+            },
+            "description": "Response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "Response error"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "pathOne",
+        "tags": ["Posts"],
+        "description": "update Post",
+        "parameters": [
+          {
+            "name": "postId",
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "description": "id post with params",
+            "pattern": "234"
+          },
+
+          {
+            "name": "text",
+            "type": "string",
+            "in": "body",
+            "required": true,
+            "description": "new_text",
+            "pattern": "'new_text'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "Response ok"
+          },
+
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "error response"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteOne",
+        "tags": ["Posts"],
+        "description": "remove post",
+        "parameters": [
+          {
+            "name": "postId",
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "description": "id post with params"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "error response"
+          }
+        }
+      }
+    },
+    "/posts/user/{userId}" : {
+      "get": {
+        "operationId": "getAllPostsUsers",
+        "tags": ["Posts"],
+        "description": "get all posts thath were nought by the user",
+        "parameters": [
+          {
+            "name": "userId",
+            "type": "string",
+            "in": "path",
+            "description": "id user with params",
+            "pattern": "112",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/postResponse"
+              }
+            },
+            "description": "all user posts"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "err response"
+          }
+        }
+      }
+    },
+    "/comments": {
+      "get": {
+        "operationId": "getAll",
+        "tags": ["Comments"],
+        "description": "get All Comments",
+        "parameters": [
+          {
+            "name": "page",
+            "type": "string",
+            "in": "query",
+            "description": "page with query",
+            "pattern": "4",
+            "default": 1
+          },
+
+          {
+            "name": "perPage",
+            "type": "string",
+            "in": "query",
+            "description": "per Page with query",
+            "pattern": "43",
+            "default": 50
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/commentsPaginationResponse"
+            },
+            "description": "all comments"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "err response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "addOne",
+        "tags": ["Comments"],
+        "description": "add comment to the post",
+        "parameters": [
+          {
+            "name": "authorId",
+            "type": "number",
+            "in": "body",
+            "minimum": "1",
+            "description": "id user to write a comment",
+            "required": true
+          },
+
+          {
+            "name": "postId",
+            "type": "number",
+            "in": "body",
+            "minimum": "1",
+            "description": "id post under witch write comment",
+            "required": true
+          },
+
+          {
+            "name": "text",
+            "type": "string",
+            "pattern": "'min 1 max 250'",
+            "in": "body",
+            "description": "text content",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/commentResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "err response"
+          }
+        }
+      }
+    },
+    "/comments/{commentId}": {
+      "get": {
+        "operationId": "getOne",
+        "tags": ["Comments"],
+        "description": "get one comments from params comment id",
+        "parameters": [
+          {
+            "name": "commentId",
+            "type": "string",
+            "in": "path",
+            "description": "comment id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/commentResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "error response"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "patchOne",
+        "description": "change comment",
+        "tags": ["Comments"],
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "type": "string",
+            "description": "id comments from params",
+            "required": true
+          },
+
+          {
+            "name": "text",
+            "type": "string",
+            "in": "body",
+            "pattern": "'something_text'",
+            "description": "min 1 max 250 characters",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "response ok"
+          },
+
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "err response"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete",
+        "tags": ["Comments"],
+        "description": "delete comment",
+        "parameters": [
+          {
+            "name": "commentId",
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "description": "comments id for delete from params"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "response okey"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some error"
+          }
+        }
+      }
+    },
+    "/comments/user/{userId}": {
+      "get": {
+        "operationId": "getUserComments",
+        "tags": ["Comments"],
+        "description": "get user all comments",
+        "parameters": [
+          {
+            "name": "userId",
+            "type": "string",
+            "in": "path",
+            "description": "user id from params",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/commentResponse"
+              }
+            },
+            "description": "all user comments"
+          },
+
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some error"
+          }
+        }
+      }
+    },
+    "/comments/{commentId}/action/count": {
+      "get": {
+        "operationId": "ActionCount",
+        "description": "count like and disLike of the comment",
+        "tags": ["Comments"],
+        "parameters": [
+          {
+            "name": "commentId",
+            "type": "string",
+            "in": "path",
+            "description": "comment id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "properties": {
+                  "likeCount": {
+                    "type": "number",
+                    "description": "count like for the comment",
+                    "pattern": "32",
+                    "default": 0
+                  },
+                  "dislikeCount": {
+                    "type": "number",
+                    "description": "count disLike for the comment",
+                    "pattern": "22",
+                    "default": 0
+                  }
+                }
+              }
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      }
+    },
+    "/auth/registration": {
+      "post": {
+        "operationId": "userRegistration",
+        "tags": ["Auth"],
+        "description": "User registration",
+        "parameters": [
+          {
+            "name": "firstName",
+            "type": "string",
+            "in": "body",
+            "pattern": "'Harry'",
+            "description": "First Name should have only Latin letters also the first letter is capitalized. Min 2 max 20 characters",
+            "required": true
+          },
+
+          {
+            "name": "lastName",
+            "type": "string",
+            "in": "body",
+            "pattern": "'Potter'",
+            "description": "Last Name should have only Latin letters also the first letter is capitalized. Min 3 max 35 characters",
+            "required": true
+          },
+
+          {
+            "name": "age",
+            "type": "number",
+            "in": "body",
+            "minimum": "12",
+            "description": "Age should be from 12 and age should be up 200",
+            "required": true
+          },
+
+          {
+            "name": "phone",
+            "type": "string",
+            "in": "body",
+            "pattern": "'380-432-32-32-21'",
+            "description": "Min 8 max 40 characters",
+            "uniqueItems": true,
+            "required": true
+          },
+
+          {
+            "name": "email",
+            "type": "string",
+            "in": "body",
+            "pattern": "'test@gmail.com'",
+            "description": "email should have only Latin letters also include \"@\" and without spaces",
+            "uniqueItems": true,
+            "required": true
+          },
+
+          {
+            "name": "password",
+            "type": "string",
+            "in": "body",
+            "pattern": "'asdQwe12345'",
+            "description": "The password must have only Latin letters, one capital letter, at least one digit. Min 8 max 40 characters",
+            "required": true
+          },
+
+          {
+            "name": "avatar",
+            "type": "file",
+            "in": "formData",
+            "description": "image for avatar. Mimetype: image/jpeg, image/pjpeg, image/png",
+            "pattern": "'1.png'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/authResponse"
+            },
+
+            "description": "response ok"
+          },
+
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+
+            "description": "err response"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "login",
+        "tags": ["Auth"],
+        "description": "login user",
+        "parameters": [
+          {
+            "name": "email",
+            "type": "string",
+            "in": "body",
+            "required": true,
+            "description": "email user",
+            "pattern": "'test@gmail.com'"
+          },
+
+          {
+            "name": "password",
+            "type": "string",
+            "in": "body",
+            "required": true,
+            "description": "password user",
+            "pattern": "'wefWfds3213we'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/authResponse"
+            },
+            "description": "response ok"
+          },
+          "400" : {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "logout",
+        "tags": ["Auth"],
+        "description": "logout the account",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "type": "string",
+            "in": "header",
+            "description": "user access token",
+            "pattern": "'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMSwicm9sZSI6InVzZXIiLCJpYXQiOjE2NTE1M'",
+            "required": true
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "error response"
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "operationId": "refresh",
+        "tags": ["Auth"],
+        "description": "refresh tokens pair",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "type": "string",
+            "in": "header",
+            "description": "user refresh token",
+            "pattern": "'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMSwicm9sZSI6InVzZXIiLCJpYXQiOjE2NTE1M'",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/authResponse"
+            },
+            "description": "new tokens pair and userId, role"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      }
+    },
+    "/forgotpassword": {
+      "post": {
+        "operationId": "sendEmail",
+        "tags": ["ForgotPassword"],
+        "description": "forgot password",
+        "parameters": [
+          {
+            "name": "email",
+            "type": "string",
+            "in": "body",
+            "description": "user email",
+            "pattern": "'ffsdaf@gmail.com'",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "error response"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "changePassword",
+        "tags": ["ForgotPassword"],
+        "description": "after sending the email, change the password",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "type": "string",
+            "in": "header",
+            "description": "forgot token",
+            "required": true,
+            "pattern": "'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMSwicm9sZSI6InVzZXIiLCJpYXQiOjE2NTE1M'"
+          },
+
+          {
+            "name": "password",
+            "type": "string",
+            "in": "body",
+            "description": "The password must have only Latin letters, one capital letter, at least one digit. Min 8 max 40 characters",
+            "pattern": "'gfsfdefrDDD4324r'",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      }
+    },
+    "/corpus": {
+      "get": {
+        "operationId": "getAll",
+        "description": "get All Corpus",
+        "tags": ["Corpus"],
+        "parameters": [
+          {
+            "name": "page",
+            "type": "string",
+            "in": "query",
+            "description": "number page from query",
+            "pattern": "2",
+            "default": "1"
+          },
+
+          {
+            "name": "perPage",
+            "type": "string",
+            "in": "query",
+            "description": "number per page from query",
+            "pattern": "70",
+            "default": "50"
+          },
+
+          {
+            "name": "other",
+            "type": "string",
+            "in": "query",
+            "description": "additional data from query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/corpusPaginationResponse"
+            },
+            "description": "response pok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      },
+      "post": {
+        "operationId": "addOne",
+        "description": "add One",
+        "tags": ["Corpus"],
+        "parameters": [
+          {
+            "name": "number",
+            "type": "number",
+            "in": "body",
+            "minimum": "1",
+            "description": "corpus number",
+            "uniqueItems": true,
+            "required": true
+          },
+
+          {
+            "name": "department",
+            "type": "string",
+            "in": "body",
+            "pattern": "'126c3daax3a5097ae8e6f68c'",
+            "description": "id department"
+          },
+
+          {
+            "name": "address",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/address"
+            },
+            "description": "corpus address"
+          },
+
+          {
+            "name": "subjects",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "126c3daax3a5097ae8e6f68c, 126c3daax3a5097ae8e6f68c, 126c3daax3a5097ae8e6f68c"
+              }
+            },
+            "description": "array strings id subjects"
+          }
+        ]
+      }
+    },
+    "/corpus/{corpusId}": {
+      "get": {
+        "operationId": "getOne",
+        "description": "get One",
+        "tags": ["Corpus"],
+        "parameters": [
+          {
+            "name": "corpusId",
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "description": "id by params",
+            "pattern": "'626c19c22c586b603e06235a'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/corpusPaginationResponse"
+            },
+            "description": "response pok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete",
+        "tags": ["Corpus"],
+        "description": "delete corpus number",
+        "parameters": [
+          {
+            "name": "corpusId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "pattern": "3",
+            "description": "id by query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "response ok"
+          },
+
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "error"
+          }
+        }
+      }
+    },
+    "/departments": {
+      "get": {
+        "operationId": "getAll",
+        "description": "get All departments",
+        "tags": ["Departments"],
+        "parameters": [
+          {
+            "name": "page",
+            "type": "string",
+            "in": "query",
+            "pattern": "3",
+            "description": "page number",
+            "default": 1
+          },
+
+          {
+            "name": "perPage",
+            "type": "string",
+            "in": "query",
+            "pattern": "40",
+            "description": "per page number",
+            "default": 50
+          },
+
+          {
+            "name": "other",
+            "type": "string",
+            "in": "query",
+            "description": "additional query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/departmentPaginationResponse"
+            },
+            "description": "response ok"
+          },
+          "400":  {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      },
+      "post": {
+        "operationId": "addOne",
+        "tags": ["Departments"],
+        "description": "add department",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "uniqueItems": true,
+              "example": "front end"
+            },
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "description": "name department"
+          },
+
+          {
+            "schema": {
+              "type": "string",
+              "example": "test.com"
+            },
+            "name": "webStore",
+            "in": "body",
+            "description": "additional web name if exists"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "back end",
+                  "description": "name new department"
+                },
+
+                "webStore": {
+                  "type": "string",
+                  "example": "test.com",
+                  "description": "additional web store"
+                }
+              }
+            },
+            "description": "response ok"
+          },
+          "400" : {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some srong"
+          }
+        }
+      }
+    },
+    "/departments/{departmentId}": {
+      "get": {
+        "operationId": "getOne",
+        "tags": ["Departments"],
+        "description": "Get one by id from query",
+        "parameters": [
+          {
+            "name": "departmentId",
+            "type": "string",
+            "in": "query",
+            "pattern": "43",
+            "description": "id department",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/departmentResponse"
+            },
+            "description": "resp ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/response"
+            },
+            "description": "error response"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete",
+        "description": "delete one department",
+        "tags": ["Departments"],
+        "parameters": [
+          {
+            "name": "departmentId",
+            "type": "string",
+            "in": "query",
+            "required": true,
+            "description": "id with query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "response ok"
+          },
+          "400":  {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      }
+    },
+    "/groups": {
+      "get": {
+        "tags": ["Groups"],
+        "operationId": "getAll",
+        "description": "get list all groups",
+        "parameters": [
+          {
+            "name": "page",
+            "type": "string",
+            "in": "query",
+            "description": "number page",
+            "pattern": "4",
+            "default": 1
+          },
+
+          {
+            "name": "perPage",
+            "type": "string",
+            "in": "query",
+            "description": "per Page number page",
+            "pattern": "40",
+            "default": 50
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/groupsPaginationResponse"
+            },
+            "description": "response ok"
+          },
+
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      },
+      "post": {
+        "operationId": "addOne",
+        "tags": ["Groups"],
+        "description": "add new group",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "description": "name group",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "sept2021",
+              "uniqueItems": true
+            }
+          },
+
+          {
+            "name": "course",
+            "in": "body",
+            "description": "number year study",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "description": "1"
+            }
+          },
+
+          {
+            "name": "subjects",
+            "in": "body",
+            "description": "id subjects studied by the group",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "606c3daae7b4097ae8e6t61b, 606c3daae7b4097ae8e6t61b, 606c3daae7b4097ae8e6t61b"
+              }
+            }
+          },
+
+          {
+            "name": "corpus",
+            "in": "body",
+            "description": "id corpus",
+            "schema": {
+              "type": "string",
+              "example": "606c3daae7b4097ae8e6t61b"
+            }
+          },
+
+          {
+            "name": "department",
+            "in": "body",
+            "description": "id department",
+            "schema": {
+              "type": "string",
+              "example": "606c3daae7b4097ae8e6t61b"
+            }
+          },
+
+          {
+            "name": "curator",
+            "in": "body",
+            "description": "id curator",
+            "schema": {
+              "type": "string",
+              "example": "606c3daae7b4097ae8e6t61b"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/groupResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "error response"
+          }
+        }
+      }
+    },
+    "/groups/{groupId}": {
+      "get": {
+        "operationId": "getOne",
+        "tags": ["Groups"],
+        "description": "get One",
+        "parameters": [
+          {
+            "name": "groupId",
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "description": "id group with params"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/groupResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteOne",
+        "tags": ["Groups"],
+        "description": "delete One",
+        "parameters": [
+          {
+            "name": "groupId",
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "description": "id group with params"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      }
+    },
+    "/ratings": {
+      "get": {
+        "operationId": "getAll",
+        "tags": ["Ratings"],
+        "description": "get all ratings",
+        "parameters": [
+          {
+            "name": "page",
+            "type": "string",
+            "in": "query",
+            "required": true,
+            "description": "page number",
+            "pattern": "2",
+            "default": 1
+          },
+
+          {
+            "name": "perPage",
+            "type": "string",
+            "in": "query",
+            "required": true,
+            "description": "per page number",
+            "pattern": "70",
+            "default": 50
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/ratingPaginationResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      },
+      "post": {
+        "operationId": "addOne",
+        "tags": ["Ratings"],
+        "description": "add rating",
+        "parameters": [
+          {
+            "name": "rating",
+            "in": "body",
+            "description": "rating",
+            "schema": {
+              "properties": {
+                "rating": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            },
+            "required": true
+          },
+
+          {
+            "name": "subject",
+            "in": "body",
+            "description": "subject id",
+            "schema": {
+              "type": "string",
+              "example": "606c3daae7b4097ae8e6t61b"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "rating": {
+                  "type": "number",
+                  "example": 3
+                },
+                "subject": {
+                  "type": "string",
+                  "example": "606c3daae7b4097ae8e6t61b",
+                  "description": "id subject"
+                }
+              }
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong error"
+          }
+        }
+      }
+    },
+    "/ratings/{ratingId}": {
+      "get": {
+        "operationId": "getOne",
+        "tags": ["Ratings"],
+        "description": "get one ratings",
+        "parameters": [
+          {
+            "name": "ratingId",
+            "type": "string",
+            "in": "path",
+            "description": "id rating by params",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/ratingResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "sonem wrogn"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete",
+        "tags": ["Ratings"],
+        "description": "delete rating",
+        "parameters": [
+          {
+            "name": "ratingId",
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "description": "id by params"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "response ok"
+          },
+
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      }
+    },
+    "/students": {
+      "get": {
+        "tags": ["Students"],
+        "operationId": "getAll",
+        "description": "get all students baby",
+        "parameters": [
+          {
+            "name": "page",
+            "type": "string",
+            "in": "query",
+            "description": "page number",
+            "default": 1
+          },
+
+          {
+            "name": "perPage",
+            "type": "string",
+            "in": "query",
+            "description": "per page number",
+            "default": 50
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/studentsPaginationResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "error response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "addStudent",
+        "tags": ["Students"],
+        "description": "add student",
+        "parameters": [
+          {
+            "name": "firstName",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Ivan"
+            },
+            "description": "First Name should have only Latin letters also the first letter is capitalized"
+          },
+
+          {
+            "name": "lastName",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Riba"
+            },
+            "description": "First Name should have only Latin letters also the first letter is capitalized"
+          },
+
+          {
+            "name": "age",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "age cannot be an empty field"
+          },
+
+          {
+            "name": "email",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "test@gmail.com",
+              "uniqueItems": true
+            },
+            "description": "email should have only Latin letters also \"@\" and without spaces"
+          },
+
+          {
+            "name": "password",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "asdQwe12354"
+            },
+            "description": "password should have only Latin litters without spaces also one capital letter and one number, min 8 characters. max 40"
+          },
+
+          {
+            "name": "address",
+            "in": "body",
+            "required": true,
+            "description": "address",
+            "schema": {
+              "$ref": "#/definitions/address"
+            }
+          },
+
+          {
+            "name": "role",
+            "in": "body",
+            "required": true,
+            "description": "role student of teacher",
+            "schema": {
+              "type": "string",
+              "example": "student",
+              "default": "student"
+            }
+          },
+
+          {
+            "name": "formOfEducation",
+            "in": "body",
+            "required": true,
+            "description": "form of education student",
+            "schema": {
+              "type": "string",
+              "example": "daily",
+              "default": "daily"
+            }
+          },
+
+          {
+            "name": "department",
+            "in": "body",
+            "description": "id",
+            "schema": {
+              "type": "string",
+              "example": "507f191e810c19729de860ea"
+            }
+          },
+
+          {
+            "name": "curator",
+            "in": "body",
+            "description": "id",
+            "schema": {
+              "type": "string",
+              "example": "507f191e810c19729de860ea"
+            }
+          },
+
+          {
+            "name": "group",
+            "in": "body",
+            "description": "id",
+            "schema": {
+              "type": "string",
+              "example": "507f191e810c19729de860ea"
+            }
+          },
+
+          {
+            "name": "subjects",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "507f191e810c19729de860ea"
+              }
+            }
+          },
+
+          {
+            "name": "teachers",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "507f191e810c19729de860ea"
+              }
+            }
+          },
+
+          {
+            "name": "ratings",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "507f191e810c19729de860ea"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      }
+    },
+    "/students/{studentId}": {
+      "get": {
+        "operationId": "getOnyById",
+        "tags": ["Students"],
+        "description": "get one student by id with params",
+        "parameters": [
+          {
+            "name": "studentId",
+            "type": "string",
+            "in": "path",
+            "description": "student id by params",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/studentResponse"
+            },
+            "description": "one student"
+          },
+
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteById",
+        "description": "delete student",
+        "tags": ["Students"],
+        "parameters": [
+          {
+            "name": "studentId",
+            "type": "string",
+            "in": "path",
+            "description": "student id by params",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "deleted successfully"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      }
+    },
+    "/subjects": {
+      "get": {
+        "tags": ["Subjects"],
+        "operationId": "getAll",
+        "description": "get all subjects",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "number page",
+            "default": 1,
+            "pattern": "4"
+          },
+
+          {
+            "name": "perPage",
+            "in": "query",
+            "type": "string",
+            "description": "number per page",
+            "default": 50,
+            "pattern": "40"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/subjectPaginationResponse"
+            },
+            "description": "resp ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "error response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "addOne",
+        "tags": ["Subjects"],
+        "description": "add subject",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "description": "name subject",
+            "schema": {
+              "type": "string",
+              "uniqueItems": true,
+              "example": "html"
+            }
+          },
+
+          {
+            "name": "department",
+            "in": "body",
+            "description": "id",
+            "schema": {
+              "type": "string",
+              "example": "507f1f77bcf86cd799439011"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/subjectResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      }
+    },
+    "/subjects/{subjectId}": {
+      "get": {
+        "operationId": "getOne",
+        "description": "get One",
+        "tags": ["Subjects"],
+        "parameters": [
+          {
+            "name": "subjectId",
+            "type": "string",
+            "in": "path",
+            "description": "id by params",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/subjectResponse"
+            },
+            "description": "successfully response"
+          },
+
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "getOne",
+        "description": "get One",
+        "tags": ["Subjects"],
+        "parameters": [
+          {
+            "name": "subjectId",
+            "type": "string",
+            "in": "path",
+            "description": "id by params",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "successfully response"
+          },
+
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      }
+    },
+    "/teachers":  {
+      "get": {
+        "operationId": "getAll",
+        "tags": ["Teachers"],
+        "description": "get all teachers",
+        "parameters": [
+          {
+            "name": "page",
+            "type": "string",
+            "in": "query",
+            "description": "number page",
+            "default": 1,
+            "pattern": "4"
+          },
+
+          {
+            "name": "perPage",
+            "type": "string",
+            "in": "query",
+            "description": "number per page",
+            "default": 50,
+            "pattern": "60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/teacherPaginationResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      },
+      "post": {
+        "operationId": "add",
+        "description": "add teacher",
+        "tags": ["Teachers"],
+        "parameters": [
+          {
+            "name": "firstName",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Ivan"
+            },
+            "description": "First Name should have only Latin letters also the first letter is capitalized"
+          },
+
+          {
+            "name": "lastName",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Riba"
+            },
+            "description": "First Name should have only Latin letters also the first letter is capitalized"
+          },
+
+          {
+            "name": "age",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "description": "age cannot be an empty field"
+          },
+
+          {
+            "name": "email",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "test@gmail.com",
+              "uniqueItems": true
+            },
+            "description": "email should have only Latin letters also \"@\" and without spaces"
+          },
+
+          {
+            "name": "password",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "asdQwe12354"
+            },
+            "description": "password have only Latin litters without spaces also one capital letter and one number, min 8 characters. max 40"
+          },
+
+          {
+            "name": "address",
+            "in": "body",
+            "required": true,
+            "description": "address",
+            "schema": {
+              "$ref": "#/definitions/address"
+            }
+          },
+
+          {
+            "name": "role",
+            "in": "body",
+            "required": true,
+            "description": "role student of teacher",
+            "schema": {
+              "type": "string",
+              "example": "teacher",
+              "default": "teacher"
+            }
+          },
+
+          {
+            "name": "department",
+            "in": "body",
+            "description": "id",
+            "schema": {
+              "type": "string",
+              "example": "507f191e810c19729de860ea"
+            }
+          },
+
+          {
+            "name": "subjects",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "507f191e810c19729de860ea"
+              }
+            }
+          },
+
+          {
+            "name": "corpus",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "507f191e810c19729de860ea"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "successfully created"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "some wrong"
+          }
+        }
+      }
+    },
+    "/teachers/{teacherId}": {
+      "get": {
+        "operationId": "getOne",
+        "tags": ["Teachers"],
+        "description": "get one Teacher",
+        "parameters": [
+          {
+            "name": "teacherId",
+            "description": "id teacher",
+            "type": "string",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/teacherResponse"
+            },
+            "description": "successfully"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "wrong"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "removeOne",
+        "tags": ["Teachers"],
+        "description": "remove teacher",
+        "parameters": [
+          {
+            "name": "teacherId",
+            "description": "id teacher",
+            "type": "string",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/messageResponse"
+            },
+            "description": "successfully"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "wrong"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "userResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1,
+          "description": "User identifier"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "Ivan",
+          "description": "First Name should have only Latin letters also the first letter is capitalized. Min 2 max 20 characters",
+          "pattern": "/^[A-Z][a-z]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\\.?)( [IVXLCDM]+)?$/"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Kovalenko",
+          "description": "Last Name should have only Latin letters also the first letter is capitalized. Min 3 max 35 characters",
+          "pattern": "/^[A-Z][a-z]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\\.?)( [IVXLCDM]+)?$/"
+        },
+        "age": {
+          "type": "number",
+          "example": 18,
+          "description": "Age should be from 12 and age should be up 200"
+        },
+        "phone": {
+          "type": "string",
+          "example": "+38(066)-123-45-45",
+          "pattern": "/^(?!.* )([+]?[\\s0-9]+)?(\\d{3}|[(]?[0-9]+[)])?([-]?[\\s]?[0-9])+$/",
+          "description": "Min 8 max 40 characters"
+        },
+        "email": {
+          "type": "string",
+          "example": "test@gmail.com",
+          "description": "email should have only Latin letters also include \"@\" and without spaces"
+        },
+        "password": {
+          "type": "string",
+          "example": "10$83eO0iXYhSV4gmpIRsi",
+          "pattern": "/^(?!.* )(?=.*\\d)(?=.*[A-Z])/",
+          "description": "The password must have only Latin letters, one capital letter, at least one digit. Min 8 max 40 characters"
+        },
+        "createAt": {
+          "type": "string",
+          "example": "2022-04-15T14:13:14.000Z",
+          "description": "user creation date"
+        },
+        "deleteAt": {
+          "type": "null",
+          "default": null,
+          "example": null,
+          "description": "user deletion date"
+        }
+      }
+    },
+    "postResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1,
+          "description": "id post"
+        },
+
+        "title": {
+          "type": "string",
+          "example": "Ukraine",
+          "description": "title name post"
+        },
+
+        "text": {
+          "type": "string",
+          "example": "Glory to Ukraine, Heroes Glory",
+          "description": "some posts text"
+        },
+
+        "userId": {
+          "type": "number",
+          "example": 24,
+          "description": "id user he created this post"
+        },
+
+        "createAt": {
+          "type": "string",
+          "example": "2022-04-17T10:27:43.000Z",
+          "description": "date of writing post"
+        },
+
+        "deleteAt": {
+          "type": "null",
+          "example": null,
+          "description": "delete date"
+        }
+      }
+    },
+    "commentResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1,
+          "description": "id comment"
+        },
+
+        "text": {
+          "type": "string",
+          "example": "something_text",
+          "description": "text content"
+        },
+
+        "authorId": {
+          "type": "number",
+          "example": 115,
+          "description": "id user"
+        },
+
+        "postId": {
+          "type": "number",
+          "example": 10,
+          "description": "id post"
+        },
+
+        "createAt": {
+          "type": "string",
+          "example": "2022-04-17T10:27:43.000Z",
+          "description": "date of writing comment"
+        },
+
+        "deleteAt": {
+          "type": "null",
+          "example": null,
+          "description": "delete date"
+        }
+      }
+    },
+    "authResponse": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string",
+          "description": "access token",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMSwicm9sZSI6InVzZXIiLCJpYXQiOjE2NTE1M"
+        },
+
+        "refreshToken": {
+          "type": "string",
+          "description": "refresh Token",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMSwicm9sZSI6InVzZXIiLCJpYXQiOjE2NTE1M"
+        },
+
+        "role": {
+          "type": "string",
+          "description": "user tights",
+          "example": "user",
+          "default": "user"
+        },
+
+        "userId": {
+          "type": "number",
+          "description": "user id",
+          "example": "32"
+        }
+      }
+    },
+    "address": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string",
+          "example": "Odessa",
+          "description": "city name"
+        },
+
+        "oblast": {
+          "type": "string",
+          "example": "Khrakiv or Kharkisvska",
+          "description": "oblast name"
+        },
+
+        "street": {
+          "type": "string",
+          "example": "Stepan Bandera",
+          "description": "street name"
+        },
+
+        "buildingNumber": {
+          "type": "number",
+          "example": 20,
+          "description": "build number"
+        },
+
+        "app": {
+          "type": "number",
+          "example": 1,
+          "description": "number apartment/flat"
+        }
+      }
+    },
+    "addressResponse": {
+      "type": "object",
+      "$ref": "#/definitions/address",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "606c3daae7b4097ae8e6t61b",
+          "description": "id address"
+        }
+      }
+    },
+    "corpusResponse": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "606c3daae7b4097ae8e6t61b",
+          "description": "id corpus"
+        },
+
+        "number": {
+          "type": "number",
+          "example": 1,
+          "description": "number corpus"
+        },
+
+        "address": {
+          "$ref": "#/definitions/addressResponse"
+        },
+
+        "createdAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date created"
+        },
+
+        "updatedAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date updated"
+        },
+
+        "__v": {
+          "type": "number",
+          "example": 0,
+          "description": "number of updates"
+        },
+
+        "department": {
+          "type": "string",
+          "example": "626c19c22c111b603e06235b",
+          "description": "department id"
+        },
+
+        "subjects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "626a8a8c70d40fdef17a8445",
+            "description": "array id subjects"
+          }
+        }
+      }
+    },
+    "departmentResponse": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "606c3daae7b4097ae8e6t61b",
+          "description": "id corpus"
+        },
+
+        "name": {
+          "type": "string",
+          "example": "front end",
+          "description": "department name"
+        },
+
+        "createdAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date created"
+        },
+
+        "updatedAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date updated"
+        },
+
+        "__v": {
+          "type": "number",
+          "example": 0,
+          "description": "number of updates"
+        },
+
+        "webStore": {
+          "type": "string",
+          "example": "google.com.ua",
+          "description": "web department"
+        }
+      }
+    },
+    "groupResponse": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "606c3daae7b4097ae8e6t61b",
+          "description": "id corpus"
+        },
+
+        "name": {
+          "type": "string",
+          "example": "sept2021",
+          "description": "group name"
+        },
+
+        "course": {
+          "type": "number",
+          "example": "3",
+          "description": "year of study"
+        },
+
+        "department": {
+          "type": "string",
+          "example": "606c3daae7b4097ae8e6t61b",
+          "description": "id department"
+        },
+
+        "curator": {
+          "type": "string",
+          "example": "606c3daae7b4097ae8e6t61b",
+          "description": "id teacher curator group"
+        },
+
+        "subjects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "606c3daae7b4097ae8e6t61b, 606c3daae7b4097ae8e6t61b, 606c3daae7b4097ae8e6t61b",
+            "description": "id subjects"
+          }
+        },
+
+        "corpus": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "606c3daae7b4097ae8e6t61b, 606c3daae7b4097ae8e6t61b, 606c3daae7b4097ae8e6t61b",
+            "description": "id corpus"
+          }
+        },
+
+        "createdAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date created"
+        },
+
+        "updatedAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date updated"
+        },
+
+        "__v": {
+          "type": "number",
+          "example": 0,
+          "description": "number of updates"
+        }
+      }
+    },
+    "ratingResponse": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "606c3daae7b4097ae8e6t61b",
+          "description": "id corpus"
+        },
+
+        "rating": {
+          "type": "number",
+          "example": "5",
+          "description": "rating"
+        },
+
+        "subject": {
+          "type": "string",
+          "example": "606c3daae7b4097ae8e6t61",
+          "description": "id subject"
+        },
+
+        "createdAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date created"
+        },
+
+        "updatedAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date updated"
+        },
+
+        "__v": {
+          "type": "number",
+          "example": 0,
+          "description": "number of updates"
+        }
+      }
+    },
+    "studentResponse": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "606c3daae7b4097ae8e6t61b",
+          "description": "id corpus"
+        },
+
+        "firstName": {
+          "type": "string",
+          "example": "Ivan",
+          "description": "First Name should have only Latin letters also the first letter is capitalized"
+        },
+
+        "lastName": {
+          "type": "string",
+          "example": "Riba",
+          "description": "First Name should have only Latin letters also the first letter is capitalized"
+        },
+
+        "age": {
+          "type": "number",
+          "example": "25",
+          "description": "age cannot be an empty field"
+        },
+
+        "email": {
+          "type": "string",
+          "example": "test@gmail.com",
+          "description": "email should have only Latin letters also \"@\" and without spaces"
+        },
+
+        "address": {
+          "$ref": "#/definitions/address"
+        },
+
+        "role": {
+          "type": "string",
+          "example": "student"
+        },
+
+        "formOfEducation": {
+          "type": "string",
+          "example": "daily"
+        },
+
+        "department": {
+          "type": "string",
+          "example": "507f191e810c19729de860ea"
+        },
+
+        "subjects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "507f191e810c19729de860ea"
+          }
+        },
+
+        "curator": {
+          "type": "string",
+          "example": "507f191e810c19729de860ea"
+        },
+
+        "teachers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "507f191e810c19729de860ea"
+          }
+        },
+
+        "group": {
+          "type": "string",
+          "example": "507f191e810c19729de860ea"
+        },
+
+        "ratings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "507f191e810c19729de860ea"
+          }
+        },
+
+        "createdAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date created"
+        },
+
+        "updatedAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date updated"
+        },
+
+        "__v": {
+          "type": "number",
+          "example": 0,
+          "description": "number of updates"
+        }
+      }
+    },
+    "teacherResponse": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "606c3daae7b4097ae8e6t61b",
+          "description": "id corpus"
+        },
+
+        "firstName": {
+          "type": "string",
+          "example": "Ivan",
+          "description": "First Name should have only Latin letters also the first letter is capitalized"
+        },
+
+        "lastName": {
+          "type": "string",
+          "example": "Riba",
+          "description": "First Name should have only Latin letters also the first letter is capitalized"
+        },
+
+        "age": {
+          "type": "number",
+          "example": "25",
+          "description": "age cannot be an empty field"
+        },
+
+        "email": {
+          "type": "string",
+          "example": "test@gmail.com",
+          "description": "email should have only Latin letters also \"@\" and without spaces"
+        },
+
+        "address": {
+          "$ref": "#/definitions/address"
+        },
+
+        "role": {
+          "type": "string",
+          "example": "student"
+        },
+
+        "department": {
+          "type": "string",
+          "example": "507f191e810c19729de860ea"
+        },
+
+        "subjects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "507f191e810c19729de860ea"
+          }
+        },
+
+        "corpus": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "507f191e810c19729de860ea"
+          }
+        },
+
+        "createdAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date created"
+        },
+
+        "updatedAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date updated"
+        },
+
+        "__v": {
+          "type": "number",
+          "example": 0,
+          "description": "number of updates"
+        }
+      }
+    },
+    "subjectResponse": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "606c3daae7b4097ae8e6t61b",
+          "description": "id corpus"
+        },
+
+        "name": {
+          "type": "string",
+          "example": "java"
+        },
+
+        "department": {
+          "type": "string",
+          "example": "606c3daae7b4097ae8e6t61b"
+        },
+
+        "createdAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date created"
+        },
+
+        "updatedAt": {
+          "type": "string",
+          "example": "2022-04-29T19:34:02.118Z",
+          "description": "date updated"
+        },
+
+        "__v": {
+          "type": "number",
+          "example": 0,
+          "description": "number of updates"
+        }
+      }
+    },
+    "usersPaginationResponse": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "number",
+          "default": 1,
+          "description": "number page"
+        },
+        "perPage": {
+          "type": "number",
+          "default": 50,
+          "description": "how much item to take per page"
+        },
+        "countItem": {
+          "type": "number",
+          "description": "number of all items",
+          "default": 1
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userResponse"
+          }
+        }
+      }
+    },
+    "postsPaginationResponse": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "number",
+          "default": 1,
+          "description": "number page"
+        },
+        "perPage": {
+          "type": "number",
+          "default": 50,
+          "description": "how much item to take per page"
+        },
+        "countItem": {
+          "type": "number",
+          "description": "number of all items",
+          "default": 1
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/postResponse"
+          }
+        }
+      }
+    },
+    "commentsPaginationResponse": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "number",
+          "default": 1,
+          "description": "number page"
+        },
+        "perPage": {
+          "type": "number",
+          "default": 50,
+          "description": "how much item to take per page"
+        },
+        "countItem": {
+          "type": "number",
+          "description": "number of all items",
+          "default": 1
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commentResponse"
+          }
+        }
+      }
+    },
+    "corpusPaginationResponse": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "number",
+          "default": 1,
+          "description": "number page"
+        },
+        "perPage": {
+          "type": "number",
+          "default": 50,
+          "description": "how much item to take per page"
+        },
+        "countItem": {
+          "type": "number",
+          "description": "number of all items",
+          "default": 1
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/corpusResponse"
+          }
+        }
+      }
+    },
+    "departmentPaginationResponse": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "number",
+          "default": 1,
+          "description": "number page"
+        },
+        "perPage": {
+          "type": "number",
+          "default": 50,
+          "description": "how much item to take per page"
+        },
+        "countItem": {
+          "type": "number",
+          "description": "number of all items",
+          "default": 1
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/departmentResponse"
+          }
+        }
+      }
+    },
+    "groupsPaginationResponse": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "number",
+          "default": 1,
+          "description": "number page"
+        },
+        "perPage": {
+          "type": "number",
+          "default": 50,
+          "description": "how much item to take per page"
+        },
+        "countItem": {
+          "type": "number",
+          "description": "number of all items",
+          "default": 1
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/groupResponse"
+          }
+        }
+      }
+    },
+    "ratingPaginationResponse": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "number",
+          "default": 1,
+          "description": "number page"
+        },
+        "perPage": {
+          "type": "number",
+          "default": 50,
+          "description": "how much item to take per page"
+        },
+        "countItem": {
+          "type": "number",
+          "description": "number of all items",
+          "default": 1
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ratingResponse"
+          }
+        }
+      }
+    },
+    "studentsPaginationResponse": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "number",
+          "default": 1,
+          "description": "number page"
+        },
+        "perPage": {
+          "type": "number",
+          "default": 50,
+          "description": "how much item to take per page"
+        },
+        "countItem": {
+          "type": "number",
+          "description": "number of all items",
+          "default": 1
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/studentResponse"
+          }
+        }
+      }
+    },
+    "teacherPaginationResponse": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "number",
+          "default": 1,
+          "description": "number page"
+        },
+        "perPage": {
+          "type": "number",
+          "default": 50,
+          "description": "how much item to take per page"
+        },
+        "countItem": {
+          "type": "number",
+          "description": "number of all items",
+          "default": 1
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/teacherResponse"
+          }
+        }
+      }
+    },
+    "subjectPaginationResponse": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "number",
+          "default": 1,
+          "description": "number page"
+        },
+        "perPage": {
+          "type": "number",
+          "default": 50,
+          "description": "how much item to take per page"
+        },
+        "countItem": {
+          "type": "number",
+          "description": "number of all items",
+          "default": 1
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/subjectResponse"
+          }
+        }
+      }
+    },
+    "errorResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Some Wrong",
+          "description": "Standard error response"
+        }
+      }
+    },
+    "messageResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "some response message",
+          "description": "will rather be user for upgrade and delete"
+        }
+      }
+    }
+  }
+}

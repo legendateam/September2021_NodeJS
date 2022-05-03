@@ -14,7 +14,7 @@ class CorpusMiddleware {
             const corpus = await corpusModel.findOne({ number });
 
             if (corpus) {
-                next(new ErrorHandler('Some Wrong'));
+                next(new ErrorHandler('number corpus is exists'));
                 return;
             }
 

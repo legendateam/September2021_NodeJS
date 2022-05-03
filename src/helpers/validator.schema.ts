@@ -133,7 +133,7 @@ class ValidatorSchema {
     });
 
     public static commentSchema: Joi.ObjectSchema = Joi.object({
-        authorId: Joi.number().min(0).required()
+        authorId: Joi.number().min(1).required()
             .messages({
                 'number.base': 'authorId should be a type of number',
                 'number.empty': 'authorId cannot be an empty field',
@@ -141,7 +141,7 @@ class ValidatorSchema {
                 'any.required': 'authorId is a required field',
             }),
 
-        postId: Joi.number().min(0).required()
+        postId: Joi.number().min(1).required()
             .messages({
                 'number.base': 'postId should be a type of number',
                 'number.empty': 'postId cannot be an empty field',
@@ -388,7 +388,7 @@ class ValidatorSchema {
         name: Joi.string().required().min(2)
             .message('type name string and min 2 symbols'),
         course: Joi.number().required(),
-        subjects: Joi.string(),
+        subjects: Joi.array().has(Joi.string()),
         curator: Joi.string(),
         department: Joi.string(),
         corpus: Joi.string(),
@@ -402,8 +402,8 @@ class ValidatorSchema {
 
     public static corpusSchema: Joi.ObjectSchema = Joi.object<ICorpus>({
         number: Joi.number().required().min(1),
-        subjects: Joi.string(),
-        department: Joi.string(),
+        subjects: Joi.array().has(Joi.string().trim()),
+        department: Joi.string().trim(),
         address: commonValidator.address,
     });
 }
@@ -411,5 +411,5 @@ class ValidatorSchema {
 export const {
     authSchema, authLoginSchema, authTokenSchema, actionSchema, commentSchema, postSchema, userPatchSchema, paramsSchema,
     emailSchema, passwordSchema, paramsMongoIdSchema, groupSchema, departmentSchema, ratingSchema, studentSchema,
-    subjectSchema, teacherSchema, corpusSchema
+    subjectSchema, teacherSchema, corpusSchema,
 } = ValidatorSchema;

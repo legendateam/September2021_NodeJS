@@ -1,15 +1,11 @@
-import { NextFunction, Response } from 'express';
+import {NextFunction, Response} from 'express';
 
-import { UploadedFile } from 'express-fileupload';
-import {
-    authService, emailService, s3Service, tokenService,
-} from '../services';
-import { COOKIE } from '../constants';
-import {
-    IAuthControllerAbstraction, IRequestAuth, IRequestUser, IRoleToken, IUser,
-} from '../interfaces';
-import { ErrorHandler } from '../error';
-import { EmailEnum, UploadFileEnum } from '../enums';
+import {UploadedFile} from 'express-fileupload';
+import {authService, emailService, s3Service, tokenService,} from '../services';
+import {COOKIE, responseMessageConstant} from '../constants';
+import {IAuthControllerAbstraction, IRequestAuth, IRequestUser, IRoleToken, IUser,} from '../interfaces';
+import {ErrorHandler} from '../error';
+import {EmailEnum, ResponseEnum, UploadFileEnum} from '../enums';
 
 class AuthController implements IAuthControllerAbstraction {
     public async registration(req: IRequestUser, res: Response, next: NextFunction):Promise<void> {
@@ -60,7 +56,7 @@ class AuthController implements IAuthControllerAbstraction {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;
             }
-            res.json('OK');
+            res.json(responseMessageConstant[ResponseEnum.LOGOUT]);
         } catch (e) {
             next(e);
         }

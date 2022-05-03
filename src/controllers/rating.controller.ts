@@ -1,8 +1,10 @@
-import { Response, NextFunction } from 'express';
+import {NextFunction, Response} from 'express';
 
-import { ratingModel } from '../models';
-import { ErrorHandler } from '../error';
-import { IRatingAbstraction, IRequestExtended } from '../interfaces';
+import {ratingModel} from '../models';
+import {ErrorHandler} from '../error';
+import {IRatingAbstraction, IRequestExtended} from '../interfaces';
+import {responseMessageConstant} from "../constants";
+import {ResponseEnum} from "../enums";
 
 class RatingController implements IRatingAbstraction {
     public async getAll(req: IRequestExtended, res: Response, next: NextFunction): Promise<void> {
@@ -19,7 +21,19 @@ class RatingController implements IRatingAbstraction {
                     return;
                 }
 
-                res.json(ratings);
+                const countItem = await ratingModel.find().count();
+
+                if (!countItem) {
+                    next(new ErrorHandler('Some Wrong'));
+                    return;
+                }
+
+                res.json({
+                    page,
+                    perPage,
+                    countItem,
+                    data: ratings
+                });
                 return;
             }
 
@@ -64,9 +78,7 @@ class RatingController implements IRatingAbstraction {
                 return;
             }
 
-            res.json({
-                message: 'successfully removed!',
-            });
+            res.json(responseMessageConstant[ResponseEnum.DELETED]);
         } catch (e) {
             next(e);
         }
@@ -83,9 +95,7 @@ class RatingController implements IRatingAbstraction {
                 return;
             }
 
-            res.json({
-                message: 'rating successfully created!',
-            });
+            res.json(ratingCreated);
         } catch (e) {
             next(e);
         }

@@ -1,8 +1,10 @@
-import { Response, NextFunction } from 'express';
+import {NextFunction, Response} from 'express';
 
-import { subjectModel } from '../models';
-import { ErrorHandler } from '../error';
-import { IRequestExtended, ISubjectAbstraction } from '../interfaces';
+import {subjectModel} from '../models';
+import {ErrorHandler} from '../error';
+import {IRequestExtended, ISubjectAbstraction} from '../interfaces';
+import {responseMessageConstant} from "../constants";
+import {ResponseEnum} from "../enums";
 
 class SubjectController implements ISubjectAbstraction {
     public async getAll(req: IRequestExtended, res: Response, next: NextFunction): Promise<void> {
@@ -19,7 +21,19 @@ class SubjectController implements ISubjectAbstraction {
                     return;
                 }
 
-                res.json(subjects);
+                const countItem = await subjectModel.count({});
+
+                if (!countItem) {
+                    next(new ErrorHandler('Some Wrong'));
+                    return;
+                }
+
+                res.json({
+                    page,
+                    perPage,
+                    countItem,
+                    data: subjects,
+                });
                 return;
             }
 
@@ -64,9 +78,7 @@ class SubjectController implements ISubjectAbstraction {
                 return;
             }
 
-            res.json({
-                message: 'successfully removed!',
-            });
+            res.json(responseMessageConstant[ResponseEnum.DELETED]);
         } catch (e) {
             next(e);
         }
@@ -83,9 +95,7 @@ class SubjectController implements ISubjectAbstraction {
                 return;
             }
 
-            res.json({
-                message: 'subject successfully created!',
-            });
+            res.json(subjectCreated);
         } catch (e) {
             next(e);
         }

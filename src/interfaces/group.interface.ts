@@ -9,5 +9,5 @@ export interface IGroup {
     department?: IDepartment,
     curator?: ITeacher,
     subjects?: ISubject[],
-    corpus?: ICorpus[]
+    corpus?: ICorpus
 }

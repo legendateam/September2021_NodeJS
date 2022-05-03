@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
-import { UpdateResult } from 'typeorm';
+import {NextFunction, Request, Response} from 'express';
+import {UpdateResult} from 'typeorm';
 
-import { postService } from '../services';
-import {
-    IPaginationPost, IPost, IPostControllerAbstraction, IRequestPost,
-} from '../interfaces';
-import { ErrorHandler } from '../error';
+import {postService} from '../services';
+import {IPaginationPost, IPost, IPostControllerAbstraction, IRequestPost,} from '../interfaces';
+import {ErrorHandler} from '../error';
+import {responseMessageConstant} from "../constants";
+import {ResponseEnum} from "../enums";
 
 class PostsController implements IPostControllerAbstraction {
     public async getAllPagination(req: IRequestPost, res:Response, next: NextFunction):Promise<Response<IPost[]> | undefined> {
@@ -75,7 +75,7 @@ class PostsController implements IPostControllerAbstraction {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;
             }
-            res.json(patch);
+            res.json(responseMessageConstant[ResponseEnum.UPDATED]);
         } catch (e) {
             next(e);
         }
@@ -90,7 +90,7 @@ class PostsController implements IPostControllerAbstraction {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;
             }
-            res.json(remove);
+            res.json(responseMessageConstant[ResponseEnum.DELETED]);
         } catch (e) {
             next(e);
         }

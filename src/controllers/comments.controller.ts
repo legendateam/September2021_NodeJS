@@ -1,9 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
-import { UpdateResult } from 'typeorm';
+import {NextFunction, Request, Response} from 'express';
+import {UpdateResult} from 'typeorm';
 
-import { commentService } from '../services';
-import { IComment, IRequestComment, ICommentControllerAbstraction } from '../interfaces';
-import { ErrorHandler } from '../error';
+import {commentService} from '../services';
+import {IComment, ICommentControllerAbstraction, IRequestComment} from '../interfaces';
+import {ErrorHandler} from '../error';
+import {responseMessageConstant} from "../constants";
+import {ResponseEnum} from "../enums";
 
 class CommentsController implements ICommentControllerAbstraction {
     public async getAllPagination(req: Request, res:Response, next: NextFunction): Promise<void> {
@@ -70,7 +72,7 @@ class CommentsController implements ICommentControllerAbstraction {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;
             }
-            res.json(update);
+            res.json(responseMessageConstant[ResponseEnum.UPDATED]);
         } catch (e) {
             next(e);
         }
@@ -100,7 +102,7 @@ class CommentsController implements ICommentControllerAbstraction {
                 next(new ErrorHandler('Service Unavailable', 503));
                 return;
             }
-            res.json(remove);
+            res.json(responseMessageConstant[ResponseEnum.DELETED]);
         } catch (e) {
             next(e);
         }

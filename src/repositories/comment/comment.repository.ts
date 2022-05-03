@@ -2,7 +2,7 @@ import {
     EntityRepository, getManager, Repository, UpdateResult,
 } from 'typeorm';
 
-import { CommentsEntity } from '../../entity';
+import {CommentsEntity} from '../../entity';
 import {
     IComment, ICountAction, ICommentAbstraction, IDate, IPagination,
 } from '../../interfaces';

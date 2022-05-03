@@ -1,6 +1,5 @@
-import {
-    NextFunction, Request, Response, Router,
-} from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
+import swaggerUI from 'swagger-ui-express';
 
 import { usersRouter } from './users.router';
 import { postsRouter } from './posts.router';
@@ -15,6 +14,8 @@ import { groupRouter } from './mongoose/group.router';
 import { ratingRouter } from './mongoose/rating.router';
 import { studentRouter } from './mongoose/student.router';
 import { teacherRouter } from './mongoose/teacher.router';
+// eslint-disable-next-line import/extensions
+import docs from '../docs/swagger.json';
 import { subjectRouter } from './mongoose/subject.router';
 
 export const apiRouter = Router();
@@ -32,6 +33,7 @@ apiRouter.use('/ratings', ratingRouter);
 apiRouter.use('/students', studentRouter);
 apiRouter.use('/subjects', subjectRouter);
 apiRouter.use('/teachers', teacherRouter);
+apiRouter.use('/docs', swaggerUI.serve, swaggerUI.setup(docs));
 
 apiRouter.use((_:Request, res:Response) => {
     res.status(404).render('error404Page');

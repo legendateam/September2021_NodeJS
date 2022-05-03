@@ -1,25 +1,33 @@
-import { Response, NextFunction } from 'express';
+import {NextFunction, Response} from 'express';
 
-import { IDepartmentAbstraction, IRequestExtended } from '../interfaces';
-import { departmentModel } from '../models';
-import { ErrorHandler } from '../error';
+import {IDepartmentAbstraction, IRequestExtended} from '../interfaces';
+import {departmentModel} from '../models';
+import {ErrorHandler} from '../error';
+import {responseMessageConstant} from "../constants";
+import {ResponseEnum} from "../enums";
 
 class DepartmentController implements IDepartmentAbstraction {
     public async getAll(req: IRequestExtended, res: Response, next: NextFunction): Promise<void> {
         try {
-            if(req.pagination) {
+            if (req.pagination) {
 
                 const { page = 1, perPage = 50 } = req.pagination;
                 const skip = perPage * (page - 1);
 
                 const departments = await departmentModel.find().skip(skip).limit(perPage);
+                const countItem = await departmentModel.count({});
 
                 if (!departments) {
                     next(new ErrorHandler('Some Wong'));
                     return;
                 }
 
-                res.json(departments);
+                res.json({
+                    page,
+                    perPage,
+                    countItem,
+                    data: departments,
+                });
                 return;
             }
             const departments = await departmentModel.find();
@@ -75,7 +83,7 @@ class DepartmentController implements IDepartmentAbstraction {
                 return;
             }
 
-            res.json(deleted);
+            res.json(responseMessageConstant[ResponseEnum.DELETED]);
         } catch (e) {
             next(e);
         }

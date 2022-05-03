@@ -1,9 +1,10 @@
-import { NextFunction, Response } from 'express';
+import {NextFunction, Response} from 'express';
 
-import { emailService, tokenService, userService } from '../services';
-import { EmailEnum } from '../enums';
-import { IRequestForgotPassword } from '../interfaces';
-import { ErrorHandler } from '../error';
+import {emailService, tokenService, userService} from '../services';
+import {EmailEnum, ResponseEnum} from '../enums';
+import {IRequestForgotPassword} from '../interfaces';
+import {ErrorHandler} from '../error';
+import {responseMessageConstant} from "../constants";
 
 class ForgotPasswordController {
     public async forgotPassword(req: IRequestForgotPassword, res:Response, next:NextFunction): Promise<void> {
@@ -29,7 +30,6 @@ class ForgotPasswordController {
 
             res.json({
                 message: 'OK',
-                forgotToken,
             });
         } catch (e) {
             next(e);
@@ -62,7 +62,7 @@ class ForgotPasswordController {
             await tokenService.deleteForgotPasswordToken({ userId: id });
             await emailService.sendEmail(email, EmailEnum.CHANGED_PASSWORD, {});
 
-            res.json('password changed');
+            res.json(responseMessageConstant[ResponseEnum.PASSWORDCHANGED]);
         } catch (e) {
             next(e);
         }

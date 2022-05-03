@@ -1,12 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
-import { UpdateResult } from 'typeorm';
+import {NextFunction, Request, Response} from 'express';
+import {UpdateResult} from 'typeorm';
 
-import { emailService, userService } from '../services';
-import {
-    IPagination, IRequestUser, IUser, IUserControllerAbstraction,
-} from '../interfaces';
-import { ErrorHandler } from '../error';
-import { EmailEnum } from '../enums';
+import {emailService, userService} from '../services';
+import {IPagination, IRequestUser, IUser, IUserControllerAbstraction,} from '../interfaces';
+import {ErrorHandler} from '../error';
+import {EmailEnum, ResponseEnum} from '../enums';
+import {responseMessageConstant} from "../constants";
 
 class UsersController implements IUserControllerAbstraction {
     public async getAllPagination(
@@ -77,7 +76,7 @@ class UsersController implements IUserControllerAbstraction {
                     oldEmail, firstName: user.firstName, lastName: user.lastName, newPassword,
                 });
 
-                res.json(updateUser);
+                res.json(responseMessageConstant[ResponseEnum.UPDATED]);
                 return;
             }
 
@@ -96,7 +95,7 @@ class UsersController implements IUserControllerAbstraction {
                 oldEmail, firstName: user.firstName, lastName: user.lastName,
             });
 
-            res.json(updateUser);
+            res.json(responseMessageConstant[ResponseEnum.UPDATED]);
         } catch (e) {
             next(e);
         }
@@ -114,7 +113,7 @@ class UsersController implements IUserControllerAbstraction {
 
             await emailService.sendEmail(email, EmailEnum.ACCOUNT_DELETED, { firstName });
 
-            res.json(remove);
+            res.json(responseMessageConstant[ResponseEnum.DELETED]);
         } catch (e) {
             next(e);
         }
