@@ -1,10 +1,10 @@
-import {NextFunction, Response} from 'express';
+import { NextFunction, Response } from 'express';
 
-import {IRequestExtended, ITeacher, ITeacherControllerAbstraction} from '../interfaces';
-import {teacherModel} from '../models';
-import {ErrorHandler} from '../error';
-import {responseMessageConstant} from "../constants";
-import {ResponseEnum} from "../enums";
+import { IRequestExtended, ITeacher, ITeacherControllerAbstraction } from '../interfaces';
+import { teacherModel } from '../models';
+import { ErrorHandler } from '../error';
+import { responseMessageConstant } from '../constants';
+import { ResponseEnum } from '../enums';
 
 class TeacherController implements ITeacherControllerAbstraction {
     public async getAll(req: Partial<IRequestExtended>, res: Response, next: NextFunction): Promise<void> {

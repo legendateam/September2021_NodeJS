@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express';
 
 import { IRequestExtended, ISubject } from '../interfaces';
 import { ErrorHandler } from '../error';
-import {paramsMongoIdSchema, subjectSchema} from '../helpers';
+import { paramsMongoIdSchema, subjectSchema } from '../helpers';
 import { subjectModel } from '../models';
 
 class SubjectMiddleware {

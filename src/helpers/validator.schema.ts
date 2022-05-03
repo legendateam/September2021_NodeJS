@@ -1,7 +1,9 @@
 import Joi from 'joi';
 
 import { commonValidator } from './commonValidator.helper';
-import {ICorpus, IDepartment, IGroup, IRating, IStudent, ISubject, ITeacher} from '../interfaces';
+import {
+    ICorpus, IDepartment, IGroup, IRating, IStudent, ISubject, ITeacher,
+} from '../interfaces';
 
 class ValidatorSchema {
     public static authSchema: Joi.ObjectSchema = Joi.object({
@@ -318,7 +320,7 @@ class ValidatorSchema {
         role: Joi.string().max(8),
         department: Joi.string(),
         subjects: Joi.string(),
-        corpus: Joi.string()
+        corpus: Joi.string(),
     });
 
     public static studentSchema: Joi.ObjectSchema = Joi.object<IStudent>({
@@ -370,7 +372,7 @@ class ValidatorSchema {
         curator: Joi.string(),
         teachers: Joi.string(),
         group: Joi.string(),
-        ratings: Joi.string()
+        ratings: Joi.string(),
     });
 
     public static subjectSchema: Joi.ObjectSchema = Joi.object<ISubject>({
@@ -381,7 +383,7 @@ class ValidatorSchema {
     public static ratingSchema: Joi.ObjectSchema = Joi.object<IRating>({
         rating: Joi.number().required().min(1).max(5)
             .message('rating cannot be an empty field and rating must be type number also min 1 max 5'),
-        subject: Joi.string()
+        subject: Joi.string(),
     });
 
     public static groupSchema: Joi.ObjectSchema = Joi.object<IGroup>({

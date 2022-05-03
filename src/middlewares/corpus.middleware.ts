@@ -2,11 +2,10 @@ import { NextFunction, Response } from 'express';
 
 import { ICorpus, IRequestExtended } from '../interfaces';
 import { ErrorHandler } from '../error';
-import {corpusSchema, paramsMongoIdSchema} from '../helpers';
+import { corpusSchema, paramsMongoIdSchema } from '../helpers';
 import { corpusModel } from '../models';
 
 class CorpusMiddleware {
-
     public async checkUnique(req: IRequestExtended, _: Response, next: NextFunction): Promise<void> {
         try {
             const { number } = req.corpus as ICorpus;
@@ -54,7 +53,6 @@ class CorpusMiddleware {
                 next(new ErrorHandler('oops'));
                 return;
             }
-
 
             const { error, value } = corpusSchema.validate(req.body);
 

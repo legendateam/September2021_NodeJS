@@ -1,16 +1,15 @@
-import {NextFunction, Response} from 'express';
+import { NextFunction, Response } from 'express';
 
-import {IDepartmentAbstraction, IRequestExtended} from '../interfaces';
-import {departmentModel} from '../models';
-import {ErrorHandler} from '../error';
-import {responseMessageConstant} from "../constants";
-import {ResponseEnum} from "../enums";
+import { IDepartmentAbstraction, IRequestExtended } from '../interfaces';
+import { departmentModel } from '../models';
+import { ErrorHandler } from '../error';
+import { responseMessageConstant } from '../constants';
+import { ResponseEnum } from '../enums';
 
 class DepartmentController implements IDepartmentAbstraction {
     public async getAll(req: IRequestExtended, res: Response, next: NextFunction): Promise<void> {
         try {
             if (req.pagination) {
-
                 const { page = 1, perPage = 50 } = req.pagination;
                 const skip = perPage * (page - 1);
 

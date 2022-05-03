@@ -1,11 +1,11 @@
-import {NextFunction, Request, Response} from 'express';
-import {UpdateResult} from 'typeorm';
+import { NextFunction, Request, Response } from 'express';
+import { UpdateResult } from 'typeorm';
 
-import {commentService} from '../services';
-import {IComment, ICommentControllerAbstraction, IRequestComment} from '../interfaces';
-import {ErrorHandler} from '../error';
-import {responseMessageConstant} from "../constants";
-import {ResponseEnum} from "../enums";
+import { commentService } from '../services';
+import { IComment, ICommentControllerAbstraction, IRequestComment } from '../interfaces';
+import { ErrorHandler } from '../error';
+import { responseMessageConstant } from '../constants';
+import { ResponseEnum } from '../enums';
 
 class CommentsController implements ICommentControllerAbstraction {
     public async getAllPagination(req: Request, res:Response, next: NextFunction): Promise<void> {

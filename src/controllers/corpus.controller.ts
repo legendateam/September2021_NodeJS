@@ -1,10 +1,10 @@
-import {NextFunction, Response} from 'express';
+import { NextFunction, Response } from 'express';
 
-import {ICorpusAbstraction, IRequestExtended} from '../interfaces';
-import {corpusModel} from '../models';
-import {ErrorHandler} from '../error';
-import {responseMessageConstant} from "../constants";
-import {ResponseEnum} from "../enums";
+import { ICorpusAbstraction, IRequestExtended } from '../interfaces';
+import { corpusModel } from '../models';
+import { ErrorHandler } from '../error';
+import { responseMessageConstant } from '../constants';
+import { ResponseEnum } from '../enums';
 
 class CorpusController implements ICorpusAbstraction {
     public async getAll(req: IRequestExtended, res: Response, next: NextFunction): Promise<void> {
@@ -45,7 +45,6 @@ class CorpusController implements ICorpusAbstraction {
 
     public async getOne(req: IRequestExtended, res: Response, next: NextFunction): Promise<void> {
         try {
-
             const corpus = await corpusModel.findById(req._id);
 
             if (!corpus) {

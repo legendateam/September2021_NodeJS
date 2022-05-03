@@ -102,38 +102,65 @@
 
           {
             "name": "phone",
-            "type": "string",
             "in": "body",
+            "schema": {
+              "type": "string",
+              "properties": {
+                "phone": {
+                  "type": "string",
+                  "example": "+380(50)-483-21-34",
+                  "uniqueItems": true
+                }
+              }
+            },
             "required": true,
-            "pattern": "'380-661-23-45-45'",
             "description": "new phone number"
           },
 
           {
             "name": "email",
-            "type": "string",
             "in": "body",
             "required": true,
-            "description": "new email",
-            "pattern": "'test@gmail.com'"
+            "schema": {
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "test@gmail.com",
+                  "uniqueItems": true
+                }
+              }
+            },
+            "description": "new email"
           },
 
           {
             "name": "currentPassword",
-            "type": "string",
             "in": "body",
+            "schema": {
+              "properties": {
+                "currentPassword" : {
+                  "type": "string",
+                  "example": "asdQwe12345"
+                }
+              }
+            },
             "required": true,
-            "description": "current password user to confirm ownership",
-            "pattern": "'asdQwe12345'"
+            "description": "current password user to confirm ownership"
           },
 
           {
             "name": "newPassword",
-            "type": "string",
             "in": "body",
+            "schema": {
+              "properties": {
+                 "newPassword": {
+                   "type": "string",
+                   "example": "asdQwe12345"
+                 }
+              }
+            },
             "required": false,
-            "description": "not required but if you need to change the password to a new one",
-            "pattern": "'asdQwe12345'"
+            "description": "not required but if you need to change the password to a new one"
           }
         ],
         "responses": {
@@ -231,31 +258,43 @@
         "parameters": [
           {
             "name": "title",
-            "type": "string",
             "in": "body",
-            "minimum": 1,
-            "maximum": 250,
-            "pattern": "'some_title'",
+            "schema": {
+              "type": "string",
+              "example": "some_title",
+              "minLength": 1,
+              "maxLength": 250
+            },
             "description": "post title name",
             "required": true
           },
 
           {
             "name": "text",
-            "type": "string",
             "in": "body",
-            "minimum": 1,
-            "maximum": 250,
-            "pattern": "'some_text'",
+            "schema": {
+              "type": "string",
+              "maxLength": 250,
+              "minLength": 1,
+              "example": "some_text"
+            },
             "description": "text content",
             "required": true
           },
 
           {
             "name": "userId",
-            "type": "number",
             "in": "body",
-            "minimum": "1",
+            "schema": {
+              "type": "number",
+              "properties": {
+                "userId": {
+                  "type": "number",
+                  "example": 10,
+                  "minimum": 1
+                }
+              }
+            },
             "description": "id user",
             "required": true
           }
@@ -321,11 +360,13 @@
 
           {
             "name": "text",
-            "type": "string",
             "in": "body",
+            "schema": {
+              "type": "string",
+              "example": "new_text"
+            },
             "required": true,
-            "description": "new_text",
-            "pattern": "'new_text'"
+            "description": "new_text"
           }
         ],
         "responses": {
@@ -453,27 +494,48 @@
         "parameters": [
           {
             "name": "authorId",
-            "type": "number",
             "in": "body",
-            "minimum": "1",
+            "schema": {
+              "type": "number",
+              "properties": {
+                "authorId": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            },
             "description": "id user to write a comment",
             "required": true
           },
 
           {
             "name": "postId",
-            "type": "number",
             "in": "body",
-            "minimum": "1",
+            "schema": {
+              "type": "number",
+              "properties": {
+                "postId": {
+                  "type": "number",
+                  "example": 24
+                }
+              }
+            },
             "description": "id post under witch write comment",
             "required": true
           },
 
           {
             "name": "text",
-            "type": "string",
-            "pattern": "'min 1 max 250'",
             "in": "body",
+            "schema": {
+              "type": "string",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "example": "something_text"
+                }
+              }
+            },
             "description": "text content",
             "required": true
           }
@@ -538,9 +600,11 @@
 
           {
             "name": "text",
-            "type": "string",
             "in": "body",
-            "pattern": "'something_text'",
+            "schema": {
+              "type": "string",
+              "example": "something_text"
+            },
             "description": "min 1 max 250 characters",
             "required": true
           }
@@ -678,56 +742,73 @@
         "parameters": [
           {
             "name": "firstName",
-            "type": "string",
             "in": "body",
-            "pattern": "'Harry'",
+            "schema": {
+              "type": "string",
+              "example": "Harry"
+            },
             "description": "First Name should have only Latin letters also the first letter is capitalized. Min 2 max 20 characters",
             "required": true
           },
 
           {
             "name": "lastName",
-            "type": "string",
             "in": "body",
-            "pattern": "'Potter'",
+            "schema": {
+              "type": "string",
+              "example": "Potter"
+            },
             "description": "Last Name should have only Latin letters also the first letter is capitalized. Min 3 max 35 characters",
             "required": true
           },
 
           {
             "name": "age",
-            "type": "number",
             "in": "body",
-            "minimum": "12",
+            "schema": {
+              "type": "number",
+              "properties": {
+                "age": {
+                  "type": "number",
+                  "example": 18
+                }
+              }
+            },
             "description": "Age should be from 12 and age should be up 200",
             "required": true
           },
 
           {
             "name": "phone",
-            "type": "string",
             "in": "body",
-            "pattern": "'380-432-32-32-21'",
             "description": "Min 8 max 40 characters",
-            "uniqueItems": true,
+            "schema": {
+              "type": "string",
+              "example": "+38(067)219-24-19",
+              "uniqueItems": true
+            },
             "required": true
           },
 
           {
             "name": "email",
-            "type": "string",
             "in": "body",
-            "pattern": "'test@gmail.com'",
+            "schema": {
+              "uniqueItems": true,
+              "type": "string",
+              "example": "test@gmail.com"
+            },
             "description": "email should have only Latin letters also include \"@\" and without spaces",
-            "uniqueItems": true,
             "required": true
           },
 
           {
             "name": "password",
-            "type": "string",
             "in": "body",
-            "pattern": "'asdQwe12345'",
+            "schema": {
+              "type": "string",
+              "example": "asdQwe12345"
+            },
             "description": "The password must have only Latin letters, one capital letter, at least one digit. Min 8 max 40 characters",
             "required": true
           },
@@ -767,20 +848,24 @@
         "parameters": [
           {
             "name": "email",
-            "type": "string",
             "in": "body",
+            "schema": {
+              "type": "string",
+              "example": "test@gmail.com"
+            },
             "required": true,
-            "description": "email user",
-            "pattern": "'test@gmail.com'"
+            "description": "email user"
           },
 
           {
             "name": "password",
-            "type": "string",
             "in": "body",
             "required": true,
-            "description": "password user",
-            "pattern": "'wefWfds3213we'"
+            "schema": {
+              "type": "string",
+              "example": "asdqwER12345"
+            },
+            "description": "password user"
           }
         ],
         "responses": {
@@ -870,10 +955,12 @@
         "parameters": [
           {
             "name": "email",
-            "type": "string",
             "in": "body",
+            "schema": {
+              "type": "string",
+              "example": "ffsdaf@gmail.com"
+            },
             "description": "user email",
-            "pattern": "'ffsdaf@gmail.com'",
             "required": true
           }
         ],
@@ -908,10 +995,12 @@
 
           {
             "name": "password",
-            "type": "string",
             "in": "body",
+            "schema": {
+              "type": "string",
+              "example": "gfsfdefrDDD4324r"
+            },
             "description": "The password must have only Latin letters, one capital letter, at least one digit. Min 8 max 40 characters",
-            "pattern": "'gfsfdefrDDD4324r'",
             "required": true
           }
         ],
@@ -984,20 +1073,28 @@
         "parameters": [
           {
             "name": "number",
-            "type": "number",
             "in": "body",
-            "minimum": "1",
+            "schema": {
+              "properties": {
+                "number": {
+                  "type": "number",
+                  "example": 5,
+                  "uniqueItems": true
+                }
+              }
+            },
             "description": "corpus number",
-            "uniqueItems": true,
             "required": true
           },
 
           {
             "name": "department",
-            "type": "string",
             "in": "body",
-            "pattern": "'126c3daax3a5097ae8e6f68c'",
-            "description": "id department"
+            "description": "id department",
+            "schema": {
+              "type": "string",
+              "example": "126c3daax3a5097ae8e6f68c"
+            }
           },
 
           {
@@ -1021,7 +1118,21 @@
             },
             "description": "array strings id subjects"
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/corpusResponse"
+            },
+            "description": "response ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": ""
+          }
+        }
       }
     },
     "/corpus/{corpusId}": {
@@ -1309,8 +1420,12 @@
             "description": "number year study",
             "required": true,
             "schema": {
-              "type": "number",
-              "description": "1"
+              "properties": {
+                "course": {
+                  "type": "number",
+                  "example": 2
+                }
+              }
             }
           },
 
@@ -1657,7 +1772,12 @@
             "in": "body",
             "required": true,
             "schema": {
-              "type": "number"
+              "properties": {
+                "age": {
+                  "type": "number",
+                  "example": 18
+                }
+              }
             },
             "description": "age cannot be an empty field"
           },
@@ -2073,7 +2193,12 @@
             "in": "body",
             "required": true,
             "schema": {
-              "type": "number"
+              "properties": {
+                "age": {
+                  "type": "number",
+                  "example": 21
+                }
+              }
             },
             "description": "age cannot be an empty field"
           },

@@ -1,7 +1,7 @@
 import mongoose, { Schema, model } from 'mongoose';
 
 import { subjectModel } from './Subject.model';
-import {IRating} from "../interfaces";
+import { IRating } from '../interfaces';
 
 const ratingSchema = new Schema<IRating>({
     rating: {

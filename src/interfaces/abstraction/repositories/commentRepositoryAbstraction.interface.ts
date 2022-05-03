@@ -3,8 +3,8 @@ import { UpdateResult } from 'typeorm';
 import { IComment } from '../../comment.interface';
 import { IDate } from '../../date.interface';
 import { IPagination } from '../../pagination.interface';
-import { CommentsEntity} from '../../../entity';
-import {ICountAction} from "../../countAction.interface";
+import { CommentsEntity } from '../../../entity';
+import { ICountAction } from '../../countAction.interface';
 
 export interface ICommentAbstraction {
     getAllPagination(page: number, perPage : number, skip: number):Promise<Partial<IPagination<CommentsEntity>>>,

@@ -1,11 +1,13 @@
-import {NextFunction, Request, Response} from 'express';
-import {UpdateResult} from 'typeorm';
+import { NextFunction, Request, Response } from 'express';
+import { UpdateResult } from 'typeorm';
 
-import {emailService, userService} from '../services';
-import {IPagination, IRequestUser, IUser, IUserControllerAbstraction,} from '../interfaces';
-import {ErrorHandler} from '../error';
-import {EmailEnum, ResponseEnum} from '../enums';
-import {responseMessageConstant} from "../constants";
+import { emailService, userService } from '../services';
+import {
+    IPagination, IRequestUser, IUser, IUserControllerAbstraction,
+} from '../interfaces';
+import { ErrorHandler } from '../error';
+import { EmailEnum, ResponseEnum } from '../enums';
+import { responseMessageConstant } from '../constants';
 
 class UsersController implements IUserControllerAbstraction {
     public async getAllPagination(

@@ -1,8 +1,8 @@
 import { NextFunction, Response } from 'express';
 
-import {IRating, IRequestExtended} from '../interfaces';
+import { IRating, IRequestExtended } from '../interfaces';
 import { ErrorHandler } from '../error';
-import {paramsMongoIdSchema, ratingSchema} from '../helpers';
+import { paramsMongoIdSchema, ratingSchema } from '../helpers';
 
 class RatingMiddleware {
     public checkIdByParams(req: IRequestExtended, _: Response, next: NextFunction): void {

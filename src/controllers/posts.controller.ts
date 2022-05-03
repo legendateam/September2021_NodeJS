@@ -1,11 +1,13 @@
-import {NextFunction, Request, Response} from 'express';
-import {UpdateResult} from 'typeorm';
+import { NextFunction, Request, Response } from 'express';
+import { UpdateResult } from 'typeorm';
 
-import {postService} from '../services';
-import {IPaginationPost, IPost, IPostControllerAbstraction, IRequestPost,} from '../interfaces';
-import {ErrorHandler} from '../error';
-import {responseMessageConstant} from "../constants";
-import {ResponseEnum} from "../enums";
+import { postService } from '../services';
+import {
+    IPaginationPost, IPost, IPostControllerAbstraction, IRequestPost,
+} from '../interfaces';
+import { ErrorHandler } from '../error';
+import { responseMessageConstant } from '../constants';
+import { ResponseEnum } from '../enums';
 
 class PostsController implements IPostControllerAbstraction {
     public async getAllPagination(req: IRequestPost, res:Response, next: NextFunction):Promise<Response<IPost[]> | undefined> {

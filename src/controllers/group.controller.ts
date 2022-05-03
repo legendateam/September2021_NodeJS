@@ -1,9 +1,9 @@
-import {NextFunction, Request, Response} from 'express';
-import {groupModel} from '../models';
-import {ErrorHandler} from '../error';
-import {IGroup, IRequestExtended} from '../interfaces';
-import {responseMessageConstant} from "../constants";
-import {ResponseEnum} from "../enums";
+import { NextFunction, Request, Response } from 'express';
+import { groupModel } from '../models';
+import { ErrorHandler } from '../error';
+import { IGroup, IRequestExtended } from '../interfaces';
+import { responseMessageConstant } from '../constants';
+import { ResponseEnum } from '../enums';
 
 class GroupController {
     public async getAll(req: Request, res: Response, next: NextFunction) {
@@ -30,7 +30,7 @@ class GroupController {
                 page,
                 perPage,
                 countItem,
-                data: groups
+                data: groups,
             });
         } catch (e) {
             next(e);

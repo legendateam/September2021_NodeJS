@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express';
 
 import { ErrorHandler } from '../error';
 import { IDepartment, IRequestExtended } from '../interfaces';
-import {departmentSchema, paramsMongoIdSchema} from '../helpers';
+import { departmentSchema, paramsMongoIdSchema } from '../helpers';
 import { departmentModel } from '../models';
 
 class DepartmentMiddleware {
@@ -51,7 +51,7 @@ class DepartmentMiddleware {
         try {
             const { departmentId } = req.params;
 
-            const { error, value } = paramsMongoIdSchema.validate({_id: departmentId});
+            const { error, value } = paramsMongoIdSchema.validate({ _id: departmentId });
 
             if (error) {
                 next(new ErrorHandler('ewrkgjokerjg'));

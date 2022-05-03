@@ -1,4 +1,6 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import {
+    NextFunction, Request, Response, Router,
+} from 'express';
 import swaggerUI from 'swagger-ui-express';
 
 import { usersRouter } from './users.router';

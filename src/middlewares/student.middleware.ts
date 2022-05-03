@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express';
 
 import { IRequestExtended, IStudent } from '../interfaces';
-import {paramsMongoIdSchema, studentSchema} from '../helpers';
+import { paramsMongoIdSchema, studentSchema } from '../helpers';
 import { ErrorHandler } from '../error';
 import { studentModel } from '../models';
 

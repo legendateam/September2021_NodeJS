@@ -1,11 +1,15 @@
-import {NextFunction, Response} from 'express';
+import { NextFunction, Response } from 'express';
 
-import {UploadedFile} from 'express-fileupload';
-import {authService, emailService, s3Service, tokenService,} from '../services';
-import {COOKIE, responseMessageConstant} from '../constants';
-import {IAuthControllerAbstraction, IRequestAuth, IRequestUser, IRoleToken, IUser,} from '../interfaces';
-import {ErrorHandler} from '../error';
-import {EmailEnum, ResponseEnum, UploadFileEnum} from '../enums';
+import { UploadedFile } from 'express-fileupload';
+import {
+    authService, emailService, s3Service, tokenService,
+} from '../services';
+import { COOKIE, responseMessageConstant } from '../constants';
+import {
+    IAuthControllerAbstraction, IRequestAuth, IRequestUser, IRoleToken, IUser,
+} from '../interfaces';
+import { ErrorHandler } from '../error';
+import { EmailEnum, ResponseEnum, UploadFileEnum } from '../enums';
 
 class AuthController implements IAuthControllerAbstraction {
     public async registration(req: IRequestUser, res: Response, next: NextFunction):Promise<void> {

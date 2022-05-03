@@ -1,10 +1,10 @@
-import {NextFunction, Response} from 'express';
+import { NextFunction, Response } from 'express';
 
-import {ratingModel} from '../models';
-import {ErrorHandler} from '../error';
-import {IRatingAbstraction, IRequestExtended} from '../interfaces';
-import {responseMessageConstant} from "../constants";
-import {ResponseEnum} from "../enums";
+import { ratingModel } from '../models';
+import { ErrorHandler } from '../error';
+import { IRatingAbstraction, IRequestExtended } from '../interfaces';
+import { responseMessageConstant } from '../constants';
+import { ResponseEnum } from '../enums';
 
 class RatingController implements IRatingAbstraction {
     public async getAll(req: IRequestExtended, res: Response, next: NextFunction): Promise<void> {
@@ -32,7 +32,7 @@ class RatingController implements IRatingAbstraction {
                     page,
                     perPage,
                     countItem,
-                    data: ratings
+                    data: ratings,
                 });
                 return;
             }

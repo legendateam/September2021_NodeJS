@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express';
 
 import { ErrorHandler } from '../error';
 import { IRequestExtended, ITeacher } from '../interfaces';
-import {paramsMongoIdSchema, teacherSchema} from '../helpers';
+import { paramsMongoIdSchema, teacherSchema } from '../helpers';
 import { teacherModel } from '../models';
 
 class TeacherMiddleware {

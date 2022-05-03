@@ -1,10 +1,10 @@
-import {NextFunction, Response} from 'express';
+import { NextFunction, Response } from 'express';
 
-import {subjectModel} from '../models';
-import {ErrorHandler} from '../error';
-import {IRequestExtended, ISubjectAbstraction} from '../interfaces';
-import {responseMessageConstant} from "../constants";
-import {ResponseEnum} from "../enums";
+import { subjectModel } from '../models';
+import { ErrorHandler } from '../error';
+import { IRequestExtended, ISubjectAbstraction } from '../interfaces';
+import { responseMessageConstant } from '../constants';
+import { ResponseEnum } from '../enums';
 
 class SubjectController implements ISubjectAbstraction {
     public async getAll(req: IRequestExtended, res: Response, next: NextFunction): Promise<void> {

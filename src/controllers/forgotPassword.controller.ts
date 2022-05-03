@@ -1,10 +1,10 @@
-import {NextFunction, Response} from 'express';
+import { NextFunction, Response } from 'express';
 
-import {emailService, tokenService, userService} from '../services';
-import {EmailEnum, ResponseEnum} from '../enums';
-import {IRequestForgotPassword} from '../interfaces';
-import {ErrorHandler} from '../error';
-import {responseMessageConstant} from "../constants";
+import { emailService, tokenService, userService } from '../services';
+import { EmailEnum, ResponseEnum } from '../enums';
+import { IRequestForgotPassword } from '../interfaces';
+import { ErrorHandler } from '../error';
+import { responseMessageConstant } from '../constants';
 
 class ForgotPasswordController {
     public async forgotPassword(req: IRequestForgotPassword, res:Response, next:NextFunction): Promise<void> {
